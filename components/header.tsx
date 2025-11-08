@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Search, Bell, Settings, Sun, Moon, Menu } from "lucide-react";
+import { Search, Bell, Settings, Sun, Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -14,43 +14,30 @@ import {
 import { useTheme } from "@/components/theme-provider";
 import PassAppsMenu from "@/components/pass-apps-menu";
 import ProfileMenu from "@/components/profile-menu";
+import { SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
 
-interface HeaderProps {
-  onSidebarToggle?: () => void;
-  sidebarOpen?: boolean;
-}
-
-export default function Header({ onSidebarToggle, sidebarOpen = true }: HeaderProps) {
+export default function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
   const { theme, setTheme } = useTheme();
+  const { open } = useSidebar();
 
   return (
-    <header className="fixed top-0 left-0 right-0 h-16 bg-white dark:bg-[#1a1a1a] border-b border-gray-200 dark:border-[#2a2a2a] z-30 transition-[background-color,border-color] duration-300" style={{ paddingLeft: sidebarOpen ? '16rem' : '1rem' }}>
-      <div className="flex items-center justify-between h-full px-6">
-        {/* Left side - Sidebar Toggle & Page Title */}
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60" style={{ marginLeft: open ? '16rem' : '0' }}>
+      <div className="flex h-16 items-center px-4">
         <div className="flex items-center gap-4 flex-1">
-          {onSidebarToggle && (
-            <Button
-              variant="ghost"
-              size="icon"
-              className="text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#2a2a2a] transition-colors"
-              onClick={onSidebarToggle}
-            >
-              <Menu className="h-5 w-5 text-black dark:text-white transition-colors" />
-            </Button>
-          )}
-          <h1 className="text-base font-normal text-gray-900 dark:text-white">Contas a Pagar</h1>
+          <SidebarTrigger />
+          <h1 className="font-semibold">Contas a Pagar</h1>
         </div>
 
         {/* Right side - Actions */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           {/* Search */}
-          <div className="relative w-full max-w-md">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+          <div className="relative w-full max-w-sm">
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               type="text"
-              placeholder="Buscar... CTRL+K"
-              className="pl-10 bg-gray-50 dark:bg-[#2a2a2a] border-gray-200 dark:border-[#3a3a3a] text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-500 focus:border-blue-600 focus:ring-blue-600"
+              placeholder="Buscar... (⌘K)"
+              className="pl-9 h-9 md:w-[300px] lg:w-[400px]"
               onFocus={() => setSearchOpen(true)}
               onBlur={() => setSearchOpen(false)}
             />
@@ -58,12 +45,12 @@ export default function Header({ onSidebarToggle, sidebarOpen = true }: HeaderPr
 
           {/* Language Selector */}
           <Select defaultValue="pt">
-            <SelectTrigger className="w-[120px] bg-gray-50 dark:bg-[#2a2a2a] border-gray-200 dark:border-[#3a3a3a] text-gray-900 dark:text-white">
+            <SelectTrigger className="w-[100px] h-9">
               <SelectValue />
             </SelectTrigger>
-            <SelectContent className="bg-white dark:bg-[#2a2a2a] border-gray-200 dark:border-[#3a3a3a]">
-              <SelectItem value="pt" className="text-gray-900 dark:text-white">Português</SelectItem>
-              <SelectItem value="en" className="text-gray-900 dark:text-white">English</SelectItem>
+            <SelectContent>
+              <SelectItem value="pt">Português</SelectItem>
+              <SelectItem value="en">English</SelectItem>
             </SelectContent>
           </Select>
 
@@ -71,14 +58,14 @@ export default function Header({ onSidebarToggle, sidebarOpen = true }: HeaderPr
           <Button
             variant="ghost"
             size="icon"
-            className="text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#2a2a2a] transition-colors"
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
             title="Alternar tema"
+            className="h-9 w-9"
           >
             {theme === "dark" ? (
-              <Sun className="h-5 w-5 text-black dark:text-white transition-colors" />
+              <Sun className="h-4 w-4" />
             ) : (
-              <Moon className="h-5 w-5 text-black dark:text-white transition-colors" />
+              <Moon className="h-4 w-4" />
             )}
           </Button>
 
@@ -86,18 +73,18 @@ export default function Header({ onSidebarToggle, sidebarOpen = true }: HeaderPr
           <Button
             variant="ghost"
             size="icon"
-            className="text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#2a2a2a] transition-colors"
+            className="h-9 w-9"
           >
-            <Bell className="h-5 w-5 text-black dark:text-white transition-colors" />
+            <Bell className="h-4 w-4" />
           </Button>
 
           {/* Settings */}
           <Button
             variant="ghost"
             size="icon"
-            className="text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#2a2a2a] transition-colors"
+            className="h-9 w-9"
           >
-            <Settings className="h-5 w-5 text-black dark:text-white transition-colors" />
+            <Settings className="h-4 w-4" />
           </Button>
 
           {/* Pass Apps Menu */}
