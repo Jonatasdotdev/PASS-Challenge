@@ -16,8 +16,15 @@ import {
   FileText,
   Settings,
   CreditCard,
+  X,
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+
+interface SidebarProps {
+  isOpen?: boolean;
+  onClose?: () => void;
+}
 
 interface NavItem {
   title: string;
@@ -49,7 +56,7 @@ const financeNav: NavItem[] = [
   { title: "Contas a Receber", href: "/contas-receber", icon: FileText },
 ];
 
-export default function Sidebar() {
+export default function Sidebar({ isOpen = true, onClose }: SidebarProps) {
   const pathname = usePathname();
 
   const isActive = (href: string) => {
@@ -59,17 +66,29 @@ export default function Sidebar() {
     return pathname.startsWith(href);
   };
 
+  if (!isOpen) return null;
+
   return (
-    <aside className="fixed left-0 top-0 h-screen w-64 bg-[#1a1a1a] border-r border-[#2a2a2a] z-40 overflow-y-auto">
+    <aside className="fixed left-0 top-0 h-screen w-64 bg-[#1a1a1a] dark:bg-[#1a1a1a] border-r border-[#2a2a2a] dark:border-[#2a2a2a] z-40 overflow-y-auto transition-transform">
       <div className="flex flex-col h-full">
         {/* Logo */}
-        <div className="p-6 border-b border-[#2a2a2a]">
+        <div className="p-6 border-b border-[#2a2a2a] dark:border-[#2a2a2a] flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="h-8 w-8 rounded bg-blue-600 flex items-center justify-center">
               <span className="text-white font-bold text-sm">P</span>
             </div>
-            <span className="text-white font-semibold text-lg">Pass</span>
+            <span className="text-white dark:text-white font-semibold text-lg">Pass</span>
           </div>
+          {onClose && (
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8 text-gray-400 hover:text-white hover:bg-[#2a2a2a]"
+              onClick={onClose}
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          )}
         </div>
 
         {/* Navigation */}
