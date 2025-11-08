@@ -70,6 +70,7 @@ export default function Home() {
     ];
   }, []);
 
+
   // Filter and paginate data
   const filteredData = useMemo(() => {
     const statusFilterValue = statusFilter.length > 0 ? statusFilter.join(",") : "all";
@@ -148,72 +149,69 @@ export default function Home() {
         className="mt-16 p-6 transition-all duration-300"
         style={{ marginLeft: sidebarOpen ? '16rem' : '0' }}
       >
-        {/* Page Title */}
-        <div className="mb-6">
-          <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">Contas a Pagar</h1>
-        </div>
+        {/* Main Container - All content inside */}
+        <div className="bg-white dark:bg-[#1a1a1a] rounded-lg border border-gray-200 dark:border-[#2a2a2a] overflow-hidden shadow-sm transition-[background-color,border-color] duration-300">
+          {/* Action Bar - Inside container */}
+          <div className="p-6 border-b border-gray-200 dark:border-[#2a2a2a] flex items-center justify-between gap-4">
+            <div className="flex items-center gap-3 flex-1">
+              {/* Ask AI Button */}
+              <Button className="bg-black dark:bg-white text-white dark:text-black hover:bg-gray-900 dark:hover:bg-gray-100 border border-gray-900 dark:border-gray-200 gap-2 text-sm font-medium transition-colors">
+                <Sparkles className="h-4 w-4 text-white dark:text-black transition-colors" />
+                Ask AI
+              </Button>
 
-        {/* Action Bar */}
-        <div className="mb-6 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3 flex-1">
-            {/* Ask AI Button */}
-            <Button className="bg-blue-600 hover:bg-blue-700 text-white gap-2 text-sm font-medium">
-              <Sparkles className="h-4 w-4" />
-              Ask AI
-            </Button>
+              {/* Search */}
+              <div className="relative flex-1 max-w-md">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                <Input
+                  placeholder="Buscar contas a pagar..."
+                  value={searchTerm}
+                  onChange={(e) => {
+                    setSearchTerm(e.target.value);
+                    setCurrentPage(1);
+                  }}
+                  className="pl-10 bg-gray-50 dark:bg-[#1a1a1a] border-gray-200 dark:border-[#2a2a2a] text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-500 focus:border-blue-600"
+                />
+              </div>
 
-            {/* Search */}
-            <div className="relative flex-1 max-w-md">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-              <Input
-                placeholder="Buscar contas a pagar..."
-                value={searchTerm}
-                onChange={(e) => {
-                  setSearchTerm(e.target.value);
+              {/* Filters */}
+              <StatusFilter
+                value={statusFilter}
+                onChange={(value) => {
+                  setStatusFilter(value);
                   setCurrentPage(1);
                 }}
-                className="pl-10 bg-gray-50 dark:bg-[#1a1a1a] border-gray-200 dark:border-[#2a2a2a] text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-500 focus:border-blue-600"
+                options={statusOptions}
               />
             </div>
 
-            {/* Filters */}
-            <StatusFilter
-              value={statusFilter}
-              onChange={(value) => {
-                setStatusFilter(value);
-                setCurrentPage(1);
-              }}
-              options={statusOptions}
-            />
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                className="bg-white dark:bg-[#1a1a1a] border-gray-200 dark:border-[#2a2a2a] text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-[#2a2a2a] hover:text-gray-900 dark:hover:text-white gap-2 text-sm font-medium transition-colors"
+              >
+                <RefreshCw className="h-4 w-4 text-black dark:text-white transition-colors" />
+                Update
+              </Button>
+              <Button
+                variant="outline"
+                className="bg-white dark:bg-[#1a1a1a] border-gray-200 dark:border-[#2a2a2a] text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-[#2a2a2a] hover:text-gray-900 dark:hover:text-white gap-2 text-sm font-medium transition-colors"
+              >
+                <Download className="h-4 w-4 text-black dark:text-white transition-colors" />
+                Export
+              </Button>
+              <Button
+                className="bg-black dark:bg-white text-white dark:text-black hover:bg-gray-900 dark:hover:bg-gray-100 border border-gray-900 dark:border-gray-200 gap-2 text-sm font-medium transition-colors"
+                onClick={() => setPaymentModalOpen(true)}
+              >
+                <Plus className="h-4 w-4 text-white dark:text-black transition-colors" />
+                Adicionar
+              </Button>
+            </div>
           </div>
 
-          <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              className="bg-white dark:bg-[#1a1a1a] border-gray-200 dark:border-[#2a2a2a] text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-[#2a2a2a] hover:text-gray-900 dark:hover:text-white gap-2 text-sm font-medium"
-            >
-              <RefreshCw className="h-4 w-4" />
-              Update
-            </Button>
-            <Button
-              variant="outline"
-              className="bg-white dark:bg-[#1a1a1a] border-gray-200 dark:border-[#2a2a2a] text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-[#2a2a2a] hover:text-gray-900 dark:hover:text-white gap-2 text-sm font-medium"
-            >
-              <Download className="h-4 w-4" />
-              Export
-            </Button>
-            <Button
-              className="bg-blue-600 hover:bg-blue-700 text-white gap-2 text-sm font-medium"
-              onClick={() => setPaymentModalOpen(true)}
-            >
-              <Plus className="h-4 w-4" />
-              Adicionar
-            </Button>
-          </div>
-        </div>
-
-        {/* Table */}
-        <div className="bg-white dark:bg-[#1a1a1a] rounded-lg border border-gray-200 dark:border-[#2a2a2a] overflow-hidden shadow-sm">
+          {/* Table */}
+          <div className="overflow-hidden">
           <Table>
             <TableHeader>
               <TableRow className="border-gray-200 dark:border-[#2a2a2a] hover:bg-gray-50 dark:hover:bg-[#1a1a1a]">
@@ -233,9 +231,9 @@ export default function Home() {
                     Cod.
                     {sortColumn === "id" && (
                       sortDirection === "asc" ? (
-                        <ChevronUp className="h-4 w-4" />
+                        <ChevronUp className="h-4 w-4 text-black dark:text-white transition-colors" />
                       ) : (
-                        <ChevronDown className="h-4 w-4" />
+                        <ChevronDown className="h-4 w-4 text-black dark:text-white transition-colors" />
                       )
                     )}
                   </button>
@@ -248,9 +246,9 @@ export default function Home() {
                     Competência
                     {sortColumn === "competencia" && (
                       sortDirection === "asc" ? (
-                        <ChevronUp className="h-4 w-4" />
+                        <ChevronUp className="h-4 w-4 text-black dark:text-white transition-colors" />
                       ) : (
-                        <ChevronDown className="h-4 w-4" />
+                        <ChevronDown className="h-4 w-4 text-black dark:text-white transition-colors" />
                       )
                     )}
                   </button>
@@ -263,9 +261,9 @@ export default function Home() {
                     Vencimento
                     {sortColumn === "vencimento" && (
                       sortDirection === "asc" ? (
-                        <ChevronUp className="h-4 w-4" />
+                        <ChevronUp className="h-4 w-4 text-black dark:text-white transition-colors" />
                       ) : (
-                        <ChevronDown className="h-4 w-4" />
+                        <ChevronDown className="h-4 w-4 text-black dark:text-white transition-colors" />
                       )
                     )}
                   </button>
@@ -279,9 +277,9 @@ export default function Home() {
                     Status
                     {sortColumn === "status" && (
                       sortDirection === "asc" ? (
-                        <ChevronUp className="h-4 w-4" />
+                        <ChevronUp className="h-4 w-4 text-black dark:text-white transition-colors" />
                       ) : (
-                        <ChevronDown className="h-4 w-4" />
+                        <ChevronDown className="h-4 w-4 text-black dark:text-white transition-colors" />
                       )
                     )}
                   </button>
@@ -297,9 +295,9 @@ export default function Home() {
                     Total
                     {sortColumn === "total" && (
                       sortDirection === "asc" ? (
-                        <ChevronUp className="h-4 w-4" />
+                        <ChevronUp className="h-4 w-4 text-black dark:text-white transition-colors" />
                       ) : (
-                        <ChevronDown className="h-4 w-4" />
+                        <ChevronDown className="h-4 w-4 text-black dark:text-white transition-colors" />
                       )
                     )}
                   </button>
@@ -370,18 +368,18 @@ export default function Home() {
                             // Handle edit
                           }}
                         >
-                          <Edit className="h-4 w-4" />
+                          <Edit className="h-4 w-4 text-black dark:text-white transition-colors" />
                         </Button>
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="h-8 w-8 text-gray-500 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-gray-100 dark:hover:bg-[#2a2a2a]"
+                          className="h-8 w-8 text-gray-500 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-gray-100 dark:hover:bg-[#2a2a2a] transition-colors"
                           onClick={(e) => {
                             e.stopPropagation();
                             // Handle delete
                           }}
                         >
-                          <Trash2 className="h-4 w-4" />
+                          <Trash2 className="h-4 w-4 text-black dark:text-white transition-colors" />
                         </Button>
                       </div>
                     </TableCell>
@@ -391,19 +389,20 @@ export default function Home() {
             </TableBody>
           </Table>
 
-          {/* Pagination */}
-          <Pagination
-            currentPage={currentPage}
-            totalPages={paginatedData.totalPages}
-            pageSize={pageSize}
-            totalItems={paginatedData.total}
-            selectedCount={selectedRows.size}
-            onPageChange={setCurrentPage}
-            onPageSizeChange={(newSize) => {
-              setPageSize(newSize);
-              setCurrentPage(1);
-            }}
-          />
+            {/* Pagination */}
+            <Pagination
+              currentPage={currentPage}
+              totalPages={paginatedData.totalPages}
+              pageSize={pageSize}
+              totalItems={paginatedData.total}
+              selectedCount={selectedRows.size}
+              onPageChange={setCurrentPage}
+              onPageSizeChange={(newSize) => {
+                setPageSize(newSize);
+                setCurrentPage(1);
+              }}
+            />
+          </div>
         </div>
       </main>
 

@@ -69,21 +69,21 @@ export default function Sidebar({ isOpen = true, onClose }: SidebarProps) {
   if (!isOpen) return null;
 
   return (
-    <aside className="fixed left-0 top-0 h-screen w-64 bg-[#1a1a1a] dark:bg-[#1a1a1a] border-r border-[#2a2a2a] dark:border-[#2a2a2a] z-40 overflow-y-auto transition-transform">
+    <aside className="fixed left-0 top-0 h-screen w-64 bg-white dark:bg-[#1a1a1a] border-r border-gray-200 dark:border-[#2a2a2a] z-40 overflow-y-auto transition-[background-color,border-color,color] duration-300">
       <div className="flex flex-col h-full">
         {/* Logo */}
-        <div className="p-6 border-b border-[#2a2a2a] dark:border-[#2a2a2a] flex items-center justify-between">
+        <div className="p-6 border-b border-gray-200 dark:border-[#2a2a2a] flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="h-8 w-8 rounded bg-blue-600 flex items-center justify-center">
               <span className="text-white font-bold text-sm">P</span>
             </div>
-            <span className="text-white dark:text-white font-semibold text-lg">Pass</span>
+            <span className="text-gray-900 dark:text-white font-semibold text-lg">Pass</span>
           </div>
           {onClose && (
             <Button
               variant="ghost"
               size="icon"
-              className="h-8 w-8 text-gray-400 hover:text-white hover:bg-[#2a2a2a]"
+              className="h-8 w-8 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-[#2a2a2a]"
               onClick={onClose}
             >
               <X className="h-4 w-4" />
@@ -95,7 +95,7 @@ export default function Sidebar({ isOpen = true, onClose }: SidebarProps) {
         <nav className="flex-1 p-4 space-y-6">
           {/* Main */}
           <div>
-            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 px-3">
+            <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3 px-3">
               Main
             </p>
             <div className="space-y-1">
@@ -110,7 +110,7 @@ export default function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                       "flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors",
                       active
                         ? "bg-blue-600 text-white"
-                        : "text-gray-300 hover:bg-[#2a2a2a] hover:text-white"
+                        : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#2a2a2a] hover:text-gray-900 dark:hover:text-white"
                     )}
                   >
                     <Icon className="h-4 w-4" />
@@ -123,7 +123,7 @@ export default function Sidebar({ isOpen = true, onClose }: SidebarProps) {
 
           {/* Financeiro */}
           <div>
-            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 px-3">
+            <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3 px-3">
               Financeiro
             </p>
             <div className="space-y-1">
@@ -138,7 +138,7 @@ export default function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                       "flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors",
                       active
                         ? "bg-blue-600 text-white"
-                        : "text-gray-300 hover:bg-[#2a2a2a] hover:text-white"
+                        : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#2a2a2a] hover:text-gray-900 dark:hover:text-white"
                     )}
                   >
                     <Icon className="h-4 w-4" />
@@ -151,7 +151,7 @@ export default function Sidebar({ isOpen = true, onClose }: SidebarProps) {
 
           {/* Services */}
           <div>
-            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 px-3">
+            <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3 px-3">
               Services
             </p>
             <div className="space-y-1">
@@ -166,7 +166,7 @@ export default function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                       "flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors",
                       active
                         ? "bg-blue-600 text-white"
-                        : "text-gray-300 hover:bg-[#2a2a2a] hover:text-white"
+                        : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#2a2a2a] hover:text-gray-900 dark:hover:text-white"
                     )}
                   >
                     <Icon className="h-4 w-4" />
@@ -179,7 +179,7 @@ export default function Sidebar({ isOpen = true, onClose }: SidebarProps) {
 
           {/* Commercial */}
           <div>
-            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 px-3">
+            <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3 px-3">
               Commercial
             </p>
             <div className="space-y-1">
@@ -194,7 +194,7 @@ export default function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                       "flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors",
                       active
                         ? "bg-blue-600 text-white"
-                        : "text-gray-300 hover:bg-[#2a2a2a] hover:text-white"
+                        : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#2a2a2a] hover:text-gray-900 dark:hover:text-white"
                     )}
                   >
                     <Icon className="h-4 w-4" />
@@ -207,7 +207,7 @@ export default function Sidebar({ isOpen = true, onClose }: SidebarProps) {
 
           {/* Organization */}
           <div>
-            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 px-3">
+            <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3 px-3">
               Organization
             </p>
             <div className="space-y-1">
@@ -217,7 +217,7 @@ export default function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                   "flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors",
                   isActive("/settings")
                     ? "bg-blue-600 text-white"
-                    : "text-gray-300 hover:bg-[#2a2a2a] hover:text-white"
+                    : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#2a2a2a] hover:text-gray-900 dark:hover:text-white"
                 )}
               >
                 <Settings className="h-4 w-4" />

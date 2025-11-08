@@ -12,6 +12,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useTheme } from "@/components/theme-provider";
+import PassAppsMenu from "@/components/pass-apps-menu";
+import ProfileMenu from "@/components/profile-menu";
 
 interface HeaderProps {
   onSidebarToggle?: () => void;
@@ -23,20 +25,26 @@ export default function Header({ onSidebarToggle, sidebarOpen = true }: HeaderPr
   const { theme, setTheme } = useTheme();
 
   return (
-    <header className="fixed top-0 left-0 right-0 h-16 bg-white dark:bg-[#1a1a1a] border-b border-gray-200 dark:border-[#2a2a2a] z-30 transition-colors" style={{ paddingLeft: sidebarOpen ? '16rem' : '1rem' }}>
+    <header className="fixed top-0 left-0 right-0 h-16 bg-white dark:bg-[#1a1a1a] border-b border-gray-200 dark:border-[#2a2a2a] z-30 transition-[background-color,border-color] duration-300" style={{ paddingLeft: sidebarOpen ? '16rem' : '1rem' }}>
       <div className="flex items-center justify-between h-full px-6">
-        {/* Left side - Sidebar Toggle & Search */}
+        {/* Left side - Sidebar Toggle & Page Title */}
         <div className="flex items-center gap-4 flex-1">
           {onSidebarToggle && (
             <Button
               variant="ghost"
               size="icon"
-              className="text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#2a2a2a]"
+              className="text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#2a2a2a] transition-colors"
               onClick={onSidebarToggle}
             >
-              <Menu className="h-5 w-5" />
+              <Menu className="h-5 w-5 text-black dark:text-white transition-colors" />
             </Button>
           )}
+          <h1 className="text-base font-normal text-gray-900 dark:text-white">Contas a Pagar</h1>
+        </div>
+
+        {/* Right side - Actions */}
+        <div className="flex items-center gap-3">
+          {/* Search */}
           <div className="relative w-full max-w-md">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
             <Input
@@ -47,10 +55,7 @@ export default function Header({ onSidebarToggle, sidebarOpen = true }: HeaderPr
               onBlur={() => setSearchOpen(false)}
             />
           </div>
-        </div>
 
-        {/* Right side - Actions */}
-        <div className="flex items-center gap-3">
           {/* Language Selector */}
           <Select defaultValue="pt">
             <SelectTrigger className="w-[120px] bg-gray-50 dark:bg-[#2a2a2a] border-gray-200 dark:border-[#3a3a3a] text-gray-900 dark:text-white">
@@ -66,14 +71,14 @@ export default function Header({ onSidebarToggle, sidebarOpen = true }: HeaderPr
           <Button
             variant="ghost"
             size="icon"
-            className="text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#2a2a2a]"
+            className="text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#2a2a2a] transition-colors"
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
             title="Alternar tema"
           >
             {theme === "dark" ? (
-              <Sun className="h-5 w-5" />
+              <Sun className="h-5 w-5 text-black dark:text-white transition-colors" />
             ) : (
-              <Moon className="h-5 w-5" />
+              <Moon className="h-5 w-5 text-black dark:text-white transition-colors" />
             )}
           </Button>
 
@@ -81,24 +86,25 @@ export default function Header({ onSidebarToggle, sidebarOpen = true }: HeaderPr
           <Button
             variant="ghost"
             size="icon"
-            className="text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#2a2a2a]"
+            className="text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#2a2a2a] transition-colors"
           >
-            <Bell className="h-5 w-5" />
+            <Bell className="h-5 w-5 text-black dark:text-white transition-colors" />
           </Button>
 
           {/* Settings */}
           <Button
             variant="ghost"
             size="icon"
-            className="text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#2a2a2a]"
+            className="text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#2a2a2a] transition-colors"
           >
-            <Settings className="h-5 w-5" />
+            <Settings className="h-5 w-5 text-black dark:text-white transition-colors" />
           </Button>
 
-          {/* User Avatar */}
-          <div className="h-8 w-8 rounded-full bg-blue-600 flex items-center justify-center cursor-pointer hover:bg-blue-700 transition-colors">
-            <span className="text-white text-sm font-semibold">JD</span>
-          </div>
+          {/* Pass Apps Menu */}
+          <PassAppsMenu />
+
+          {/* Profile Menu */}
+          <ProfileMenu />
         </div>
       </div>
     </header>

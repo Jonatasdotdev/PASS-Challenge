@@ -76,14 +76,18 @@ export function StatusFilter({ value, onChange, options }: StatusFilterProps) {
                 return (
                   <CommandItem
                     key={option.value}
-                    onSelect={() => handleSelect(option.value)}
+                    value={option.value}
+                    onSelect={(currentValue) => {
+                      // Prevent default Command behavior
+                      handleSelect(option.value);
+                    }}
                     className="text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-[#3a3a3a] cursor-pointer"
                   >
                     <div className="flex items-center justify-between w-full">
                       <div className="flex items-center gap-2">
                         <div
                           className={cn(
-                            "flex h-4 w-4 items-center justify-center rounded-sm border border-gray-300 dark:border-[#4a4a4a]",
+                            "flex h-4 w-4 items-center justify-center rounded-sm border border-gray-300 dark:border-[#4a4a4a] transition-colors",
                             isSelected
                               ? "bg-blue-600 border-blue-600"
                               : "bg-white dark:bg-[#1a1a1a]"
