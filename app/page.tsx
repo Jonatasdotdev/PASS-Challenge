@@ -23,6 +23,7 @@ import { filterAccounts } from "@/lib/data/accounts";
 import { DataTable } from "@/components/ui/data-table";
 import { columns } from "./columns";
 import { SectionCards } from "@/components/section-cards";
+import { ChartsSection } from "@/components/charts-section";
 
 export default function Home() {
   const [paymentModalOpen, setPaymentModalOpen] = useState(false);
@@ -92,12 +93,20 @@ export default function Home() {
           {/* Cards métricos */}
           <SectionCards data={cardData} />
 
+          {/* Gráficos - Nova seção */}
+          <ChartsSection data={filteredData} />
+
           <div className="bg-card rounded-lg border shadow-sm">
             {/* Toolbar */}
             <div className="p-3 border-b flex items-center justify-between gap-3">
               {/* Esquerda */}
               <div className="flex items-center gap-2 flex-1">
-                <Button variant="outline" size="icon" className="h-8 w-8" title="Ask AI">
+                <Button 
+                  variant="outline" 
+                  size="icon" 
+                  className="h-8 w-8 bg-black text-white dark:bg-transparent dark:text-gray-100" 
+                  title="Ask AI"
+                >
                   <Sparkles className="h-3.5 w-3.5" />
                 </Button>
 
