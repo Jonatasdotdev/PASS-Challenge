@@ -1,4 +1,5 @@
 "use client";
+
 import { useState, useMemo } from "react";
 import {
   Search,
@@ -7,15 +8,16 @@ import {
   Plus,
   Sparkles,
 } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { AppSidebar } from "@/components/app-sidebar";
-import {
-  SidebarInset,
-  SidebarProvider,
-} from "@/components/ui/sidebar";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import Header from "@/components/header";
+
 import PaymentModal from "@/components/payment-modal";
+import AccountDetailsModal from "@/components/account-detail-modal";
+
 import { StatusFilter } from "@/components/status-filter";
 import { filterAccounts } from "@/lib/data/accounts";
 import { DataTable } from "@/components/ui/data-table";
@@ -24,10 +26,26 @@ import { SectionCards } from "@/components/section-cards";
 
 export default function Home() {
   const [paymentModalOpen, setPaymentModalOpen] = useState(false);
+  const [detailsModalOpen, setDetailsModalOpen] = useState(false);
+  const [selectedAccount, setSelectedAccount] = useState<string | null>(null);
+
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState<string[]>([]);
 
-  // Status filter options with counts
+  // Quando cadastrar um pagamento → abrir detalhes
+  const handlePaymentSuccess = () => {
+    setPaymentModalOpen(false);
+    setDetailsModalOpen(true);
+    setSelectedAccount("000070");
+  };
+
+  // Quando clicar em linha da tabela → abrir detalhes
+  const handleRowClick = (account: any) => {
+    setSelectedAccount(account.id);
+    setDetailsModalOpen(true);
+  };
+
+  // Status filter options com contagens
   const statusOptions = useMemo(() => {
     const all = filterAccounts("");
     const counts = all.reduce((acc, a) => {
@@ -41,49 +59,49 @@ export default function Home() {
     ];
   }, []);
 
-  // Calculate totals for cards
+  // Totais para os cards
   const cardData = useMemo(() => {
     const all = filterAccounts("");
-    return all.reduce((acc, account) => {
-      const amount = parseFloat(account.total.replace('R$ ', '').replace(',', '.'));
-      acc.total += amount;
-      if (account.status === "Pago") acc.paid += amount;
-      if (account.status === "Pendente") acc.pending += amount;
-      if (account.status === "Vencido") acc.overdue += amount;
-      return acc;
-    }, { total: 0, paid: 0, pending: 0, overdue: 0 });
+    return all.reduce(
+      (acc, account) => {
+        const amount = parseFloat(account.total.replace("R$ ", "").replace(",", "."));
+        acc.total += amount;
+        if (account.status === "Pago") acc.paid += amount;
+        if (account.status === "Pendente") acc.pending += amount;
+        if (account.status === "Vencido") acc.overdue += amount;
+        return acc;
+      },
+      { total: 0, paid: 0, pending: 0, overdue: 0 }
+    );
   }, []);
 
-  // Filtered data
+  // Filtrados
   const filteredData = useMemo(() => {
-    const statusFilterValue = statusFilter.length > 0 ? statusFilter.join(",") : "all";
-    return filterAccounts(searchTerm, statusFilterValue);
+    const statusValue = statusFilter.length > 0 ? statusFilter.join(",") : "all";
+    return filterAccounts(searchTerm, statusValue);
   }, [searchTerm, statusFilter]);
 
   return (
     <SidebarProvider>
       <AppSidebar />
+
       <SidebarInset>
-        {/* Custom Header - Agora com breadcrumb e usuário */}
         <Header />
-        
-        <div className="flex flex-1 flex-col gap-3 p-3 pt-3"> {/* Gap e padding reduzidos */}
-          {/* Metrics Cards */}
-          <div>
-            <SectionCards data={cardData} />
-          </div>
-          
+
+        <div className="flex flex-1 flex-col gap-3 p-3 pt-3">
+          {/* Cards métricos */}
+          <SectionCards data={cardData} />
+
           <div className="bg-card rounded-lg border shadow-sm">
-            {/* Toolbar - Mais compacta */}
+            {/* Toolbar */}
             <div className="p-3 border-b flex items-center justify-between gap-3">
-              {/* Lado esquerdo: Busca e Filtros */}
+              {/* Esquerda */}
               <div className="flex items-center gap-2 flex-1">
-                {/* Ask AI - apenas ícone */}
                 <Button variant="outline" size="icon" className="h-8 w-8" title="Ask AI">
                   <Sparkles className="h-3.5 w-3.5" />
                 </Button>
-                
-                {/* Search Bar menor */}
+
+                {/* Search */}
                 <div className="relative w-56">
                   <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
                   <Input
@@ -93,39 +111,50 @@ export default function Home() {
                     className="pl-8 h-8 text-sm"
                   />
                 </div>
-                
-                {/* Filtros */}
+
+                {/* Filter */}
                 <StatusFilter value={statusFilter} onChange={setStatusFilter} options={statusOptions} />
               </div>
 
-              {/* Espaçamento livre no meio */}
+              {/* Centro vazio */}
               <div className="flex-1" />
 
-              {/* Lado direito: Ações */}
+              {/* Botões direita */}
               <div className="flex items-center gap-1">
                 <Button variant="ghost" size="icon" className="h-8 w-8" title="Atualizar">
                   <RefreshCw className="h-3.5 w-3.5" />
                 </Button>
+
                 <Button variant="ghost" size="icon" className="h-8 w-8" title="Exportar">
                   <Download className="h-3.5 w-3.5" />
                 </Button>
+
                 <Button className="gap-1.5 h-8 text-sm px-3" onClick={() => setPaymentModalOpen(true)}>
-                  <Plus className="h-3.5 w-3.5" />
-                  Adicionar
+                  <Plus className="h-3.5 w-3.5" /> Adicionar
                 </Button>
               </div>
             </div>
-            
-            {/* Data table */}
+
+            {/* DataTable com clique */}
             <div className="p-3">
-              <DataTable columns={columns} data={filteredData} />
+              <DataTable columns={columns} data={filteredData} onRowClick={handleRowClick} />
             </div>
           </div>
         </div>
       </SidebarInset>
-      
-      {/* Payment Modal */}
-      <PaymentModal open={paymentModalOpen} onOpenChange={setPaymentModalOpen} />
+
+      {/* Modais */}
+      <PaymentModal
+        open={paymentModalOpen}
+        onOpenChange={setPaymentModalOpen}
+        onSuccess={handlePaymentSuccess}
+      />
+
+      <AccountDetailsModal
+        open={detailsModalOpen}
+        onOpenChange={setDetailsModalOpen}
+        accountId={selectedAccount}
+      />
     </SidebarProvider>
   );
 }

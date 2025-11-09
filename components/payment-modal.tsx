@@ -33,20 +33,21 @@ import {
   X,
 } from "lucide-react";
 
-// shadcn calendar + popover
+// calendar + popover
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 
 interface PaymentModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+   onSuccess?: () => void 
 }
 
 export default function PaymentModal({ open, onOpenChange }: PaymentModalProps) {
   const [dadosGeraisOpen, setDadosGeraisOpen] = useState(true);
   const [notasOpen, setNotasOpen] = useState(false);
 
-  // data do movimento usando Date (Calendar do shadcn usa Date)
+  
   const [dataMovimento, setDataMovimento] = useState<Date | undefined>(new Date());
 
   
@@ -93,7 +94,7 @@ export default function PaymentModal({ open, onOpenChange }: PaymentModalProps) 
               <CollapsibleContent>
                 <CardContent className="pt-3">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {/* DATE: Calendar shadcn */}
+                    {/* Data do movimento */}
                     <div className="space-y-2">
                       <Label htmlFor="dataMovimento">Data do Movimento</Label>
 
