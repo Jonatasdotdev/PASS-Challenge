@@ -17,6 +17,7 @@ export const columns: ColumnDef<AccountPayable>[] = [
         }
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
         aria-label="Select all"
+        className="h-3 w-3" // Checkbox menor
       />
     ),
     cell: ({ row }) => (
@@ -24,25 +25,38 @@ export const columns: ColumnDef<AccountPayable>[] = [
         checked={row.getIsSelected()}
         onCheckedChange={(value) => row.toggleSelected(!!value)}
         aria-label="Select row"
+        className="h-3 w-3" // Checkbox menor
       />
     ),
     enableSorting: false,
     enableHiding: false,
-    size: 36,
+    size: 28, // Tamanho reduzido
   },
   {
     accessorKey: "id",
     header: ({ column }) => (
-      <Button variant="ghost" className="px-0" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+      <Button variant="ghost" className="px-0 whitespace-nowrap h-6 text-xs" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
         Cod.
-        <ArrowUpDown className="ml-1 h-4 w-4" />
+        <ArrowUpDown className="ml-1 h-3 w-3" /> {/* Ícone menor */}
       </Button>
     ),
-    cell: ({ row }) => <div className="font-medium">{row.getValue("id")}</div>,
+    cell: ({ row }) => <div className="font-medium text-xs whitespace-nowrap">{row.getValue("id")}</div>,
   },
-  { accessorKey: "competencia", header: "Competência" },
-  { accessorKey: "vencimento", header: "Vencimento" },
-  { accessorKey: "quitacao", header: "Quitação" },
+  { 
+    accessorKey: "competencia", 
+    header: "Competência",
+    cell: ({ row }) => <div className="whitespace-nowrap text-xs">{row.getValue("competencia")}</div>,
+  },
+  { 
+    accessorKey: "vencimento", 
+    header: "Vencimento",
+    cell: ({ row }) => <div className="whitespace-nowrap text-xs">{row.getValue("vencimento")}</div>,
+  },
+  { 
+    accessorKey: "quitacao", 
+    header: "Quitação",
+    cell: ({ row }) => <div className="whitespace-nowrap text-xs">{row.getValue("quitacao")}</div>,
+  },
   {
     accessorKey: "status",
     header: "Status",
@@ -55,36 +69,54 @@ export const columns: ColumnDef<AccountPayable>[] = [
       };
       const dot = status === "Pago" ? "bg-green-500" : status === "Vencido" ? "bg-red-500" : "bg-yellow-500";
       return (
-        <Badge variant="outline" className={`rounded-full px-2.5 py-0.5 ${map[status] || ""}`}>
-          <span className={`mr-2 inline-block h-2 w-2 rounded-full ${dot}`} />
+        <Badge variant="outline" className={`rounded-full px-2 py-0 text-xs whitespace-nowrap ${map[status] || ""}`}>
+          <span className={`mr-1 inline-block h-1.5 w-1.5 rounded-full ${dot}`} /> {/* Ponto menor */}
           {status}
         </Badge>
       );
     },
   },
-  { accessorKey: "classificacao", header: "Classificação" },
+  { 
+    accessorKey: "classificacao", 
+    header: "Classificação",
+    cell: ({ row }) => <div className="whitespace-nowrap text-xs">{row.getValue("classificacao")}</div>,
+  },
   {
     accessorKey: "participantes",
     header: "Participantes",
-    cell: ({ row }) => <div className="whitespace-pre-line">{row.getValue("participantes") as string}</div>,
+    cell: ({ row }) => {
+      const participantes = row.getValue("participantes") as string;
+      return (
+        <div 
+          className="whitespace-nowrap overflow-hidden text-ellipsis max-w-[150px] text-xs" 
+          title={participantes}
+        >
+          {participantes}
+        </div>
+      );
+    },
   },
-  { accessorKey: "parcela", header: "Parcela" },
+  { 
+    accessorKey: "parcela", 
+    header: "Parcela",
+    cell: ({ row }) => <div className="whitespace-nowrap text-xs">{row.getValue("parcela")}</div>,
+  },
   {
     accessorKey: "total",
-    header: () => <div className="text-right">Total</div>,
-    cell: ({ row }) => <div className="text-right font-medium">{row.getValue("total") as string}</div>,
+    header: () => <div className="text-right whitespace-nowrap text-xs">Total</div>,
+    cell: ({ row }) => <div className="text-right font-medium whitespace-nowrap text-xs">{row.getValue("total") as string}</div>,
   },
   {
     id: "actions",
     header: "Ações",
     enableHiding: false,
     cell: () => (
-      <div className="flex items-center gap-2">
-        <Button variant="ghost" size="icon" className="h-8 w-8">
-          <Edit className="h-4 w-4" />
+      <div className="flex items-center gap-1 whitespace-nowrap"> {/* Gap reduzido */}
+        <Button variant="ghost" size="icon" className="h-6 w-6"> {/* Botões menores */}
+          <Edit className="h-3 w-3" /> {/* Ícones menores */}
         </Button>
-        <Button variant="ghost" size="icon" className="h-8 w-8">
-          <Trash2 className="h-4 w-4" />
+        <Button variant="ghost" size="icon" className="h-6 w-6">
+          <Trash2 className="h-3 w-3" />
         </Button>
       </div>
     ),

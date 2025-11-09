@@ -1,4 +1,3 @@
-// app/page.tsx
 "use client";
 import { useState, useMemo } from "react";
 import {
@@ -14,17 +13,8 @@ import { AppSidebar } from "@/components/app-sidebar";
 import {
   SidebarInset,
   SidebarProvider,
-  SidebarTrigger,
 } from "@/components/ui/sidebar";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { Separator } from "@/components/ui/separator";
+import Header from "@/components/header";
 import PaymentModal from "@/components/payment-modal";
 import { StatusFilter } from "@/components/status-filter";
 import { filterAccounts } from "@/lib/data/accounts";
@@ -74,67 +64,60 @@ export default function Home() {
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
-        <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
-          <div className="flex items-center gap-2 px-4">
-            <SidebarTrigger className="-ml-1" />
-            <Separator
-              orientation="vertical"
-              className="mr-2 data-[orientation=vertical]:h-4"
-            />
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="#">
-                    Dashboard
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator className="hidden md:block" />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>Contas a Pagar</BreadcrumbPage>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
-          </div>
-        </header>
+        {/* Custom Header - Agora com breadcrumb e usuário */}
+        <Header />
         
-        <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+        <div className="flex flex-1 flex-col gap-3 p-3 pt-3"> {/* Gap e padding reduzidos */}
           {/* Metrics Cards */}
-          <div className="mt-4">
+          <div>
             <SectionCards data={cardData} />
           </div>
           
           <div className="bg-card rounded-lg border shadow-sm">
-            {/* Toolbar */}
-            <div className="p-4 border-b flex items-center gap-3">
-              <Button variant="outline" className="gap-2 h-10">
-                <Sparkles className="h-4 w-4" />
-                Ask AI
-              </Button>
-              <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input
-                  placeholder="Buscar..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-9 h-10"
-                />
+            {/* Toolbar - Mais compacta */}
+            <div className="p-3 border-b flex items-center justify-between gap-3">
+              {/* Lado esquerdo: Busca e Filtros */}
+              <div className="flex items-center gap-2 flex-1">
+                {/* Ask AI - apenas ícone */}
+                <Button variant="outline" size="icon" className="h-8 w-8" title="Ask AI">
+                  <Sparkles className="h-3.5 w-3.5" />
+                </Button>
+                
+                {/* Search Bar menor */}
+                <div className="relative w-56">
+                  <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
+                  <Input
+                    placeholder="Buscar..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="pl-8 h-8 text-sm"
+                  />
+                </div>
+                
+                {/* Filtros */}
+                <StatusFilter value={statusFilter} onChange={setStatusFilter} options={statusOptions} />
               </div>
-              <StatusFilter value={statusFilter} onChange={setStatusFilter} options={statusOptions} />
-              <Button variant="ghost" className="gap-2 h-10">
-                <RefreshCw className="h-4 w-4" />
-                Atualizar
-              </Button>
-              <Button variant="ghost" className="gap-2 h-10">
-                <Download className="h-4 w-4" />
-                Export
-              </Button>
-              <Button className="gap-2 h-10" onClick={() => setPaymentModalOpen(true)}>
-                <Plus className="h-4 w-4" />
-                Adicionar
-              </Button>
+
+              {/* Espaçamento livre no meio */}
+              <div className="flex-1" />
+
+              {/* Lado direito: Ações */}
+              <div className="flex items-center gap-1">
+                <Button variant="ghost" size="icon" className="h-8 w-8" title="Atualizar">
+                  <RefreshCw className="h-3.5 w-3.5" />
+                </Button>
+                <Button variant="ghost" size="icon" className="h-8 w-8" title="Exportar">
+                  <Download className="h-3.5 w-3.5" />
+                </Button>
+                <Button className="gap-1.5 h-8 text-sm px-3" onClick={() => setPaymentModalOpen(true)}>
+                  <Plus className="h-3.5 w-3.5" />
+                  Adicionar
+                </Button>
+              </div>
             </div>
+            
             {/* Data table */}
-            <div className="p-4">
+            <div className="p-3">
               <DataTable columns={columns} data={filteredData} />
             </div>
           </div>

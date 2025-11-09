@@ -1,5 +1,4 @@
 "use client"
-
 import * as React from "react"
 import {
   AudioWaveform,
@@ -12,11 +11,10 @@ import {
   PieChart,
   Settings2,
   HandCoins,
+  CircleDollarSign,
 } from "lucide-react"
-
 import { NavMain } from "@/components/nav-main"
 import { NavProjects } from "@/components/nav-projects"
-import { NavUser } from "@/components/nav-user"
 import { TeamSwitcher } from "@/components/team-switcher"
 import {
   Sidebar,
@@ -28,11 +26,6 @@ import {
 
 // This is sample data.
 const data = {
-  user: {
-    name: "Jônatas",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
   teams: [
     {
       name: "PASS",
@@ -88,45 +81,39 @@ const data = {
       ],
     },
     {
-      title: "Models",
+      title: "Comercial",
       url: "#",
-      icon: Bot,
+      icon: CircleDollarSign,
       items: [
         {
-          title: "Genesis",
+          title: "Tarifário",
           url: "#",
         },
         {
-          title: "Explorer",
+          title: "Disponibilidade",
           url: "#",
         },
-        {
-          title: "Quantum",
-          url: "#",
-        },
+        
       ],
     },
     {
-      title: "Documentation",
+      title: "Complementos",
       url: "#",
       icon: BookOpen,
       items: [
         {
-          title: "Introduction",
+          title: "Slots",
           url: "#",
         },
         {
-          title: "Get Started",
+          title: "Perimetros",
           url: "#",
         },
         {
-          title: "Tutorials",
+          title: "Diretrizes",
           url: "#",
         },
-        {
-          title: "Changelog",
-          url: "#",
-        },
+        
       ],
     },
     {
@@ -174,7 +161,7 @@ const data = {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar collapsible="icon" {...props}>
+    <Sidebar collapsible="icon" className="z-50 [&_[data-sidebar]]:!z-50" {...props}>
       <SidebarHeader>
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
@@ -183,7 +170,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <div className="p-2 text-xs text-muted-foreground text-center">
+        </div>
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
