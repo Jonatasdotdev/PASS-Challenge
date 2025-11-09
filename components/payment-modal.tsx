@@ -6,6 +6,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogClose,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -23,7 +24,18 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CreditCard, AlertCircle, FileText, ChevronUp, ChevronDown, X, Info } from "lucide-react";
+import {
+  CreditCard,
+  AlertCircle,
+  FileText,
+  ChevronUp,
+  ChevronDown,
+  X,
+} from "lucide-react";
+
+// shadcn calendar + popover
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
 
 interface PaymentModalProps {
   open: boolean;
@@ -34,59 +46,92 @@ export default function PaymentModal({ open, onOpenChange }: PaymentModalProps) 
   const [dadosGeraisOpen, setDadosGeraisOpen] = useState(true);
   const [notasOpen, setNotasOpen] = useState(false);
 
+  // data do movimento usando Date (Calendar do shadcn usa Date)
+  const [dataMovimento, setDataMovimento] = useState<Date | undefined>(new Date());
+
+  
+  const formatDate = (d?: Date) =>
+    d ? d.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit", year: "numeric" }) : "Selecione";
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
+      <DialogContent className="max-w-3xl w-full max-h-[90vh] overflow-y-auto bg-card border border-gray-200 dark:border-neutral-800 rounded-lg p-0 shadow-lg">
+        {/* Header */}
+        <DialogHeader className="px-6 py-4 border-b border-transparent">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <CreditCard className="h-5 w-5 text-gray-600" />
-              <DialogTitle className="text-xl font-semibold">Pagamento</DialogTitle>
+              <CreditCard className="h-5 w-5 text-gray-600 dark:text-gray-300" />
+              <DialogTitle className="text-lg font-semibold">Pagamento</DialogTitle>
             </div>
-            <div className="flex items-center gap-2">
-              <Button variant="ghost" size="icon" className="h-8 w-8">
-                <Info className="h-4 w-4" />
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-8 w-8"
-                onClick={() => onOpenChange(false)}
-              >
-                <X className="h-4 w-4" />
-              </Button>
-            </div>
+
+            
           </div>
         </DialogHeader>
 
-        <div className="space-y-4">
-          {/* Dados Gerais Section */}
+        {/* Conteúdo */}
+        <div className="px-6 py-4 space-y-4">
+          {/* Dados Gerais */}
           <Collapsible open={dadosGeraisOpen} onOpenChange={setDadosGeraisOpen}>
-            <Card>
+            <Card className="border-transparent shadow-none">
               <CollapsibleTrigger className="w-full">
-                <CardHeader className="flex flex-row items-center justify-between p-4 hover:bg-gray-50 transition-colors">
+                <CardHeader
+                  className="flex items-center justify-between p-3 rounded-md
+                             hover:bg-gray-50 dark:hover:bg-neutral-800 transition-colors"
+                >
                   <div className="flex items-center gap-2">
-                    <AlertCircle className="h-4 w-4 text-gray-600" />
-                    <CardTitle className="text-base font-semibold">Dados Gerais</CardTitle>
+                    <AlertCircle className="h-4 w-4 text-gray-600 dark:text-gray-300" />
+                    <CardTitle className="text-sm font-semibold">Dados Gerais</CardTitle>
                   </div>
                   {dadosGeraisOpen ? (
-                    <ChevronUp className="h-4 w-4 text-gray-600" />
+                    <ChevronUp className="h-4 w-4 text-gray-600 dark:text-gray-300" />
                   ) : (
-                    <ChevronDown className="h-4 w-4 text-gray-600" />
+                    <ChevronDown className="h-4 w-4 text-gray-600 dark:text-gray-300" />
                   )}
                 </CardHeader>
               </CollapsibleTrigger>
+
               <CollapsibleContent>
-                <CardContent className="pt-0">
-                  <div className="grid grid-cols-2 gap-4">
+                <CardContent className="pt-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {/* DATE: Calendar shadcn */}
                     <div className="space-y-2">
                       <Label htmlFor="dataMovimento">Data do Movimento</Label>
-                      <Input id="dataMovimento" type="date" />
+
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <Button
+                            variant="outline"
+                            className="h-8 w-full justify-start px-3 text-sm text-gray-700 dark:text-gray-200"
+                            id="dataMovimento"
+                            aria-label="Selecionar data do movimento"
+                          >
+                            {formatDate(dataMovimento)}
+                          </Button>
+                        </PopoverTrigger>
+
+                       <PopoverContent className="w-auto p-0 bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-700">
+                        <Calendar
+                          mode="single"
+                          selected={dataMovimento}
+                          onSelect={(date: Date | undefined) => setDataMovimento(date)}
+                          required={false}
+                          className="bg-white dark:bg-neutral-900 text-gray-900 dark:text-gray-100 
+                                    [&_.rdp-day]:text-gray-900 dark:[&_.rdp-day]:text-gray-100
+                                    [&_.rdp-day_selected]:bg-blue-100 [&_.rdp-day_selected]:text-blue-800
+                                    [&_.rdp-day_selected]:font-medium
+                                    dark:[&_.rdp-day_selected]:bg-blue-900/30 dark:[&_.rdp-day_selected]:text-blue-200
+                                    [&_.rdp-day_selected:hover]:bg-blue-200 dark:[&_.rdp-day_selected:hover]:bg-blue-800/40
+                                    [&_.rdp-day:hover]:bg-gray-100 dark:[&_.rdp-day:hover]:bg-neutral-800"
+                        />
+                      </PopoverContent>
+                      </Popover>
                     </div>
+
+                    {/* Caixa/Conta */}
                     <div className="space-y-2">
                       <Label htmlFor="caixaConta">Caixa/Conta (#180511)</Label>
                       <Select>
-                        <SelectTrigger id="caixaConta">
+                        <SelectTrigger id="caixaConta" className="h-8">
                           <SelectValue placeholder="Selecione" />
                         </SelectTrigger>
                         <SelectContent>
@@ -94,10 +139,12 @@ export default function PaymentModal({ open, onOpenChange }: PaymentModalProps) 
                         </SelectContent>
                       </Select>
                     </div>
+
+                    {/* Forma de pagamento */}
                     <div className="space-y-2">
                       <Label htmlFor="formaPagamento">Forma de Pagamento (#180506)</Label>
                       <Select>
-                        <SelectTrigger id="formaPagamento">
+                        <SelectTrigger id="formaPagamento" className="h-8">
                           <SelectValue placeholder="Selecione" />
                         </SelectTrigger>
                         <SelectContent>
@@ -105,19 +152,26 @@ export default function PaymentModal({ open, onOpenChange }: PaymentModalProps) 
                         </SelectContent>
                       </Select>
                     </div>
+
+                    {/* Saldo a pagar (visual) */}
                     <div className="space-y-2">
                       <Label>Saldo a Pagar</Label>
-                      <div className="h-10 px-3 py-2 bg-gray-100 rounded-md flex items-center text-gray-700">
+                      <div className="h-8 px-3 flex items-center rounded-md
+                                      bg-gray-50 text-gray-700 dark:bg-neutral-800 dark:text-gray-200">
                         -R$ 100,00
                       </div>
                     </div>
+
+                    {/* Valor */}
                     <div className="space-y-2">
                       <Label htmlFor="valor">Valor</Label>
-                      <Input id="valor" type="text" placeholder="0,00" />
+                      <Input id="valor" type="text" placeholder="0,00" className="h-8" />
                     </div>
+
+                    {/* Classificação gerencial (visual) */}
                     <div className="space-y-2">
                       <Label>Classificação Gerencial (#180518)</Label>
-                      <div className="h-10 px-3 py-2 rounded-md flex items-center text-gray-700">
+                      <div className="h-8 px-3 flex items-center rounded-md text-gray-700 dark:text-gray-200 bg-transparent">
                         1.1.1.01.001 - Caixa Fundo Fixo
                       </div>
                     </div>
@@ -127,26 +181,33 @@ export default function PaymentModal({ open, onOpenChange }: PaymentModalProps) 
             </Card>
           </Collapsible>
 
-          {/* Notas Section */}
+          {/* Notas */}
           <Collapsible open={notasOpen} onOpenChange={setNotasOpen}>
-            <Card>
+            <Card className="border-transparent shadow-none">
               <CollapsibleTrigger className="w-full">
-                <CardHeader className="flex flex-row items-center justify-between p-4 hover:bg-gray-50 transition-colors">
+                <CardHeader
+                  className="flex items-center justify-between p-3 rounded-md
+                             hover:bg-gray-50 dark:hover:bg-neutral-800 transition-colors"
+                >
                   <div className="flex items-center gap-2">
-                    <FileText className="h-4 w-4 text-gray-600" />
-                    <CardTitle className="text-base font-semibold">Notas</CardTitle>
+                    <FileText className="h-4 w-4 text-gray-600 dark:text-gray-300" />
+                    <CardTitle className="text-sm font-semibold">Notas</CardTitle>
                   </div>
                   {notasOpen ? (
-                    <ChevronUp className="h-4 w-4 text-gray-600" />
+                    <ChevronUp className="h-4 w-4 text-gray-600 dark:text-gray-300" />
                   ) : (
-                    <ChevronDown className="h-4 w-4 text-gray-600" />
+                    <ChevronDown className="h-4 w-4 text-gray-600 dark:text-gray-300" />
                   )}
                 </CardHeader>
               </CollapsibleTrigger>
+
               <CollapsibleContent>
-                <CardContent className="pt-0">
+                <CardContent className="pt-3">
                   <textarea
-                    className="w-full min-h-[100px] p-3 border rounded-md resize-none"
+                    className="w-full min-h-[120px] p-3 border rounded-md resize-none
+                               border-gray-200 dark:border-neutral-700
+                               bg-white dark:bg-neutral-900 text-gray-900 dark:text-gray-100
+                               placeholder:text-gray-400 dark:placeholder:text-gray-500"
                     placeholder="Adicione suas notas aqui..."
                   />
                 </CardContent>
@@ -155,20 +216,16 @@ export default function PaymentModal({ open, onOpenChange }: PaymentModalProps) 
           </Collapsible>
         </div>
 
-        {/* Footer Buttons */}
-        <div className="flex items-center justify-end gap-3 pt-4 border-t">
-          <Button
-            variant="secondary"
-            onClick={() => onOpenChange(false)}
-          >
-            Fechar
-          </Button>
-          <Button>
-            Cadastrar
-          </Button>
+        {/* Footer */}
+        <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-gray-100 dark:border-neutral-800">
+          <DialogClose asChild>
+            <Button variant="ghost" className="h-8">
+              Cancelar
+            </Button>
+          </DialogClose>
+          <Button className="h-8">Cadastrar</Button>
         </div>
       </DialogContent>
     </Dialog>
   );
 }
-
