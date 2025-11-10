@@ -26,7 +26,6 @@ export function ChartsSection({ data }: ChartsSectionProps) {
     const monthlyData: { [key: string]: number } = {};
     
     data.forEach(item => {
-      
       const competenceDate = item.competencia || item.dueDate || new Date().toLocaleDateString('pt-BR');
       const [day, month, year] = competenceDate.split('/');
       const monthKey = `${month}/${year}`;
@@ -75,7 +74,7 @@ export function ChartsSection({ data }: ChartsSectionProps) {
     return null;
   }
 
-  // customizar o tooltip com cores diferentes para dark/light mode
+  // Customizar o tooltip com cores diferentes para dark/light mode
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       return (
@@ -105,102 +104,105 @@ export function ChartsSection({ data }: ChartsSectionProps) {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-      {/* Area Chart */}
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {/* Area Chart  */}
       <Card className="border border-gray-200 dark:border-neutral-800">
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Evolução por Competência</CardTitle>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
+          <CardTitle className="text-base font-medium">Evolução por Competência</CardTitle>
           <TrendingUp className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
-        <CardContent className="h-[120px]">
-          <ResponsiveContainer width="100%" height="100%">
-            <AreaChart
-              data={areaData}
-              margin={{
-                top: 5,
-                right: 10,
-                left: 10,
-                bottom: 0,
-              }}
-            >
-              <CartesianGrid strokeDasharray="3 3" horizontal={false} className="opacity-30" />
-              <XAxis
-                dataKey="month"
-                tickLine={false}
-                axisLine={false}
-                fontSize={11}
-                tickMargin={8}
-              />
-              <YAxis
-                tickLine={false}
-                axisLine={false}
-                fontSize={11}
-                tickMargin={8}
-                tickFormatter={(value) => `R$ ${value}`}
-              />
-              <Tooltip content={<CustomTooltip />} />
-              <Area
-                dataKey="value"
-                type="natural"
-                fill={chartConfig.desktop.color}
-                fillOpacity={0.4}
-                stroke={chartConfig.desktop.color}
-                stackId="a"
-              />
-            </AreaChart>
-          </ResponsiveContainer>
+        <CardContent>
+          <div className="h-[200px]"> 
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart
+                data={areaData}
+                margin={{
+                  top: 10,
+                  right: 10,
+                  left: 10,
+                  bottom: 0,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" horizontal={false} className="opacity-30" />
+                <XAxis
+                  dataKey="month"
+                  tickLine={false}
+                  axisLine={false}
+                  fontSize={11}
+                  tickMargin={8}
+                />
+                <YAxis
+                  tickLine={false}
+                  axisLine={false}
+                  fontSize={11}
+                  tickMargin={8}
+                  tickFormatter={(value) => `R$ ${value}`}
+                />
+                <Tooltip content={<CustomTooltip />} />
+                <Area
+                  dataKey="value"
+                  type="natural"
+                  fill={chartConfig.desktop.color}
+                  fillOpacity={0.4}
+                  stroke={chartConfig.desktop.color}
+                  stackId="a"
+                />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
         </CardContent>
       </Card>
 
-      {/* Bar Chart - */}
+      {/* Bar Chart */}
       <Card className="border border-gray-200 dark:border-neutral-800">
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Contas por Status</CardTitle>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
+          <CardTitle className="text-base font-medium">Contas por Status</CardTitle>
           <BarChart3 className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
-        <CardContent className="h-[120px]">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart
-              data={barData}
-              layout="vertical"
-              margin={{
-                top: 5,
-                right: 10,
-                left: 10,
-                bottom: 0,
-              }}
-            >
-              <CartesianGrid horizontal={false} className="opacity-30" />
-              <XAxis 
-                type="number" 
-                fontSize={11}
-                tickLine={false}
-                axisLine={false}
-              />
-              <YAxis 
-                dataKey="status" 
-                type="category" 
-                fontSize={11}
-                tickLine={false} 
-                axisLine={false}
-              />
-              <Tooltip 
-                content={<BarCustomTooltip />}
-                cursor={{
-                 
-                  fill: 'rgba(0, 0, 0, 0.1)',
-                  className: 'dark:fill-neutral-800 dark:opacity-50'
+        <CardContent>
+          <div className="h-[200px]"> 
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart
+                data={barData}
+                layout="vertical"
+                margin={{
+                  top: 5,
+                  right: 10,
+                  left: 10,
+                  bottom: 0,
                 }}
-              />
-              <Bar 
-                dataKey="total" 
-                fill={chartConfig.mobile.color}
-                radius={[0, 4, 4, 0]}
-               
-                className="transition-opacity duration-200 hover:opacity-80"
-              />
-            </BarChart>
-          </ResponsiveContainer>
+              >
+                <CartesianGrid horizontal={false} className="opacity-30" />
+                <XAxis 
+                  type="number" 
+                  fontSize={11}
+                  tickLine={false}
+                  axisLine={false}
+                />
+                <YAxis 
+                  dataKey="status" 
+                  type="category" 
+                  fontSize={11}
+                  tickLine={false} 
+                  axisLine={false}
+                  width={80}
+                />
+                <Tooltip 
+                  content={<BarCustomTooltip />}
+                  cursor={{
+                    fill: 'rgba(0, 0, 0, 0.1)',
+                    className: 'dark:fill-neutral-800 dark:opacity-50'
+                  }}
+                />
+                <Bar 
+                  dataKey="total" 
+                  fill={chartConfig.mobile.color}
+                  radius={[0, 4, 4, 0]}
+                  className="transition-opacity duration-200 hover:opacity-80"
+                />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
         </CardContent>
       </Card>
     </div>

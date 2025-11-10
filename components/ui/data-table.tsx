@@ -69,7 +69,7 @@ export function DataTable<TData, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  className={`h-8 ${
+                  className={`h-11 ${
                     onRowClick ? "cursor-pointer hover:bg-muted/50" : ""
                   }`}
                   onClick={() => onRowClick?.(row.original)} 

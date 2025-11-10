@@ -7,6 +7,7 @@ import {
   Download,
   Plus,
   Sparkles,
+  Menu,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -24,6 +25,7 @@ import { DataTable } from "@/components/ui/data-table";
 import { columns } from "./columns";
 import { SectionCards } from "@/components/section-cards";
 import { ChartsSection } from "@/components/charts-section";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 export default function Home() {
   const [paymentModalOpen, setPaymentModalOpen] = useState(false);
@@ -93,60 +95,144 @@ export default function Home() {
           {/* Cards métricos */}
           <SectionCards data={cardData} />
 
-          {/* Gráficos - Nova seção */}
-          <ChartsSection data={filteredData} />
+          {/* Gráficos - Ocultar em mobile ou ajustar altura */}
+          <div className="hidden sm:block">
+            <ChartsSection data={filteredData} />
+          </div>
 
           <div className="bg-card rounded-lg border shadow-sm">
-            {/* Toolbar */}
-            <div className="p-3 border-b flex items-center justify-between gap-3">
-              {/* Esquerda */}
-              <div className="flex items-center gap-2 flex-1">
-                <Button 
-                  variant="outline" 
-                  size="icon" 
-                  className="h-8 w-8 bg-black text-white dark:bg-transparent dark:text-gray-100" 
-                  title="Ask AI"
-                >
-                  <Sparkles className="h-3.5 w-3.5" />
-                </Button>
+            {/* Toolbar - Layout responsivo */}
+            <div className="p-3 border-b">
+              {/* Layout mobile - Empilhado */}
+              <div className="flex flex-col gap-3 sm:hidden">
+                {/* Linha 1: AI Button + Search */}
+                <div className="flex items-center gap-2">
+                  <Sheet>
+                    <SheetTrigger asChild>
+                      <Button variant="outline" size="icon" className="h-9 w-9">
+                        <Menu className="h-4 w-4" />
+                      </Button>
+                    </SheetTrigger>
+                    <SheetContent side="left" className="w-64">
+                      {/* Conteúdo do menu mobile se necessário */}
+                    </SheetContent>
+                  </Sheet>
 
-                {/* Search */}
-                <div className="relative w-56">
-                  <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
-                  <Input
-                    placeholder="Buscar..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-8 h-8 text-sm"
-                  />
+                  <Button 
+                    variant="outline" 
+                    size="icon" 
+                    className="h-9 w-9 bg-black text-white dark:bg-transparent dark:text-gray-100" 
+                    title="Ask AI"
+                  >
+                    <Sparkles className="h-4 w-4" />
+                  </Button>
+
+                  <div className="relative flex-1">
+                    <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      placeholder="Buscar..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="pl-8 h-9 text-sm"
+                    />
+                  </div>
                 </div>
 
-                {/* Filter */}
-                <StatusFilter value={statusFilter} onChange={setStatusFilter} options={statusOptions} />
+                {/* Linha 2: Filter + Botões de ação */}
+                <div className="flex items-center gap-2 justify-between">
+                  <div className="flex-1 min-w-0">
+                    <StatusFilter value={statusFilter} onChange={setStatusFilter} options={statusOptions} />
+                  </div>
+                  
+                  <div className="flex items-center gap-1">
+                    <Button variant="ghost" size="icon" className="h-9 w-9" title="Atualizar">
+                      <RefreshCw className="h-4 w-4" />
+                    </Button>
+                    
+                    <Sheet>
+                      <SheetTrigger asChild>
+                        <Button variant="ghost" size="icon" className="h-9 w-9" title="Mais opções">
+                          <Download className="h-4 w-4" />
+                        </Button>
+                      </SheetTrigger>
+                      <SheetContent side="bottom" className="h-40">
+                        <div className="flex flex-col gap-2 pt-6">
+                          <Button variant="outline" className="justify-start">
+                            <Download className="h-4 w-4 mr-2" />
+                            Exportar CSV
+                          </Button>
+                          <Button variant="outline" className="justify-start">
+                            <Download className="h-4 w-4 mr-2" />
+                            Exportar PDF
+                          </Button>
+                        </div>
+                      </SheetContent>
+                    </Sheet>
+                  </div>
+                </div>
+
+                {/* Linha 3: Botão Adicionar */}
+                <Button 
+                  className="gap-1.5 h-9 text-sm w-full" 
+                  onClick={() => setPaymentModalOpen(true)}
+                >
+                  <Plus className="h-4 w-4" /> Adicionar
+                </Button>
               </div>
 
-              {/* Centro vazio */}
-              <div className="flex-1" />
+              {/* Layout desktop - Original */}
+              <div className="hidden sm:flex items-center justify-between gap-3">
+                {/* Esquerda */}
+                <div className="flex items-center gap-2 flex-1">
+                  <Button 
+                    variant="outline" 
+                    size="icon" 
+                    className="h-8 w-8 bg-black text-white dark:bg-transparent dark:text-gray-100" 
+                    title="Ask AI"
+                  >
+                    <Sparkles className="h-3.5 w-3.5" />
+                  </Button>
 
-              {/* Botões direita */}
-              <div className="flex items-center gap-1">
-                <Button variant="ghost" size="icon" className="h-8 w-8" title="Atualizar">
-                  <RefreshCw className="h-3.5 w-3.5" />
-                </Button>
+                  {/* Search */}
+                  <div className="relative w-56">
+                    <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
+                    <Input
+                      placeholder="Buscar..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="pl-8 h-8 text-sm"
+                    />
+                  </div>
 
-                <Button variant="ghost" size="icon" className="h-8 w-8" title="Exportar">
-                  <Download className="h-3.5 w-3.5" />
-                </Button>
+                  {/* Filter */}
+                  <StatusFilter value={statusFilter} onChange={setStatusFilter} options={statusOptions} />
+                </div>
 
-                <Button className="gap-1.5 h-8 text-sm px-3" onClick={() => setPaymentModalOpen(true)}>
-                  <Plus className="h-3.5 w-3.5" /> Adicionar
-                </Button>
+                {/* Centro vazio */}
+                <div className="flex-1" />
+
+                {/* Botões direita */}
+                <div className="flex items-center gap-1">
+                  <Button variant="ghost" size="icon" className="h-8 w-8" title="Atualizar">
+                    <RefreshCw className="h-3.5 w-3.5" />
+                  </Button>
+
+                  <Button variant="ghost" size="icon" className="h-8 w-8" title="Exportar">
+                    <Download className="h-3.5 w-3.5" />
+                  </Button>
+
+                  <Button className="gap-1.5 h-8 text-sm px-3" onClick={() => setPaymentModalOpen(true)}>
+                    <Plus className="h-3.5 w-3.5" /> Adicionar
+                  </Button>
+                </div>
               </div>
             </div>
 
-            {/* DataTable com clique */}
+            {/* DataTable */}
             <div className="p-3">
-              <DataTable columns={columns} data={filteredData} onRowClick={handleRowClick} />
+              <div className="overflow-x-auto">
+                <DataTable columns={columns} data={filteredData} onRowClick={handleRowClick} />
+              </div>
             </div>
           </div>
         </div>
