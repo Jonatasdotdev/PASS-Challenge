@@ -79,91 +79,111 @@ export default function AccountDetailsModal({
           </div>
         </DialogHeader>
 
-        {/* Tabs*/}
+        {/* Tabs responsivos */}
         <div className="px-6 pt-4">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid w-full grid-cols-6 mb-4 h-12">
-              <TabsTrigger value="dados-gerais" className="flex items-center gap-2 text-xs py-2">
-                <AlertCircle className="h-3 w-3" />
-                Dados Gerais
+            {/* Tabs scrolláveis para mobile, grid para desktop */}
+            <TabsList className="flex sm:grid sm:grid-cols-6 w-full mb-4 h-12 overflow-x-auto scrollbar-hide gap-1 sm:gap-0">
+              <TabsTrigger 
+                value="dados-gerais" 
+                className="flex items-center gap-2 text-xs py-2 px-3 min-w-[140px] sm:min-w-0 flex-shrink-0 sm:flex-shrink"
+              >
+                <AlertCircle className="h-3 w-3 flex-shrink-0" />
+                <span className="truncate">Dados Gerais</span>
               </TabsTrigger>
-              <TabsTrigger value="participantes" className="flex items-center gap-2 text-xs py-2">
-                <Users className="h-3 w-3" />
-                Participantes
+              <TabsTrigger 
+                value="participantes" 
+                className="flex items-center gap-2 text-xs py-2 px-3 min-w-[140px] sm:min-w-0 flex-shrink-0 sm:flex-shrink"
+              >
+                <Users className="h-3 w-3 flex-shrink-0" />
+                <span className="truncate">Participantes</span>
               </TabsTrigger>
-              <TabsTrigger value="contabil" className="flex items-center gap-2 text-xs py-2">
-                <CreditCard className="h-3 w-3" />
-                Contábil
+              <TabsTrigger 
+                value="contabil" 
+                className="flex items-center gap-2 text-xs py-2 px-3 min-w-[140px] sm:min-w-0 flex-shrink-0 sm:flex-shrink"
+              >
+                <CreditCard className="h-3 w-3 flex-shrink-0" />
+                <span className="truncate">Contábil</span>
               </TabsTrigger>
-              <TabsTrigger value="dados-financeiros" className="flex items-center gap-2 text-xs py-2">
-                <DollarSign className="h-3 w-3" />
-                Financeiros
+              <TabsTrigger 
+                value="dados-financeiros" 
+                className="flex items-center gap-2 text-xs py-2 px-3 min-w-[140px] sm:min-w-0 flex-shrink-0 sm:flex-shrink"
+              >
+                <DollarSign className="h-3 w-3 flex-shrink-0" />
+                <span className="truncate">Financeiros</span>
               </TabsTrigger>
-              <TabsTrigger value="pagamento" className="flex items-center gap-2 text-xs py-2">
-                <FileText className="h-3 w-3" />
-                Pagamento
+              <TabsTrigger 
+                value="pagamento" 
+                className="flex items-center gap-2 text-xs py-2 px-3 min-w-[140px] sm:min-w-0 flex-shrink-0 sm:flex-shrink"
+              >
+                <FileText className="h-3 w-3 flex-shrink-0" />
+                <span className="truncate">Pagamento</span>
               </TabsTrigger>
-              <TabsTrigger value="arquivos" className="flex items-center gap-2 text-xs py-2">
-                <Upload className="h-3 w-3" />
-                Arquivos
+              <TabsTrigger 
+                value="arquivos" 
+                className="flex items-center gap-2 text-xs py-2 px-3 min-w-[140px] sm:min-w-0 flex-shrink-0 sm:flex-shrink"
+              >
+                <Upload className="h-3 w-3 flex-shrink-0" />
+                <span className="truncate">Arquivos</span>
               </TabsTrigger>
             </TabsList>
 
-            {/* Conteúdo dos tabs  */}
-            <TabsContent value="dados-gerais" className="space-y-3 animate-in fade-in-50 duration-200">
+            {/* Conteúdo dos tabs - Container único para mobile */}
+            <TabsContent value="dados-gerais" className="animate-in fade-in-50 duration-200">
               <Card className="border-transparent shadow-none">
-                <CardContent className="space-y-3 p-0">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div className="space-y-1">
+                <CardContent className="p-0">
+                  {/* Container único para mobile, grid para desktop */}
+                  <div className="space-y-4 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-4">
+                    <div className="space-y-2">
                       <Label className="text-xs">Conta</Label>
                       <div className="h-7 px-2 flex items-center rounded-md bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 text-sm">
                         000070
                       </div>
                     </div>
 
-                    <div className="space-y-1">
+                    <div className="space-y-2">
                       <Label className="text-xs">Lançamento</Label>
                       <div className="h-7 px-2 flex items-center rounded-md bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 text-sm">
                         05/11/2025 11:23:16
                       </div>
                     </div>
 
-                    <div className="space-y-1">
+                    <div className="space-y-2">
                       <Label className="text-xs">Quitação</Label>
                       <div className="h-7 px-2 flex items-center rounded-md bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 text-sm">
                         Indefinido
                       </div>
                     </div>
 
-                    <div className="space-y-1">
+                    <div className="space-y-2">
                       <Label className="text-xs">Status (#180516)</Label>
                       <div className="h-7 px-2 flex items-center rounded-md bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 text-sm">
                         Pendente
                       </div>
                     </div>
 
-                    <div className="space-y-1">
+                    <div className="space-y-2">
                       <Label className="text-xs">Documento/Contrato</Label>
                       <div className="h-7 px-2 flex items-center rounded-md bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 text-sm">
                         Indefinido
                       </div>
                     </div>
 
-                    <div className="space-y-1">
+                    <div className="space-y-2">
                       <Label className="text-xs">Fatura</Label>
                       <div className="h-7 px-2 flex items-center rounded-md bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 text-sm">
                         Indefinido
                       </div>
                     </div>
 
-                    <div className="space-y-1">
+                    <div className="space-y-2">
                       <Label className="text-xs">Conta/Grupo</Label>
                       <div className="h-7 px-2 flex items-center rounded-md bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 text-sm">
                         9
                       </div>
                     </div>
 
-                    <div className="space-y-1">
+                    <div className="space-y-2">
                       <Label className="text-xs">Referência</Label>
                       <div className="h-7 px-2 flex items-center rounded-md bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 text-sm">
                         -
@@ -172,7 +192,7 @@ export default function AccountDetailsModal({
                   </div>
 
                   {/* Palavras-chave */}
-                  <div className="mt-3 space-y-2">
+                  <div className="mt-4 space-y-2">
                     <Label className="text-xs text-gray-600 dark:text-gray-400">Palavra-chave</Label>
                     
                     <div className="flex flex-wrap gap-1 mb-1">
@@ -220,17 +240,17 @@ export default function AccountDetailsModal({
             </TabsContent>
 
             {/* Participantes */}
-            <TabsContent value="participantes" className="space-y-3 animate-in fade-in-50 duration-200">
+            <TabsContent value="participantes" className="animate-in fade-in-50 duration-200">
               <Card className="border-transparent shadow-none">
                 <CardContent className="p-0">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div className="space-y-1">
+                  <div className="space-y-4 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-4">
+                    <div className="space-y-2">
                       <Label className="text-xs">Credor (#180515)</Label>
                       <div className="h-7 px-2 flex items-center rounded-md bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 text-sm">
                         Injetec
                       </div>
                     </div>
-                    <div className="space-y-1">
+                    <div className="space-y-2">
                       <Label className="text-xs">Devedor (#1204)</Label>
                       <div className="h-7 px-2 flex items-center rounded-md bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 text-sm">
                         Amorim Cortinas
@@ -242,25 +262,25 @@ export default function AccountDetailsModal({
             </TabsContent>
 
             {/* Contábil */}
-            <TabsContent value="contabil" className="space-y-3 animate-in fade-in-50 duration-200">
+            <TabsContent value="contabil" className="animate-in fade-in-50 duration-200">
               <Card className="border-transparent shadow-none">
                 <CardContent className="p-0">
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    <div className="space-y-1">
+                  <div className="space-y-4 sm:space-y-0 sm:grid sm:grid-cols-3 sm:gap-4">
+                    <div className="space-y-2">
                       <Label className="text-xs">Classificação Contábil (#180525)</Label>
                       <div className="h-7 px-2 flex items-center rounded-md bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 text-sm">
                         111.01.001 - Caixa Fundo Fixo
                       </div>
                     </div>
 
-                    <div className="space-y-1">
+                    <div className="space-y-2">
                       <Label className="text-xs">Classificação Gerencial (#180518)</Label>
                       <div className="h-7 px-2 flex items-center rounded-md bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 text-sm">
                         Administrativo
                       </div>
                     </div>
 
-                    <div className="space-y-1">
+                    <div className="space-y-2">
                       <Label className="text-xs">Centro de Custo (#1341)</Label>
                       <div className="h-7 px-2 flex items-center rounded-md bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 text-sm">
                         Administrativo
@@ -272,53 +292,54 @@ export default function AccountDetailsModal({
             </TabsContent>
 
             {/* Dados Financeiros */}
-            <TabsContent value="dados-financeiros" className="space-y-3 animate-in fade-in-50 duration-200">
+            <TabsContent value="dados-financeiros" className="animate-in fade-in-50 duration-200">
               <Card className="border-transparent shadow-none">
-                <CardContent className="space-y-3 p-0">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div className="space-y-1">
+                <CardContent className="p-0">
+                  {/* Primeira seção */}
+                  <div className="space-y-4 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-4 mb-4">
+                    <div className="space-y-2">
                       <Label className="text-xs">Competência</Label>
                       <div className="h-7 px-2 flex items-center rounded-md bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 text-sm">
                         31/12/2025
                       </div>
                     </div>
 
-                    <div className="space-y-1">
+                    <div className="space-y-2">
                       <Label className="text-xs">Vencimento</Label>
                       <div className="h-7 px-2 flex items-center rounded-md bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 text-sm">
                         05/11/2025
                       </div>
                     </div>
 
-                    <div className="space-y-1">
+                    <div className="space-y-2">
                       <Label className="text-xs">Vencimento Alterado</Label>
                       <div className="h-7 px-2 flex items-center rounded-md bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 text-sm">
                         Indefinido
                       </div>
                     </div>
 
-                    <div className="space-y-1">
+                    <div className="space-y-2">
                       <Label className="text-xs">Nº da Parcela</Label>
                       <div className="h-7 px-2 flex items-center rounded-md bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 text-sm">
                         2
                       </div>
                     </div>
 
-                    <div className="space-y-1">
+                    <div className="space-y-2">
                       <Label className="text-xs">Qtd. Total de Parcelas</Label>
                       <div className="h-7 px-2 flex items-center rounded-md bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 text-sm">
                         12
                       </div>
                     </div>
 
-                    <div className="space-y-1">
+                    <div className="space-y-2">
                       <Label className="text-xs">Previsão</Label>
                       <div className="h-7 px-2 flex items-center rounded-md bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 text-sm">
                         Não
                       </div>
                     </div>
 
-                    <div className="space-y-1">
+                    <div className="space-y-2">
                       <Label className="text-xs">Transação</Label>
                       <div className="h-7 px-2 flex items-center rounded-md bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 text-sm">
                         Indefinido
@@ -327,29 +348,29 @@ export default function AccountDetailsModal({
                   </div>
 
                   {/* Totais*/}
-                  <div className="mt-3 grid grid-cols-1 sm:grid-cols-4 gap-3">
-                    <div className="space-y-1">
+                  <div className="space-y-4 sm:space-y-0 sm:grid sm:grid-cols-4 sm:gap-4 mb-4">
+                    <div className="space-y-2">
                       <Label className="text-xs">Valor</Label>
                       <div className="h-7 px-2 flex items-center rounded-md bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 text-sm font-medium">
                         R$ 100,00
                       </div>
                     </div>
 
-                    <div className="space-y-1">
+                    <div className="space-y-2">
                       <Label className="text-xs">Desconto (-)</Label>
                       <div className="h-7 px-2 flex items-center rounded-md bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 text-sm">
                         R$ 0,00
                       </div>
                     </div>
 
-                    <div className="space-y-1">
+                    <div className="space-y-2">
                       <Label className="text-xs">Juros (+)</Label>
                       <div className="h-7 px-2 flex items-center rounded-md bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 text-sm">
                         R$ 0,00
                       </div>
                     </div>
 
-                    <div className="space-y-1">
+                    <div className="space-y-2">
                       <Label className="text-xs">Total</Label>
                       <div className="h-7 px-2 flex items-center rounded-md bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 text-sm font-medium">
                         R$ 100,00
@@ -357,15 +378,15 @@ export default function AccountDetailsModal({
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div className="space-y-1">
+                  <div className="space-y-4 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-4">
+                    <div className="space-y-2">
                       <Label className="text-xs">Valor Pago</Label>
                       <div className="h-7 px-2 flex items-center rounded-md bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 text-sm">
                         R$ 0,00
                       </div>
                     </div>
 
-                    <div className="space-y-1">
+                    <div className="space-y-2">
                       <Label className="text-xs">Saldo</Label>
                       <div className="h-7 px-2 flex items-center rounded-md bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 text-sm font-medium">
                         -R$ 100,00
@@ -377,17 +398,17 @@ export default function AccountDetailsModal({
             </TabsContent>
 
             {/* Pagamento */}
-            <TabsContent value="pagamento" className="space-y-3 animate-in fade-in-50 duration-200">
+            <TabsContent value="pagamento" className="animate-in fade-in-50 duration-200">
               <Card className="border-transparent shadow-none">
                 <CardContent className="p-0">
                   <div className="space-y-3">
-                    <div className="flex items-center justify-between">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                       <div className="text-xs text-gray-600 dark:text-gray-400">
                         29/02/2012 - 17/07/2039
                       </div>
                       <Input 
                         placeholder="Buscar" 
-                        className="h-7 w-48 text-xs"
+                        className="h-7 text-xs"
                       />
                     </div>
 
@@ -425,7 +446,7 @@ export default function AccountDetailsModal({
             </TabsContent>
 
             {/* Arquivos */}
-            <TabsContent value="arquivos" className="space-y-3 animate-in fade-in-50 duration-200">
+            <TabsContent value="arquivos" className="animate-in fade-in-50 duration-200">
               <Card className="border-transparent shadow-none">
                 <CardContent className="p-0">
                   <div className="space-y-3">
