@@ -101,7 +101,7 @@ export default function Home() {
           </div>
 
           <div className="bg-card rounded-lg border shadow-sm">
-            {/* Toolbar - Layout responsivo */}
+            {/* Toolbar  */}
             <div className="p-3 border-b">
               {/* Layout mobile - Empilhado */}
               <div className="flex flex-col gap-3 sm:hidden">
@@ -175,7 +175,7 @@ export default function Home() {
                 <Button 
                   className="gap-1.5 h-9 text-sm w-full" 
                   onClick={() => {
-                    setSelectedAccount(null); // Modo criação
+                    setSelectedAccount(null); 
                     setDetailsModalOpen(true);
                   }}
                 >
@@ -183,7 +183,7 @@ export default function Home() {
                 </Button>
               </div>
 
-              {/* Layout desktop - Original */}
+              {/* Layout desktop */}
               <div className="hidden sm:flex items-center justify-between gap-3">
                 {/* Esquerda */}
                 <div className="flex items-center gap-2 flex-1">

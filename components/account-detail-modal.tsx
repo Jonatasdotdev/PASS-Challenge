@@ -78,18 +78,18 @@ export default function AccountDetailsModal({
   };
 
   const handleSave = () => {
-    // Aqui você implementaria a lógica para salvar a conta
+    
     if (isNewAccount) {
       console.log("Cadastrando nova conta...");
-      // Após cadastrar, fechar modal ou mostrar mensagem de sucesso
+      
       onOpenChange(false);
     } else {
       console.log("Atualizando conta existente...");
-      setIsEditing(false); // Volta para modo visualização após salvar
+      setIsEditing(false); 
     }
   };
 
-  // Função auxiliar para renderizar campos baseado no modo
+  // renderizar campos baseado no modo
   const renderField = (value: string, isEditable: boolean = true) => {
     if (isEditing && isEditable) {
       return (
@@ -133,30 +133,30 @@ export default function AccountDetailsModal({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-4xl w-full max-h-[90vh] overflow-y-auto bg-card border border-gray-200 dark:border-neutral-800 rounded-lg p-0 shadow-lg">
-        {/* Header mais compacto */}
-        <DialogHeader className="px-6 py-3 border-b border-gray-100 dark:border-neutral-800">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <CreditCard className="h-4 w-4 text-gray-600 dark:text-gray-300" />
-              <DialogTitle className="text-base font-semibold">
-                {isNewAccount ? "Nova Conta a Pagar" : `Conta a Pagar - ${accountId}`}
-              </DialogTitle>
-            </div>
-            {!isNewAccount && !isEditing && (
-              <Button 
-                variant="outline" 
-                size="sm" 
-                className="h-7 text-xs gap-1"
-                onClick={() => setIsEditing(true)}
-              >
-                <Edit className="h-3 w-3" />
-                Editar
-              </Button>
-            )}
-          </div>
-        </DialogHeader>
+        {/* Header*/}
+            <DialogHeader className="px-6 py-3 border-b border-gray-100 dark:border-neutral-800">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <CreditCard className="h-4 w-4 text-gray-600 dark:text-gray-300" />
+                  <DialogTitle className="text-base font-semibold">
+                    {isNewAccount ? "Nova Conta a Pagar" : `Conta a Pagar - ${accountId}`}
+                  </DialogTitle>
+                  {!isNewAccount && !isEditing && (
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="h-7 text-xs gap-1"
+                      onClick={() => setIsEditing(true)}
+                    >
+                      <Edit className="h-3 w-3" />
+                      Editar
+                    </Button>
+                  )}
+                </div>
+              </div>
+            </DialogHeader>
 
-        {/* Tabs responsivos */}
+        {/* Tabs*/}
         <div className="px-6 pt-4">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             {/* Tabs reorganizadas */}
@@ -183,7 +183,7 @@ export default function AccountDetailsModal({
               </TabsTrigger>
             </TabsList>
 
-            {/* Dados Gerais - Agora com campos editáveis no modo criação/edição */}
+            {/* Dados Gerais*/}
             <TabsContent value="dados-gerais" className="animate-in fade-in-50 duration-200">
               <Card className="border-transparent shadow-none">
                 <CardContent className="p-0">
@@ -305,7 +305,7 @@ export default function AccountDetailsModal({
               </Card>
             </TabsContent>
 
-            {/* Contábil - Também editável no modo edição */}
+            {/* Contábil  */}
             <TabsContent value="contabil" className="animate-in fade-in-50 duration-200">
               <Card className="border-transparent shadow-none">
                 <CardContent className="p-0">
@@ -329,7 +329,7 @@ export default function AccountDetailsModal({
               </Card>
             </TabsContent>
 
-            {/* Dados Financeiros - Editável no modo edição */}
+            {/* Dados Financeiros */}
             <TabsContent value="dados-financeiros" className="animate-in fade-in-50 duration-200">
               <Card className="border-transparent shadow-none">
                 <CardContent className="p-0">
