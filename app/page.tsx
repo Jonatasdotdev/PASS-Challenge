@@ -171,12 +171,15 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* Linha 3: Botão Adicionar */}
+                {/* Linha 3: Botão Adicionar CONTA */}
                 <Button 
                   className="gap-1.5 h-9 text-sm w-full" 
-                  onClick={() => setPaymentModalOpen(true)}
+                  onClick={() => {
+                    setSelectedAccount(null); // Modo criação
+                    setDetailsModalOpen(true);
+                  }}
                 >
-                  <Plus className="h-4 w-4" /> Adicionar
+                  <Plus className="h-4 w-4" /> Adicionar Conta
                 </Button>
               </div>
 
@@ -221,8 +224,14 @@ export default function Home() {
                     <Download className="h-3.5 w-3.5" />
                   </Button>
 
-                  <Button className="gap-1.5 h-8 text-sm px-3" onClick={() => setPaymentModalOpen(true)}>
-                    <Plus className="h-3.5 w-3.5" /> Adicionar
+                  <Button 
+                    className="gap-1.5 h-8 text-sm px-3" 
+                    onClick={() => {
+                      setSelectedAccount(null); // Modo criação
+                      setDetailsModalOpen(true);
+                    }}
+                  >
+                    <Plus className="h-3.5 w-3.5" /> Adicionar Conta
                   </Button>
                 </div>
               </div>
@@ -249,6 +258,7 @@ export default function Home() {
         open={detailsModalOpen}
         onOpenChange={setDetailsModalOpen}
         accountId={selectedAccount}
+        onOpenPaymentModal={() => setPaymentModalOpen(true)}
       />
     </SidebarProvider>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -26,25 +26,39 @@ import {
   FileText,
   X,
   Plus,
-  Users,
   DollarSign,
   Upload,
+  Edit,
 } from "lucide-react";
 
 interface AccountDetailsModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   accountId?: string | null;
+  onOpenPaymentModal?: () => void;
 }
 
 export default function AccountDetailsModal({
   open,
   onOpenChange,
   accountId,
+  onOpenPaymentModal,
 }: AccountDetailsModalProps) {
   const [activeTab, setActiveTab] = useState("dados-gerais");
   const [keywords, setKeywords] = useState(["fornecedor", "cortinas", "prioridade"]);
   const [newKeyword, setNewKeyword] = useState("");
+  const [isEditing, setIsEditing] = useState(!accountId); // Modo edição se for nova conta
+
+  // Determina se é uma nova conta ou visualização/edição de conta existente
+  const isNewAccount = !accountId;
+
+  // Resetar estado quando modal abrir
+  useEffect(() => {
+    if (open) {
+      setIsEditing(isNewAccount);
+      setActiveTab("dados-gerais"); // Sempre volta para dados gerais ao abrir
+    }
+  }, [open, isNewAccount]);
 
   const addKeyword = () => {
     if (newKeyword.trim() && !keywords.includes(newKeyword.trim())) {
@@ -64,17 +78,86 @@ export default function AccountDetailsModal({
     }
   };
 
+  const handleSave = () => {
+    // Aqui você implementaria a lógica para salvar a conta
+    if (isNewAccount) {
+      console.log("Cadastrando nova conta...");
+      // Após cadastrar, fechar modal ou mostrar mensagem de sucesso
+      onOpenChange(false);
+    } else {
+      console.log("Atualizando conta existente...");
+      setIsEditing(false); // Volta para modo visualização após salvar
+    }
+  };
+
+  // Função auxiliar para renderizar campos baseado no modo
+  const renderField = (value: string, isEditable: boolean = true) => {
+    if (isEditing && isEditable) {
+      return (
+        <Input 
+          defaultValue={value} 
+          className="h-7 text-xs"
+        />
+      );
+    }
+    return (
+      <div className="h-7 px-2 flex items-center rounded-md bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 text-sm">
+        {value}
+      </div>
+    );
+  };
+
+  const renderSelect = (value: string, options: {value: string, label: string}[], isEditable: boolean = true) => {
+    if (isEditing && isEditable) {
+      return (
+        <Select defaultValue={value}>
+          <SelectTrigger className="h-7 text-xs">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            {options.map(option => (
+              <SelectItem key={option.value} value={option.value}>
+                {option.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      );
+    }
+    return (
+      <div className="h-7 px-2 flex items-center rounded-md bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 text-sm">
+        {options.find(opt => opt.value === value)?.label || value}
+      </div>
+    );
+  };
+
+  // Tabs disponíveis baseado no tipo de conta
+  const availableTabs = isNewAccount 
+    ? ["dados-gerais", "contabil", "dados-financeiros", "notas"]
+    : ["dados-gerais", "contabil", "dados-financeiros", "pagamento", "notas"];
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-4xl w-full max-h-[90vh] overflow-y-auto bg-card border border-gray-200 dark:border-neutral-800 rounded-lg p-0 shadow-lg">
-        {/* Header mais compacto */}
+        {/* Header mais compacto - Botão de editar movido para esquerda */}
         <DialogHeader className="px-6 py-3 border-b border-gray-100 dark:border-neutral-800">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3">
               <CreditCard className="h-4 w-4 text-gray-600 dark:text-gray-300" />
               <DialogTitle className="text-base font-semibold">
-                Conta a Pagar - {accountId || "000070"}
+                {isNewAccount ? "Nova Conta a Pagar" : `Conta a Pagar - ${accountId}`}
               </DialogTitle>
+              {!isNewAccount && !isEditing && (
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="h-7 text-xs gap-1"
+                  onClick={() => setIsEditing(true)}
+                >
+                  <Edit className="h-3 w-3" />
+                  Editar
+                </Button>
+              )}
             </div>
           </div>
         </DialogHeader>
@@ -82,112 +165,107 @@ export default function AccountDetailsModal({
         {/* Tabs responsivos */}
         <div className="px-6 pt-4">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            {/* Tabs scrolláveis para mobile, grid para desktop */}
-            <TabsList className="flex sm:grid sm:grid-cols-6 w-full mb-4 h-12 overflow-x-auto scrollbar-hide gap-1 sm:gap-0">
-              <TabsTrigger 
-                value="dados-gerais" 
-                className="flex items-center gap-2 text-xs py-2 px-3 min-w-[140px] sm:min-w-0 flex-shrink-0 sm:flex-shrink"
-              >
-                <AlertCircle className="h-3 w-3 flex-shrink-0" />
-                <span className="truncate">Dados Gerais</span>
-              </TabsTrigger>
-              <TabsTrigger 
-                value="participantes" 
-                className="flex items-center gap-2 text-xs py-2 px-3 min-w-[140px] sm:min-w-0 flex-shrink-0 sm:flex-shrink"
-              >
-                <Users className="h-3 w-3 flex-shrink-0" />
-                <span className="truncate">Participantes</span>
-              </TabsTrigger>
-              <TabsTrigger 
-                value="contabil" 
-                className="flex items-center gap-2 text-xs py-2 px-3 min-w-[140px] sm:min-w-0 flex-shrink-0 sm:flex-shrink"
-              >
-                <CreditCard className="h-3 w-3 flex-shrink-0" />
-                <span className="truncate">Contábil</span>
-              </TabsTrigger>
-              <TabsTrigger 
-                value="dados-financeiros" 
-                className="flex items-center gap-2 text-xs py-2 px-3 min-w-[140px] sm:min-w-0 flex-shrink-0 sm:flex-shrink"
-              >
-                <DollarSign className="h-3 w-3 flex-shrink-0" />
-                <span className="truncate">Financeiros</span>
-              </TabsTrigger>
-              <TabsTrigger 
-                value="pagamento" 
-                className="flex items-center gap-2 text-xs py-2 px-3 min-w-[140px] sm:min-w-0 flex-shrink-0 sm:flex-shrink"
-              >
-                <FileText className="h-3 w-3 flex-shrink-0" />
-                <span className="truncate">Pagamento</span>
-              </TabsTrigger>
-              <TabsTrigger 
-                value="arquivos" 
-                className="flex items-center gap-2 text-xs py-2 px-3 min-w-[140px] sm:min-w-0 flex-shrink-0 sm:flex-shrink"
-              >
-                <Upload className="h-3 w-3 flex-shrink-0" />
-                <span className="truncate">Arquivos</span>
-              </TabsTrigger>
+            {/* Tabs dinâmicas - Pagamento só aparece para contas existentes */}
+            <TabsList className="flex w-full mb-4 h-12 overflow-x-auto scrollbar-hide gap-1">
+              {availableTabs.includes("dados-gerais") && (
+                <TabsTrigger value="dados-gerais" className="flex items-center gap-2 text-xs py-2 px-3 flex-1 min-w-0">
+                  <AlertCircle className="h-3 w-3 flex-shrink-0" />
+                  <span className="truncate">Dados Gerais</span>
+                </TabsTrigger>
+              )}
+              {availableTabs.includes("contabil") && (
+                <TabsTrigger value="contabil" className="flex items-center gap-2 text-xs py-2 px-3 flex-1 min-w-0">
+                  <CreditCard className="h-3 w-3 flex-shrink-0" />
+                  <span className="truncate">Contábil</span>
+                </TabsTrigger>
+              )}
+              {availableTabs.includes("dados-financeiros") && (
+                <TabsTrigger value="dados-financeiros" className="flex items-center gap-2 text-xs py-2 px-3 flex-1 min-w-0">
+                  <DollarSign className="h-3 w-3 flex-shrink-0" />
+                  <span className="truncate">Financeiros</span>
+                </TabsTrigger>
+              )}
+              {availableTabs.includes("pagamento") && (
+                <TabsTrigger value="pagamento" className="flex items-center gap-2 text-xs py-2 px-3 flex-1 min-w-0">
+                  <FileText className="h-3 w-3 flex-shrink-0" />
+                  <span className="truncate">Pagamento</span>
+                </TabsTrigger>
+              )}
+              {availableTabs.includes("notas") && (
+                <TabsTrigger value="notas" className="flex items-center gap-2 text-xs py-2 px-3 flex-1 min-w-0">
+                  <Upload className="h-3 w-3 flex-shrink-0" />
+                  <span className="truncate">Notas</span>
+                </TabsTrigger>
+              )}
             </TabsList>
 
-            {/* Conteúdo dos tabs - Container único para mobile */}
+            {/* Dados Gerais */}
             <TabsContent value="dados-gerais" className="animate-in fade-in-50 duration-200">
               <Card className="border-transparent shadow-none">
                 <CardContent className="p-0">
-                  {/* Container único para mobile, grid para desktop */}
-                  <div className="space-y-4 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-4">
+                  {/* Grid 4 colunas para os campos principais */}
+                  <div className="space-y-4 sm:space-y-0 sm:grid sm:grid-cols-4 sm:gap-4 mb-4">
+                    {/* Linha 1 */}
                     <div className="space-y-2">
                       <Label className="text-xs">Conta</Label>
-                      <div className="h-7 px-2 flex items-center rounded-md bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 text-sm">
-                        000070
-                      </div>
+                      {renderField(accountId || "000070", false)} {/* Não editável */}
                     </div>
 
                     <div className="space-y-2">
                       <Label className="text-xs">Lançamento</Label>
-                      <div className="h-7 px-2 flex items-center rounded-md bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 text-sm">
-                        05/11/2025 11:23:16
-                      </div>
+                      {renderField("05/11/2025 11:23:16")}
                     </div>
 
                     <div className="space-y-2">
                       <Label className="text-xs">Quitação</Label>
-                      <div className="h-7 px-2 flex items-center rounded-md bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 text-sm">
-                        Indefinido
-                      </div>
+                      {renderSelect("Indefinido", [
+                        { value: "Indefinido", label: "Indefinido" },
+                        { value: "Quitado", label: "Quitado" },
+                        { value: "Parcial", label: "Parcial" }
+                      ])}
                     </div>
 
                     <div className="space-y-2">
                       <Label className="text-xs">Status (#180516)</Label>
-                      <div className="h-7 px-2 flex items-center rounded-md bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 text-sm">
-                        Pendente
-                      </div>
+                      {renderSelect("Pendente", [
+                        { value: "Pendente", label: "Pendente" },
+                        { value: "Pago", label: "Pago" },
+                        { value: "Vencido", label: "Vencido" },
+                        { value: "Cancelado", label: "Cancelado" }
+                      ])}
                     </div>
 
+                    {/* Linha 2 */}
                     <div className="space-y-2">
                       <Label className="text-xs">Documento/Contrato</Label>
-                      <div className="h-7 px-2 flex items-center rounded-md bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 text-sm">
-                        Indefinido
-                      </div>
+                      {renderField("Indefinido")}
                     </div>
 
                     <div className="space-y-2">
                       <Label className="text-xs">Fatura</Label>
-                      <div className="h-7 px-2 flex items-center rounded-md bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 text-sm">
-                        Indefinido
-                      </div>
+                      {renderField("Indefinido")}
                     </div>
 
                     <div className="space-y-2">
                       <Label className="text-xs">Conta/Grupo</Label>
-                      <div className="h-7 px-2 flex items-center rounded-md bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 text-sm">
-                        9
-                      </div>
+                      {renderField("9")}
                     </div>
 
                     <div className="space-y-2">
                       <Label className="text-xs">Referência</Label>
-                      <div className="h-7 px-2 flex items-center rounded-md bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 text-sm">
-                        -
-                      </div>
+                      {renderField("-")}
+                    </div>
+                  </div>
+
+                  {/* Credor e Devedor */}
+                  <div className="space-y-4 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-4 mb-4">
+                    <div className="space-y-2">
+                      <Label className="text-xs">Credor (#180515)</Label>
+                      {renderField("Injetec")}
+                    </div>
+                    <div className="space-y-2">
+                      <Label className="text-xs">Devedor (#1204)</Label>
+                      {renderField("Amorim Cortinas")}
                     </div>
                   </div>
 
@@ -204,58 +282,40 @@ export default function AccountDetailsModal({
                                      text-xs border border-blue-200 dark:border-blue-700"
                         >
                           <span>{keyword}</span>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="h-3 w-3 ml-0.5 p-0 hover:bg-blue-200 dark:hover:bg-blue-800"
-                            onClick={() => removeKeyword(keyword)}
-                          >
-                            <X className="h-2 w-2" />
-                          </Button>
+                          {isEditing && (
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="h-3 w-3 ml-0.5 p-0 hover:bg-blue-200 dark:hover:bg-blue-800"
+                              onClick={() => removeKeyword(keyword)}
+                            >
+                              <X className="h-2 w-2" />
+                            </Button>
+                          )}
                         </div>
                       ))}
                     </div>
 
-                    <div className="flex gap-2">
-                      <Input
-                        value={newKeyword}
-                        onChange={(e) => setNewKeyword(e.target.value)}
-                        onKeyDown={handleKeyDown}
-                        placeholder="Digite uma palavra-chave"
-                        className="flex-1 h-7 text-xs"
-                      />
-                      <Button 
-                        onClick={addKeyword} 
-                        size="sm" 
-                        className="h-7 gap-1 text-xs"
-                        disabled={!newKeyword.trim()}
-                      >
-                        <Plus className="h-3 w-3" />
-                        Adicionar
-                      </Button>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            {/* Participantes */}
-            <TabsContent value="participantes" className="animate-in fade-in-50 duration-200">
-              <Card className="border-transparent shadow-none">
-                <CardContent className="p-0">
-                  <div className="space-y-4 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-4">
-                    <div className="space-y-2">
-                      <Label className="text-xs">Credor (#180515)</Label>
-                      <div className="h-7 px-2 flex items-center rounded-md bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 text-sm">
-                        Injetec
+                    {isEditing && (
+                      <div className="flex gap-2">
+                        <Input
+                          value={newKeyword}
+                          onChange={(e) => setNewKeyword(e.target.value)}
+                          onKeyDown={handleKeyDown}
+                          placeholder="Digite uma palavra-chave"
+                          className="flex-1 h-7 text-xs"
+                        />
+                        <Button 
+                          onClick={addKeyword} 
+                          size="sm" 
+                          className="h-7 gap-1 text-xs"
+                          disabled={!newKeyword.trim()}
+                        >
+                          <Plus className="h-3 w-3" />
+                          Adicionar
+                        </Button>
                       </div>
-                    </div>
-                    <div className="space-y-2">
-                      <Label className="text-xs">Devedor (#1204)</Label>
-                      <div className="h-7 px-2 flex items-center rounded-md bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 text-sm">
-                        Amorim Cortinas
-                      </div>
-                    </div>
+                    )}
                   </div>
                 </CardContent>
               </Card>
@@ -268,23 +328,17 @@ export default function AccountDetailsModal({
                   <div className="space-y-4 sm:space-y-0 sm:grid sm:grid-cols-3 sm:gap-4">
                     <div className="space-y-2">
                       <Label className="text-xs">Classificação Contábil (#180525)</Label>
-                      <div className="h-7 px-2 flex items-center rounded-md bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 text-sm">
-                        111.01.001 - Caixa Fundo Fixo
-                      </div>
+                      {renderField("111.01.001 - Caixa Fundo Fixo")}
                     </div>
 
                     <div className="space-y-2">
                       <Label className="text-xs">Classificação Gerencial (#180518)</Label>
-                      <div className="h-7 px-2 flex items-center rounded-md bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 text-sm">
-                        Administrativo
-                      </div>
+                      {renderField("Administrativo")}
                     </div>
 
                     <div className="space-y-2">
                       <Label className="text-xs">Centro de Custo (#1341)</Label>
-                      <div className="h-7 px-2 flex items-center rounded-md bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 text-sm">
-                        Administrativo
-                      </div>
+                      {renderField("Administrativo")}
                     </div>
                   </div>
                 </CardContent>
@@ -299,51 +353,40 @@ export default function AccountDetailsModal({
                   <div className="space-y-4 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-4 mb-4">
                     <div className="space-y-2">
                       <Label className="text-xs">Competência</Label>
-                      <div className="h-7 px-2 flex items-center rounded-md bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 text-sm">
-                        31/12/2025
-                      </div>
+                      {renderField("31/12/2025")}
                     </div>
 
                     <div className="space-y-2">
                       <Label className="text-xs">Vencimento</Label>
-                      <div className="h-7 px-2 flex items-center rounded-md bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 text-sm">
-                        05/11/2025
-                      </div>
+                      {renderField("05/11/2025")}
                     </div>
 
                     <div className="space-y-2">
                       <Label className="text-xs">Vencimento Alterado</Label>
-                      <div className="h-7 px-2 flex items-center rounded-md bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 text-sm">
-                        Indefinido
-                      </div>
+                      {renderField("Indefinido")}
                     </div>
 
                     <div className="space-y-2">
                       <Label className="text-xs">Nº da Parcela</Label>
-                      <div className="h-7 px-2 flex items-center rounded-md bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 text-sm">
-                        2
-                      </div>
+                      {renderField("2")}
                     </div>
 
                     <div className="space-y-2">
                       <Label className="text-xs">Qtd. Total de Parcelas</Label>
-                      <div className="h-7 px-2 flex items-center rounded-md bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 text-sm">
-                        12
-                      </div>
+                      {renderField("12")}
                     </div>
 
                     <div className="space-y-2">
                       <Label className="text-xs">Previsão</Label>
-                      <div className="h-7 px-2 flex items-center rounded-md bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 text-sm">
-                        Não
-                      </div>
+                      {renderSelect("Não", [
+                        { value: "Sim", label: "Sim" },
+                        { value: "Não", label: "Não" }
+                      ])}
                     </div>
 
                     <div className="space-y-2">
                       <Label className="text-xs">Transação</Label>
-                      <div className="h-7 px-2 flex items-center rounded-md bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 text-sm">
-                        Indefinido
-                      </div>
+                      {renderField("Indefinido")}
                     </div>
                   </div>
 
@@ -351,39 +394,29 @@ export default function AccountDetailsModal({
                   <div className="space-y-4 sm:space-y-0 sm:grid sm:grid-cols-4 sm:gap-4 mb-4">
                     <div className="space-y-2">
                       <Label className="text-xs">Valor</Label>
-                      <div className="h-7 px-2 flex items-center rounded-md bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 text-sm font-medium">
-                        R$ 100,00
-                      </div>
+                      {renderField("R$ 100,00")}
                     </div>
 
                     <div className="space-y-2">
                       <Label className="text-xs">Desconto (-)</Label>
-                      <div className="h-7 px-2 flex items-center rounded-md bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 text-sm">
-                        R$ 0,00
-                      </div>
+                      {renderField("R$ 0,00")}
                     </div>
 
                     <div className="space-y-2">
                       <Label className="text-xs">Juros (+)</Label>
-                      <div className="h-7 px-2 flex items-center rounded-md bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 text-sm">
-                        R$ 0,00
-                      </div>
+                      {renderField("R$ 0,00")}
                     </div>
 
                     <div className="space-y-2">
                       <Label className="text-xs">Total</Label>
-                      <div className="h-7 px-2 flex items-center rounded-md bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 text-sm font-medium">
-                        R$ 100,00
-                      </div>
+                      {renderField("R$ 100,00")}
                     </div>
                   </div>
 
                   <div className="space-y-4 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-4">
                     <div className="space-y-2">
                       <Label className="text-xs">Valor Pago</Label>
-                      <div className="h-7 px-2 flex items-center rounded-md bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 text-sm">
-                        R$ 0,00
-                      </div>
+                      {renderField("R$ 0,00")}
                     </div>
 
                     <div className="space-y-2">
@@ -397,56 +430,68 @@ export default function AccountDetailsModal({
               </Card>
             </TabsContent>
 
-            {/* Pagamento */}
-            <TabsContent value="pagamento" className="animate-in fade-in-50 duration-200">
-              <Card className="border-transparent shadow-none">
-                <CardContent className="p-0">
-                  <div className="space-y-3">
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-                      <div className="text-xs text-gray-600 dark:text-gray-400">
-                        29/02/2012 - 17/07/2039
+            {/* Pagamento - Só aparece para contas existentes */}
+            {!isNewAccount && (
+              <TabsContent value="pagamento" className="animate-in fade-in-50 duration-200">
+                <Card className="border-transparent shadow-none">
+                  <CardContent className="p-0">
+                    <div className="space-y-3">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                        <div className="text-xs text-gray-600 dark:text-gray-400">
+                          29/02/2012 - 17/07/2039
+                        </div>
+                        <div className="flex gap-2">
+                          <Input 
+                            placeholder="Buscar" 
+                            className="h-7 text-xs"
+                          />
+                          <Button 
+                            size="sm" 
+                            onClick={onOpenPaymentModal}
+                            className="h-7 text-xs gap-1"
+                          >
+                            <Plus className="h-3 w-3" />
+                            Adicionar Pagamento
+                          </Button>
+                        </div>
                       </div>
-                      <Input 
-                        placeholder="Buscar" 
-                        className="h-7 text-xs"
-                      />
-                    </div>
 
-                    <div className="border rounded-md text-xs">
-                      <table className="w-full text-xs">
-                        <thead>
-                          <tr className="border-b bg-gray-50 dark:bg-neutral-800">
-                            <th className="text-left py-1.5 px-2 font-medium">ID</th>
-                            <th className="text-left py-1.5 px-2 font-medium">Cheque N°</th>
-                            <th className="text-left py-1.5 px-2 font-medium">Caixa</th>
-                            <th className="text-left py-1.5 px-2 font-medium">Classificação</th>
-                            <th className="text-left py-1.5 px-2 font-medium">Tipo</th>
-                            <th className="text-right py-1.5 px-2 font-medium">Total</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td colSpan={6} className="py-4 text-center text-gray-500 dark:text-gray-400">
-                              <div className="flex flex-col items-center gap-1">
-                                <AlertCircle className="h-4 w-4" />
-                                <div className="text-xs">Nenhum registro</div>
-                              </div>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
+                      <div className="border rounded-md text-xs">
+                        <table className="w-full text-xs">
+                          <thead>
+                            <tr className="border-b bg-gray-50 dark:bg-neutral-800">
+                              <th className="text-left py-1.5 px-2 font-medium">ID</th>
+                              <th className="text-left py-1.5 px-2 font-medium">Cheque N°</th>
+                              <th className="text-left py-1.5 px-2 font-medium">Caixa</th>
+                              <th className="text-left py-1.5 px-2 font-medium">Classificação</th>
+                              <th className="text-left py-1.5 px-2 font-medium">Tipo</th>
+                              <th className="text-right py-1.5 px-2 font-medium">Total</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td colSpan={6} className="py-4 text-center text-gray-500 dark:text-gray-400">
+                                <div className="flex flex-col items-center gap-1">
+                                  <AlertCircle className="h-4 w-4" />
+                                  <div className="text-xs">Nenhum registro</div>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
 
-                    <div className="text-right text-xs">
-                      Total <span className="font-medium">R$ 0,00</span>
+                      <div className="text-right text-xs">
+                        Total <span className="font-medium">R$ 0,00</span>
+                      </div>
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
+                  </CardContent>
+                </Card>
+              </TabsContent>
+            )}
 
-            {/* Arquivos */}
-            <TabsContent value="arquivos" className="animate-in fade-in-50 duration-200">
+            {/* Notas */}
+            <TabsContent value="notas" className="animate-in fade-in-50 duration-200">
               <Card className="border-transparent shadow-none">
                 <CardContent className="p-0">
                   <div className="space-y-3">
@@ -460,11 +505,12 @@ export default function AccountDetailsModal({
                     <div className="space-y-1">
                       <Label className="text-xs">Notas</Label>
                       <textarea
-                        className="w-full min-h-[80px] p-2 border rounded-md resize-none text-xs
+                        className="w-full min-h-[120px] p-3 border rounded-md resize-none text-sm
                                    border-gray-200 dark:border-neutral-700
                                    bg-white dark:bg-neutral-900 text-gray-900 dark:text-gray-100
                                    placeholder:text-gray-400 dark:placeholder:text-gray-500"
                         placeholder="Adicione suas notas aqui..."
+                        readOnly={!isEditing}
                       />
                     </div>
                   </div>
@@ -478,10 +524,20 @@ export default function AccountDetailsModal({
         <div className="flex items-center justify-end gap-2 px-6 py-3 border-t border-gray-100 dark:border-neutral-800">
           <DialogClose asChild>
             <Button variant="ghost" className="h-7 text-xs">
-              Fechar
+              {isEditing ? "Cancelar" : "Fechar"}
             </Button>
           </DialogClose>
-          <Button className="h-7 text-xs">Atualizar</Button>
+          {isEditing && (
+            <Button 
+              className="h-7 text-xs" 
+              onClick={handleSave}
+            >
+              {isNewAccount ? "Cadastrar" : "Salvar"}
+            </Button>
+          )}
+          {!isEditing && !isNewAccount && (
+            <Button className="h-7 text-xs">Atualizar</Button>
+          )}
         </div>
       </DialogContent>
     </Dialog>
