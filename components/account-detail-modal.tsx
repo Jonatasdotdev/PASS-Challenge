@@ -56,7 +56,6 @@ export default function AccountDetailsModal({
   useEffect(() => {
     if (open) {
       setIsEditing(isNewAccount);
-      setActiveTab("dados-gerais"); // Sempre volta para dados gerais ao abrir
     }
   }, [open, isNewAccount]);
 
@@ -131,75 +130,60 @@ export default function AccountDetailsModal({
     );
   };
 
-  // Tabs disponíveis baseado no tipo de conta
-  const availableTabs = isNewAccount 
-    ? ["dados-gerais", "contabil", "dados-financeiros", "notas"]
-    : ["dados-gerais", "contabil", "dados-financeiros", "pagamento", "notas"];
-
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-4xl w-full max-h-[90vh] overflow-y-auto bg-card border border-gray-200 dark:border-neutral-800 rounded-lg p-0 shadow-lg">
-        {/* Header mais compacto - Botão de editar movido para esquerda */}
+        {/* Header mais compacto */}
         <DialogHeader className="px-6 py-3 border-b border-gray-100 dark:border-neutral-800">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
               <CreditCard className="h-4 w-4 text-gray-600 dark:text-gray-300" />
               <DialogTitle className="text-base font-semibold">
                 {isNewAccount ? "Nova Conta a Pagar" : `Conta a Pagar - ${accountId}`}
               </DialogTitle>
-              {!isNewAccount && !isEditing && (
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  className="h-7 text-xs gap-1"
-                  onClick={() => setIsEditing(true)}
-                >
-                  <Edit className="h-3 w-3" />
-                  Editar
-                </Button>
-              )}
             </div>
+            {!isNewAccount && !isEditing && (
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="h-7 text-xs gap-1"
+                onClick={() => setIsEditing(true)}
+              >
+                <Edit className="h-3 w-3" />
+                Editar
+              </Button>
+            )}
           </div>
         </DialogHeader>
 
         {/* Tabs responsivos */}
         <div className="px-6 pt-4">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            {/* Tabs dinâmicas - Pagamento só aparece para contas existentes */}
-            <TabsList className="flex w-full mb-4 h-12 overflow-x-auto scrollbar-hide gap-1">
-              {availableTabs.includes("dados-gerais") && (
-                <TabsTrigger value="dados-gerais" className="flex items-center gap-2 text-xs py-2 px-3 flex-1 min-w-0">
-                  <AlertCircle className="h-3 w-3 flex-shrink-0" />
-                  <span className="truncate">Dados Gerais</span>
-                </TabsTrigger>
-              )}
-              {availableTabs.includes("contabil") && (
-                <TabsTrigger value="contabil" className="flex items-center gap-2 text-xs py-2 px-3 flex-1 min-w-0">
-                  <CreditCard className="h-3 w-3 flex-shrink-0" />
-                  <span className="truncate">Contábil</span>
-                </TabsTrigger>
-              )}
-              {availableTabs.includes("dados-financeiros") && (
-                <TabsTrigger value="dados-financeiros" className="flex items-center gap-2 text-xs py-2 px-3 flex-1 min-w-0">
-                  <DollarSign className="h-3 w-3 flex-shrink-0" />
-                  <span className="truncate">Financeiros</span>
-                </TabsTrigger>
-              )}
-              {availableTabs.includes("pagamento") && (
-                <TabsTrigger value="pagamento" className="flex items-center gap-2 text-xs py-2 px-3 flex-1 min-w-0">
-                  <FileText className="h-3 w-3 flex-shrink-0" />
-                  <span className="truncate">Pagamento</span>
-                </TabsTrigger>
-              )}
-              {availableTabs.includes("notas") && (
-                <TabsTrigger value="notas" className="flex items-center gap-2 text-xs py-2 px-3 flex-1 min-w-0">
-                  <Upload className="h-3 w-3 flex-shrink-0" />
-                  <span className="truncate">Notas</span>
-                </TabsTrigger>
-              )}
+            {/* Tabs reorganizadas */}
+            <TabsList className="flex sm:grid sm:grid-cols-5 w-full mb-4 h-12 overflow-x-auto scrollbar-hide gap-1 sm:gap-0">
+              <TabsTrigger value="dados-gerais" className="flex items-center gap-2 text-xs py-2 px-3">
+                <AlertCircle className="h-3 w-3" />
+                <span>Dados Gerais</span>
+              </TabsTrigger>
+              <TabsTrigger value="contabil" className="flex items-center gap-2 text-xs py-2 px-3">
+                <CreditCard className="h-3 w-3" />
+                <span>Contábil</span>
+              </TabsTrigger>
+              <TabsTrigger value="dados-financeiros" className="flex items-center gap-2 text-xs py-2 px-3">
+                <DollarSign className="h-3 w-3" />
+                <span>Financeiros</span>
+              </TabsTrigger>
+              <TabsTrigger value="pagamento" className="flex items-center gap-2 text-xs py-2 px-3">
+                <FileText className="h-3 w-3" />
+                <span>Pagamento</span>
+              </TabsTrigger>
+              <TabsTrigger value="notas" className="flex items-center gap-2 text-xs py-2 px-3">
+                <Upload className="h-3 w-3" />
+                <span>Notas</span>
+              </TabsTrigger>
             </TabsList>
 
-            {/* Dados Gerais */}
+            {/* Dados Gerais - Agora com campos editáveis no modo criação/edição */}
             <TabsContent value="dados-gerais" className="animate-in fade-in-50 duration-200">
               <Card className="border-transparent shadow-none">
                 <CardContent className="p-0">
@@ -321,7 +305,7 @@ export default function AccountDetailsModal({
               </Card>
             </TabsContent>
 
-            {/* Contábil */}
+            {/* Contábil - Também editável no modo edição */}
             <TabsContent value="contabil" className="animate-in fade-in-50 duration-200">
               <Card className="border-transparent shadow-none">
                 <CardContent className="p-0">
@@ -345,7 +329,7 @@ export default function AccountDetailsModal({
               </Card>
             </TabsContent>
 
-            {/* Dados Financeiros */}
+            {/* Dados Financeiros - Editável no modo edição */}
             <TabsContent value="dados-financeiros" className="animate-in fade-in-50 duration-200">
               <Card className="border-transparent shadow-none">
                 <CardContent className="p-0">
@@ -430,65 +414,70 @@ export default function AccountDetailsModal({
               </Card>
             </TabsContent>
 
-            {/* Pagamento - Só aparece para contas existentes */}
-            {!isNewAccount && (
-              <TabsContent value="pagamento" className="animate-in fade-in-50 duration-200">
-                <Card className="border-transparent shadow-none">
-                  <CardContent className="p-0">
-                    <div className="space-y-3">
-                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-                        <div className="text-xs text-gray-600 dark:text-gray-400">
-                          29/02/2012 - 17/07/2039
-                        </div>
-                        <div className="flex gap-2">
-                          <Input 
-                            placeholder="Buscar" 
-                            className="h-7 text-xs"
-                          />
-                          <Button 
-                            size="sm" 
-                            onClick={onOpenPaymentModal}
-                            className="h-7 text-xs gap-1"
-                          >
-                            <Plus className="h-3 w-3" />
-                            Adicionar Pagamento
-                          </Button>
-                        </div>
+            {/* Pagamento */}
+            <TabsContent value="pagamento" className="animate-in fade-in-50 duration-200">
+              <Card className="border-transparent shadow-none">
+                <CardContent className="p-0">
+                  <div className="space-y-3">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                      <div className="text-xs text-gray-600 dark:text-gray-400">
+                        29/02/2012 - 17/07/2039
                       </div>
-
-                      <div className="border rounded-md text-xs">
-                        <table className="w-full text-xs">
-                          <thead>
-                            <tr className="border-b bg-gray-50 dark:bg-neutral-800">
-                              <th className="text-left py-1.5 px-2 font-medium">ID</th>
-                              <th className="text-left py-1.5 px-2 font-medium">Cheque N°</th>
-                              <th className="text-left py-1.5 px-2 font-medium">Caixa</th>
-                              <th className="text-left py-1.5 px-2 font-medium">Classificação</th>
-                              <th className="text-left py-1.5 px-2 font-medium">Tipo</th>
-                              <th className="text-right py-1.5 px-2 font-medium">Total</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td colSpan={6} className="py-4 text-center text-gray-500 dark:text-gray-400">
-                                <div className="flex flex-col items-center gap-1">
-                                  <AlertCircle className="h-4 w-4" />
-                                  <div className="text-xs">Nenhum registro</div>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-
-                      <div className="text-right text-xs">
-                        Total <span className="font-medium">R$ 0,00</span>
+                      <div className="flex gap-2">
+                        <Input 
+                          placeholder="Buscar" 
+                          className="h-7 text-xs"
+                        />
+                      
+                        <Button 
+                          size="sm" 
+                          onClick={onOpenPaymentModal}
+                          className="h-7 text-xs gap-1"
+                          disabled={isNewAccount && !isEditing} // Desabilita se for nova conta e não estiver editando
+                        >
+                          <Plus className="h-3 w-3" />
+                          Adicionar Pagamento
+                        </Button>
                       </div>
                     </div>
-                  </CardContent>
-                </Card>
-              </TabsContent>
-            )}
+
+                    <div className="border rounded-md text-xs">
+                      <table className="w-full text-xs">
+                        <thead>
+                          <tr className="border-b bg-gray-50 dark:bg-neutral-800">
+                            <th className="text-left py-1.5 px-2 font-medium">ID</th>
+                            <th className="text-left py-1.5 px-2 font-medium">Cheque N°</th>
+                            <th className="text-left py-1.5 px-2 font-medium">Caixa</th>
+                            <th className="text-left py-1.5 px-2 font-medium">Classificação</th>
+                            <th className="text-left py-1.5 px-2 font-medium">Tipo</th>
+                            <th className="text-right py-1.5 px-2 font-medium">Total</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td colSpan={6} className="py-4 text-center text-gray-500 dark:text-gray-400">
+                              <div className="flex flex-col items-center gap-1">
+                                <AlertCircle className="h-4 w-4" />
+                                <div className="text-xs">
+                                  {isNewAccount && !isEditing 
+                                    ? "Salve a conta primeiro para adicionar pagamentos" 
+                                    : "Nenhum registro"
+                                  }
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <div className="text-right text-xs">
+                      Total <span className="font-medium">R$ 0,00</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
 
             {/* Notas */}
             <TabsContent value="notas" className="animate-in fade-in-50 duration-200">
