@@ -41,7 +41,7 @@ export default function PaymentModal({ open, onOpenChange }: PaymentModalProps) 
   const formatDate = (d?: Date) =>
     d ? d.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit", year: "numeric" }) : "Selecione";
 
-  // Utilitários de classe com suporte a tema claro/escuro (mesmo padrão do AccountDetailsModal)
+  // Utilitários de classe com suporte a tema claro/escuro 
   const textLabel = "text-xs text-gray-600 dark:text-gray-300";
   const inputSmall =
     "h-7 bg-transparent border border-gray-300 dark:border-white/20 text-xs text-gray-900 dark:text-gray-100 rounded-md px-2 focus-visible:ring-0 focus-visible:border-gray-400 dark:focus-visible:border-white/40 placeholder:text-gray-500";
@@ -51,7 +51,7 @@ export default function PaymentModal({ open, onOpenChange }: PaymentModalProps) 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-3xl w-full max-h-[90vh] overflow-y-auto bg-white dark:bg-[#0a0a0a] border border-gray-200 dark:border-[#1f1f1f] rounded-lg p-0 shadow-2xl">
-        {/* Header - mesmo estilo do AccountDetailsModal */}
+        {/* Header  */}
         <DialogHeader className="px-6 py-3 border-b border-gray-200 dark:border-[#1f1f1f]">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -65,7 +65,7 @@ export default function PaymentModal({ open, onOpenChange }: PaymentModalProps) 
 
         {/* Conteúdo */}
         <div className="px-6 py-4 space-y-6">
-          {/* Dados Gerais - mesmo estilo do AccountDetailsModal */}
+          {/* Dados Gerais */}
           <Card className="border-transparent shadow-none bg-transparent">
             <CardContent className="p-0 text-gray-900 dark:text-gray-200">
               <div className="flex items-center gap-2 mb-4">
@@ -161,7 +161,7 @@ export default function PaymentModal({ open, onOpenChange }: PaymentModalProps) 
             </CardContent>
           </Card>
 
-          {/* Notas - mesmo estilo do AccountDetailsModal */}
+          {/* Notas */}
           <Card className="border-transparent shadow-none bg-transparent">
             <CardContent className="p-0 text-gray-900 dark:text-gray-200">
               <div className="flex items-center gap-2 mb-4">
@@ -180,7 +180,7 @@ export default function PaymentModal({ open, onOpenChange }: PaymentModalProps) 
           </Card>
         </div>
 
-        {/* Footer - mesmo estilo do AccountDetailsModal */}
+        {/* Footer */}
         <div className="flex items-center justify-end gap-2 px-6 py-3 border-t border-gray-200 dark:border-[#1f1f1f] bg-white dark:bg-[#0a0a0a]">
           <DialogClose asChild>
             <Button variant="ghost" className="h-8 text-xs">
