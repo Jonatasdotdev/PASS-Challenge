@@ -17,7 +17,7 @@ export const columns: ColumnDef<AccountPayable>[] = [
         }
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
         aria-label="Select all"
-        className="h-3 w-3" // Checkbox menor
+        className="h-3 w-3"
       />
     ),
     cell: ({ row }) => (
@@ -25,19 +25,19 @@ export const columns: ColumnDef<AccountPayable>[] = [
         checked={row.getIsSelected()}
         onCheckedChange={(value) => row.toggleSelected(!!value)}
         aria-label="Select row"
-        className="h-3 w-3" // Checkbox menor
+        className="h-3 w-3" 
       />
     ),
     enableSorting: false,
     enableHiding: false,
-    size: 28, // Tamanho reduzido
+    size: 28, 
   },
   {
     accessorKey: "id",
     header: ({ column }) => (
       <Button variant="ghost" className="px-0 whitespace-nowrap h-6 text-xs" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
         Cod.
-        <ArrowUpDown className="ml-1 h-3 w-3" /> {/* Ícone menor */}
+        <ArrowUpDown className="ml-1 h-3 w-3" /> 
       </Button>
     ),
     cell: ({ row }) => <div className="font-medium text-xs whitespace-nowrap">{row.getValue("id")}</div>,
@@ -70,7 +70,7 @@ export const columns: ColumnDef<AccountPayable>[] = [
       const dot = status === "Pago" ? "bg-green-500" : status === "Vencido" ? "bg-red-500" : "bg-yellow-500";
       return (
         <Badge variant="outline" className={`rounded-full px-2 py-0 text-xs whitespace-nowrap ${map[status] || ""}`}>
-          <span className={`mr-1 inline-block h-1.5 w-1.5 rounded-full ${dot}`} /> {/* Ponto menor */}
+          <span className={`mr-1 inline-block h-1.5 w-1.5 rounded-full ${dot}`} /> 
           {status}
         </Badge>
       );
@@ -111,9 +111,9 @@ export const columns: ColumnDef<AccountPayable>[] = [
     header: "Ações",
     enableHiding: false,
     cell: () => (
-      <div className="flex items-center gap-1 whitespace-nowrap"> {/* Gap reduzido */}
-        <Button variant="ghost" size="icon" className="h-6 w-6"> {/* Botões menores */}
-          <Edit className="h-3 w-3" /> {/* Ícones menores */}
+      <div className="flex items-center gap-1 whitespace-nowrap"> 
+        <Button variant="ghost" size="icon" className="h-6 w-6"> 
+          <Edit className="h-3 w-3" /> 
         </Button>
         <Button variant="ghost" size="icon" className="h-6 w-6">
           <Trash2 className="h-3 w-3" />

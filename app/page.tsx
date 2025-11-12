@@ -6,7 +6,7 @@ import {
   RefreshCw,
   Download,
   Plus,
-  Sparkles,
+  Bot,
   Menu,
 } from "lucide-react";
 
@@ -108,27 +108,20 @@ export default function Home() {
                 {/* Linha 1: AI Button + Search */}
                 <div className="flex items-center gap-2">
                   <Sheet>
-                    <SheetTrigger asChild>
-                      <Button variant="outline" size="icon" className="h-9 w-9">
-                        <Menu className="h-4 w-4" />
-                      </Button>
-                    </SheetTrigger>
-                    <SheetContent side="left" className="w-64">
-                      {/* Conteúdo do menu mobile se necessário */}
-                    </SheetContent>
+                    
                   </Sheet>
 
                   <Button 
-                    variant="outline" 
+                    variant="default" 
                     size="icon" 
-                    className="h-9 w-9 bg-black text-white dark:bg-transparent dark:text-gray-100" 
+                    className="h-9 w-9" 
                     title="Ask AI"
                   >
-                    <Sparkles className="h-4 w-4" />
+                    <Bot className="h-4 w-4" />
                   </Button>
 
                   <div className="relative flex-1">
-                    <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4  text-muted-foreground" />
                     <Input
                       placeholder="Buscar..."
                       value={searchTerm}
@@ -188,12 +181,12 @@ export default function Home() {
                 {/* Esquerda */}
                 <div className="flex items-center gap-2 flex-1">
                   <Button 
-                    variant="outline" 
+                    variant="default" 
                     size="icon" 
-                    className="h-8 w-8 bg-black text-white dark:bg-transparent dark:text-gray-100" 
+                    className="h-9 w-9" 
                     title="Ask AI"
                   >
-                    <Sparkles className="h-3.5 w-3.5" />
+                    <Bot className="h-4 w-4" />
                   </Button>
 
                   {/* Search */}

@@ -1,9 +1,10 @@
 "use client";
 
 import * as React from "react";
-import { Check, Filter } from "lucide-react";
+import { Filter } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Checkbox } from "@/components/ui/checkbox"; 
 import { cn } from "@/lib/utils";
 
 interface StatusOption {
@@ -73,7 +74,7 @@ export function StatusFilter({ value, onChange, options }: StatusFilterProps) {
           />
         </div>
 
-        {/* Lista de opções (botões) */}
+        {/* Lista de opções*/}
         <div className="max-h-56 overflow-auto">
           {visibleOptions.length === 0 ? (
             <div className="px-2 py-2 text-sm text-gray-500 dark:text-gray-400">Nenhum status encontrado.</div>
@@ -81,34 +82,25 @@ export function StatusFilter({ value, onChange, options }: StatusFilterProps) {
             visibleOptions.map((option) => {
               const isSelected = value.includes(option.value);
               return (
-                <button
+                <div
                   key={option.value}
-                  type="button"
-                  // prevenir mousedown para não fechar o popover / perder foco
-                  onMouseDown={(e) => e.preventDefault()}
-                  onClick={() => {
-                    handleSelect(option.value);
-                    // manter o popover aberto (não chamamos setOpen(false))
-                  }}
-                  className="w-full text-left px-2 py-2 hover:bg-gray-50 dark:hover:bg-[#2a2a2a] rounded-md"
+                  className="flex items-center space-x-2 p-2 hover:bg-gray-50 dark:hover:bg-[#2a2a2a] rounded-md"
                 >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <div
-                        className={cn(
-                          "flex h-4 w-4 items-center justify-center rounded-sm border border-gray-300 dark:border-[#4a4a4a] transition-colors",
-                          isSelected ? "bg-blue-600 border-blue-600" : "bg-white dark:bg-[#1a1a1a]"
-                        )}
-                      >
-                        {isSelected && <Check className="h-3 w-3 text-white" />}
-                      </div>
-                      <span className="text-sm text-gray-900 dark:text-white">{option.label}</span>
-                    </div>
-                    {option.count !== undefined && (
-                      <span className="text-gray-500 dark:text-gray-400 text-sm">{option.count}</span>
-                    )}
-                  </div>
-                </button>
+                  <Checkbox
+                    id={`checkbox-${option.value}`}
+                    checked={isSelected}
+                    onCheckedChange={() => handleSelect(option.value)}
+                  />
+                  <label
+                    htmlFor={`checkbox-${option.value}`}
+                    className="flex-1 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-900 dark:text-white cursor-pointer"
+                  >
+                    {option.label}
+                  </label>
+                  {option.count !== undefined && (
+                    <span className="text-gray-500 dark:text-gray-400 text-sm">{option.count}</span>
+                  )}
+                </div>
               );
             })
           )}
