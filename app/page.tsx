@@ -107,9 +107,7 @@ export default function Home() {
               <div className="flex flex-col gap-3 sm:hidden">
                 {/* Linha 1: AI Button + Search */}
                 <div className="flex items-center gap-2">
-                  <Sheet>
-                    
-                  </Sheet>
+                  
 
                   <Button 
                     variant="default" 
@@ -120,15 +118,15 @@ export default function Home() {
                     <Bot className="h-4 w-4" />
                   </Button>
 
-                  <div className="relative flex-1">
-                    <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4  text-muted-foreground" />
-                    <Input
-                      placeholder="Buscar..."
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                      className="pl-8 h-9 text-sm"
-                    />
-                  </div>
+                  <div className="relative w-56">
+                  <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
+                  <Input
+                    placeholder="Buscar..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="pl-8 h-8 text-sm bg-white dark:bg-[#1a1a1a] border-gray-200 dark:border-[#2a2a2a] text-gray-700 dark:text-gray-300 placeholder:text-gray-500 dark:placeholder:text-gray-400"
+                  />
+                </div>
                 </div>
 
                 {/* Linha 2: Filter + Botões de ação */}
@@ -196,7 +194,7 @@ export default function Home() {
                       placeholder="Buscar..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="pl-8 h-8 text-sm"
+                      className="pl-8 h-8 text-sm bg-white dark:bg-[#1a1a1a] border-gray-200 dark:border-[#2a2a2a] text-gray-200 dark:text-gray-300 placeholder:text-gray-500 dark:placeholder:text-gray-200"
                     />
                   </div>
 
