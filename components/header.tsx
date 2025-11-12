@@ -93,82 +93,82 @@ export default function Header() {
         </div>
 
         {/* Right side - Actions */}
-        <div className="flex items-center justify-end gap-2 sm:gap-3 flex-1">
-          {/* Mobile Search Trigger */}
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-8 w-8 sm:hidden flex"
-              >
-                <Search className="h-4 w-4" />
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="top" className="h-32">
-              <div className="flex flex-col gap-4 pt-6">
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                  <Input
-                    type="text"
-                    placeholder="Buscar..."
-                    className="pl-9 h-10 w-full text-base"
-                  />
+          <div className="flex items-center justify-end gap-2 sm:gap-3 flex-1">
+            {/* Mobile Search Trigger */}
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8 sm:hidden flex"
+                >
+                  <Search className="h-4 w-4" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="top" className="h-32">
+                <div className="flex flex-col gap-4 pt-6">
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                    <Input
+                      type="text"
+                      placeholder="Buscar..."
+                      className="pl-9 h-10 w-full text-base"
+                    />
+                  </div>
                 </div>
-              </div>
-            </SheetContent>
-          </Sheet>
+              </SheetContent>
+            </Sheet>
 
-          {/* Language Selector - Hide on mobile */}
-          <div className="hidden sm:block">
-            <Select defaultValue="pt">
-              <SelectTrigger className="w-[120px] h-8">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="pt">Português</SelectItem>
-                <SelectItem value="en">English</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+            {/* Theme Toggle */}
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              title="Alternar tema"
+              className="h-8 w-8"
+            >
+              {theme === "dark" ? (
+                <Sun className="h-4 w-4" />
+              ) : (
+                <Moon className="h-4 w-4" />
+              )}
+            </Button>
 
-          {/* Theme Toggle */}
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            title="Alternar tema"
-            className="h-8 w-8"
-          >
-            {theme === "dark" ? (
-              <Sun className="h-4 w-4" />
-            ) : (
-              <Moon className="h-4 w-4" />
-            )}
-          </Button>
+            {/* Language Selector */}
+            <div className="hidden sm:block">
+              <Select defaultValue="pt">
+                <SelectTrigger className="w-[120px] h-8">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="pt">Português</SelectItem>
+                  <SelectItem value="en">English</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
 
-          {/* Notifications */}
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-8 w-8"
-          >
-            <Bell className="h-4 w-4" />
-          </Button>
+            {/* Notifications */}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8"
+            >
+              <Bell className="h-4 w-4" />
+            </Button>
 
-          {/* Settings - Hide on mobile */}
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-8 w-8 hidden sm:flex"
-          >
-            <Settings className="h-4 w-4" />
-          </Button>
+            {/* Settings - Hide on mobile */}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8 hidden sm:flex"
+            >
+              <Settings className="h-4 w-4" />
+            </Button>
 
-          {/* Pass Apps Menu */}
-          <div className="hidden sm:block">
-            <PassAppsMenu />
-          </div>
+            {/* Pass Apps Menu */}
+            <div className="hidden sm:block">
+              <PassAppsMenu />
+            </div>
 
           {/* Mobile Menu */}
           <Sheet>
