@@ -77,6 +77,15 @@
     --sidebar-border: 240 3.7% 20.9%; 
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
+
+  /* Transição suave para mudanças de tema */
+  .theme-transition,
+  .theme-transition *,
+  .theme-transition *::before,
+  .theme-transition *::after {
+    transition: all 0.3s ease-in-out !important;
+    transition-delay: 0 !important;
+  }
 }
 
 @layer base {
@@ -86,8 +95,22 @@
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
   }
   
+  /* Transição para elementos específicos */
+  .bg-background,
+  .bg-card,
+  .bg-muted,
+  .bg-sidebar-background,
+  .text-foreground,
+  .text-muted-foreground,
+  .border-border {
+    transition: background-color 0.3s ease-in-out, 
+                color 0.3s ease-in-out, 
+                border-color 0.3s ease-in-out;
+  }
+
   /* Estilos para a tabela no modo claro */
   .light .bg-card {
     background-color: hsl(var(--card));

@@ -32,6 +32,11 @@ export function ThemeProvider({
 
   useEffect(() => {
     const root = window.document.documentElement;
+    
+   
+    root.classList.add("theme-transition");
+    
+   
     root.classList.remove("light", "dark");
 
     if (theme === "system") {
@@ -40,10 +45,16 @@ export function ThemeProvider({
         ? "dark"
         : "light";
       root.classList.add(systemTheme);
-      return;
+    } else {
+      root.classList.add(theme);
     }
 
-    root.classList.add(theme);
+    
+    const timeoutId = setTimeout(() => {
+      root.classList.remove("theme-transition");
+    }, 300);
+
+    return () => clearTimeout(timeoutId);
   }, [theme]);
 
   const value = {
@@ -69,4 +80,3 @@ export const useTheme = () => {
 
   return context;
 };
-
