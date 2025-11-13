@@ -96,9 +96,9 @@ export default function Home() {
                   <ChartsSection data={filteredData} />
                 </div>
                 {/* Bloco principal (toolbar + tabela) */}
-                <div className="bg-transparent rounded-lg">
+                <div className="bg-card rounded-lg border border-border">
                   {/* Toolbar  */}
-                  <div className="p-3 border-b dark:border-[#161616] border-border">
+                   <div className="p-3 border-b border-border">
                     {/* Layout mobile - Empilhado */}
                     <div className="flex flex-col gap-3 sm:hidden">
                       {/* Linha 1: AI Button + Search */}

@@ -49,13 +49,13 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="w-full">
-      <div className="overflow-hidden rounded-md border">
+      <div className="overflow-hidden rounded-md border border-border bg-card">
         <Table className="text-sm">
-          <TableHeader>
+          <TableHeader className="bg-muted/50">
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
+              <TableRow key={headerGroup.id} className="border-border">
                 {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id} className="whitespace-nowrap h-8 px-3 py-1">
+                  <TableHead key={header.id} className="whitespace-nowrap h-8 px-3 py-1 text-muted-foreground">
                     {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                   </TableHead>
                 ))}
@@ -69,8 +69,8 @@ export function DataTable<TData, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  className={`h-11 ${
-                    onRowClick ? "cursor-pointer hover:bg-muted/50" : ""
+                  className={`h-11 border-border ${
+                    onRowClick ? "cursor-pointer hover:bg-muted/30" : ""
                   }`}
                   onClick={() => onRowClick?.(row.original)} 
                 >
@@ -85,7 +85,7 @@ export function DataTable<TData, TValue>({
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
-                  className="h-16 text-center whitespace-nowrap px-3 py-1"
+                  className="h-16 text-center whitespace-nowrap px-3 py-1 text-muted-foreground"
                 >
                   No results.
                 </TableCell>

@@ -54,7 +54,7 @@ export default function Header() {
   const isCollapsed = state === "collapsed";
 
   return (
-    <header className="sticky top-0 z-10 w-full border-b rounded-t-xl bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 py-0 z-10 w-full border-b rounded-t-xl bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="flex h-16 items-center px-4 sm:px-6">
         {/* Left side - Sidebar Trigger and Breadcrumb */}
         <div className="flex items-center gap-2 sm:gap-4 flex-1 min-w-0">
