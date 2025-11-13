@@ -39,6 +39,7 @@ import { SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
 import Link from "next/link";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Label } from "@radix-ui/react-select";
+import { Title } from "@radix-ui/react-dialog";
 
 export default function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
@@ -55,12 +56,13 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 py-0 z-10 w-full border-b rounded-t-xl bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="flex h-16 items-center px-4 sm:px-6">
+      <div className="flex h-12 items-center px-4 sm:px-6">
         {/* Left side - Sidebar Trigger and Breadcrumb */}
         <div className="flex items-center gap-2 sm:gap-4 flex-1 min-w-0">
           <SidebarTrigger className="h-8 w-8 flex-shrink-0" />
           
           {/* Breadcrumb Navigation - Hide on very small screens */}
+          
           <Breadcrumb className="flex-shrink-0 hidden xs:flex">
             <BreadcrumbList>
               <BreadcrumbItem>
@@ -156,14 +158,7 @@ export default function Header() {
               <Bell className="h-4 w-4" />
             </Button>
 
-            {/* Settings - Hide on mobile */}
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-8 w-8 hidden sm:flex"
-            >
-              <Settings className="h-4 w-4" />
-            </Button>
+            
 
             {/* Pass Apps Menu */}
             <div className="hidden sm:block">

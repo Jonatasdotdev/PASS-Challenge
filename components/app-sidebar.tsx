@@ -16,7 +16,7 @@ import {
   MapPin,
   FileText,
   Settings,
-  GalleryVerticalEnd,
+  Building2,
 } from "lucide-react"
 import { TeamSwitcher } from "@/components/team-switcher"
 import {
@@ -31,7 +31,7 @@ const data = {
   teams: [
     {
       name: "Pass",
-      logo: GalleryVerticalEnd,
+      logo: Building2,
       plan: "Enterprise",
     },
   ],
