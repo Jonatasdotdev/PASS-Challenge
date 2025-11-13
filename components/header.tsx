@@ -39,7 +39,6 @@ import { SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
 import Link from "next/link";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Label } from "@radix-ui/react-select";
-import { Title } from "@radix-ui/react-dialog";
 
 export default function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
@@ -57,12 +56,23 @@ export default function Header() {
   return (
     <header className="sticky top-0 py-0 z-10 w-full border-b rounded-t-xl bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="flex h-12 items-center px-4 sm:px-6">
-        {/* Left side - Sidebar Trigger and Breadcrumb */}
-        <div className="flex items-center gap-2 sm:gap-4 flex-1 min-w-0">
+        {/* Left side - Sidebar Trigger, Title and Breadcrumb */}
+        <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
           <SidebarTrigger className="h-8 w-8 flex-shrink-0" />
+
+           {/* Separador vertical*/}
+            <div className="h-3 w-px bg-border hidden sm:block"></div>
+  
+          {/* Título pequeno */}
+          <div className="flex items-center gap-2">
+            <h1 className="text-xs font-medium text-foreground hidden sm:block truncate">
+              Contas a Pagar
+            </h1>
+          </div>
+            
+            
           
           {/* Breadcrumb Navigation - Hide on very small screens */}
-          
           <Breadcrumb className="flex-shrink-0 hidden xs:flex">
             <BreadcrumbList>
               <BreadcrumbItem>
@@ -74,12 +84,13 @@ export default function Header() {
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbPage className="text-sm truncate">Contas a Pagar</BreadcrumbPage>
+                <BreadcrumbPage className="text-sm truncate">Financeiro</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
         </div>
 
+        {/* Resto do código permanece igual... */}
         {/* Center - Search Bar - Hide on mobile, show in sheet */}
         <div className="hidden sm:flex justify-center flex-1">
           <div className="relative w-full max-w-56 min-w-0">
@@ -95,75 +106,73 @@ export default function Header() {
         </div>
 
         {/* Right side - Actions */}
-          <div className="flex items-center justify-end gap-2 sm:gap-3 flex-1">
-            {/* Mobile Search Trigger */}
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-8 w-8 sm:hidden flex"
-                >
-                  <Search className="h-4 w-4" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="top" className="h-32">
-                <div className="flex flex-col gap-4 pt-6">
-                  <div className="relative">
-                    <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                    <Input
-                      type="text"
-                      placeholder="Buscar..."
-                      className="pl-9 h-10 w-full text-base"
-                    />
-                  </div>
+        <div className="flex items-center justify-end gap-2 sm:gap-3 flex-1">
+          {/* Mobile Search Trigger */}
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 sm:hidden flex"
+              >
+                <Search className="h-4 w-4" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="top" className="h-32">
+              <div className="flex flex-col gap-4 pt-6">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                  <Input
+                    type="text"
+                    placeholder="Buscar..."
+                    className="pl-9 h-10 w-full text-base"
+                  />
                 </div>
-              </SheetContent>
-            </Sheet>
+              </div>
+            </SheetContent>
+          </Sheet>
 
-            {/* Theme Toggle */}
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              title="Alternar tema"
-              className="h-8 w-8"
-            >
-              {theme === "dark" ? (
-                <Sun className="h-4 w-4" />
-              ) : (
-                <Moon className="h-4 w-4" />
-              )}
-            </Button>
+          {/* Theme Toggle */}
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            title="Alternar tema"
+            className="h-8 w-8"
+          >
+            {theme === "dark" ? (
+              <Sun className="h-4 w-4" />
+            ) : (
+              <Moon className="h-4 w-4" />
+            )}
+          </Button>
 
-            {/* Language Selector */}
-            <div className="hidden sm:block">
-              <Select defaultValue="pt">
-                <SelectTrigger className="w-[120px] h-8">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="pt">Português</SelectItem>
-                  <SelectItem value="en">English</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+          {/* Language Selector */}
+          <div className="hidden sm:block">
+            <Select defaultValue="pt">
+              <SelectTrigger className="w-[120px] h-8">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="pt">Português</SelectItem>
+                <SelectItem value="en">English</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
 
-            {/* Notifications */}
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-8 w-8"
-            >
-              <Bell className="h-4 w-4" />
-            </Button>
+          {/* Notifications */}
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8"
+          >
+            <Bell className="h-4 w-4" />
+          </Button>
 
-            
-
-            {/* Pass Apps Menu */}
-            <div className="hidden sm:block">
-              <PassAppsMenu />
-            </div>
+          {/* Pass Apps Menu */}
+          <div className="hidden sm:block">
+            <PassAppsMenu />
+          </div>
 
           {/* Mobile Menu */}
           <Sheet>

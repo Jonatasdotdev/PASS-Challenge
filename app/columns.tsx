@@ -63,9 +63,9 @@ export const columns: ColumnDef<AccountPayable>[] = [
     cell: ({ row }) => {
       const status = row.getValue<string>("status");
       const map: Record<string, string> = {
-        Pago: "text-green-500 border-green-500/30 bg-green-500/10",
-        Vencido: "text-red-500 border-red-500/30 bg-red-500/10",
-        Pendente: "text-yellow-500 border-yellow-500/30 bg-yellow-500/10",
+        Pago: "text-green-500 border-0 ",
+        Vencido: "text-red-500 border-0",
+        Pendente: "text-yellow-500 border-0",
       };
       const dot = status === "Pago" ? "bg-green-500" : status === "Vencido" ? "bg-red-500" : "bg-yellow-500";
       return (
