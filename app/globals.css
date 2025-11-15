@@ -42,28 +42,30 @@
   }
 
   .dark {
-    /* Fundo principal e elementos usando #171717 */
-    --background: 0 0% 9%; /* #171717 */
-    --foreground: 0 0% 98%;
-    --card: 0 0% 9%; /* #171717 */
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 9%; /* #171717 */
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
+    /* Fundo principal  */
     
-    /* Elementos secundários - tons um pouco mais claros para contraste */
-    --secondary: 0 0% 12%; /* #1f1f1f */
+ 
+  --background: 0 0% 9%; 
+  --foreground: 0 0% 98%;
+  --card: 0 0% 9%; 
+  --card-foreground: 0 0% 98%;
+  --popover: 0 0% 3.9%; 
+  --popover-foreground: 0 0% 98%;
+  --primary: 0 0% 98%;
+  --primary-foreground: 0 0% 9%;
+    
+    /* Elementos secundários  */
+    --secondary: 0 0% 12%; 
     --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 12%; /* #1f1f1f */
+    --muted: 0 0% 12%; 
     --muted-foreground: 0 0% 63.9%;
-    --accent: 0 0% 12%; /* #1f1f1f */
+    --accent: 0 0% 12%; 
     --accent-foreground: 0 0% 98%;
     
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 15%;  /* #262626 - bordas mais claras para visibilidade */
-    --input: 0 0% 12%; /* #1f1f1f */
+    --border: 0 0% 15%; 
+    --input: 0 0% 12%; 
     --ring: 0 0% 83.1%;
     
     --chart-1: 220 70% 50%;
@@ -72,14 +74,14 @@
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
 
-    /* Dark theme sidebar - usando #171717 */
-    --sidebar-background: 0 0% 9%; /* #171717 */
+    /* Dark theme sidebar */
+    --sidebar-background: 0 0% 9%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 0 0% 12%; /* #1f1f1f */
+    --sidebar-accent: 0 0% 12%; 
     --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 0 0% 15%; /* #262626 */
+    --sidebar-border: 0 0% 15%; 
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 

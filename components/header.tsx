@@ -40,6 +40,7 @@ import Link from "next/link";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Label } from "@radix-ui/react-select";
 import {Globe} from "lucide-react";
+import  CommandPalette  from "@/components/command-palette";
 
 export default function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
@@ -92,18 +93,11 @@ export default function Header() {
         </div>
 
         {/* Center - Search Bar - Hide on mobile, show in sheet */}
-        <div className="hidden sm:flex justify-center flex-1">
-          <div className="relative w-full max-w-56 min-w-0">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            <Input
-              type="text"
-              placeholder="Buscar... (⌘K)"
-              className="pl-9 h-8 w-full"
-              onFocus={() => setSearchOpen(true)}
-              onBlur={() => setSearchOpen(false)}
-            />
-          </div>
-        </div>
+       <div className="hidden sm:flex justify-center flex-1">
+      <div className="relative w-full max-w-[280px] min-w-0 flex justify-center items-center">
+        <CommandPalette />
+      </div>
+    </div>
 
         {/* Right side - Actions */}
         <div className="flex items-center justify-end gap-2 sm:gap-3 flex-1">
@@ -151,8 +145,8 @@ export default function Header() {
               <div className="hidden sm:block">
                 <Select defaultValue="pt">
                   <SelectTrigger
-                    className="h-8 px-3 rounded-md inline-flex items-center gap-2 bg-background/95 dark:bg-[#0a0a0a]/95 border-none
-                              hover:bg-background/20 dark:hover:bg-white/5 transition-colors w-auto min-w-max whitespace-nowrap"
+                    className="h-8 px-3 text-xs rounded-md inline-flex items-center gap-3 bg-background/95 dark:bg-[#0a0a0a]/95 border-none
+                              hover:bg-background/20 dark:hover:bg-white/5 hover:rounded-full transition-colors w-auto min-w-max whitespace-nowrap"
                   >
                     <Globe className="icon h-4 w-4" strokeWidth={1.5} />
                     <SelectValue />

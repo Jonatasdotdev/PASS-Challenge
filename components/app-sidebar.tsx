@@ -18,6 +18,24 @@ import {
   Settings,
   Building2,
 } from "lucide-react"
+
+export const navItems = [
+  { id: "painel", label: "Panel", href: "/", icon: LayoutDashboard },
+  { id: "atividade", label: "Activity", href: "/atividade", icon: Activity },
+  { id: "transfer", label: "Transfer", href: "/transfer", icon: BusFront },
+  { id: "combo", label: "Combo", href: "/combo", icon: Package },
+  { id: "hospedagem", label: "Accommodation", href: "/hospedagem", icon: BedDouble },
+  { id: "ingresso", label: "Ticket", href: "/ingresso", icon: Ticket },
+  { id: "tour", label: "Tour", href: "/tour", icon: Camera },
+  { id: "experience", label: "Experience", href: "/experience", icon: Star },
+  { id: "circuit", label: "Circuit", href: "/circuit", icon: Map },
+  { id: "tariff", label: "Tariff", href: "/tariff", icon: DollarSign },
+  { id: "availability", label: "Availability", href: "/availability", icon: CalendarDays },
+  { id: "slots", label: "Slots", href: "/slots", icon: Puzzle },
+  { id: "perimeters", label: "Perimeters", href: "/perimeters", icon: MapPin },
+  { id: "guidelines", label: "Guidelines", href: "/guidelines", icon: FileText },
+  { id: "settings", label: "Settings", href: "/settings", icon: Settings },
+];
 import { TeamSwitcher } from "@/components/team-switcher"
 import {
   Sidebar,
