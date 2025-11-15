@@ -54,7 +54,7 @@ export default function Header() {
   const isCollapsed = state === "collapsed";
 
   return (
-    <header className="sticky top-0 py-0 z-10 w-full border-b rounded-t-xl bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+   <header className="sticky top-0 py-0 z-10 w-full border-b rounded-t-xl bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:bg-[#0a0a0a]">
       <div className="flex h-12 items-center px-4 sm:px-6">
         {/* Left side - Sidebar Trigger, Title and Breadcrumb */}
         <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
@@ -65,7 +65,7 @@ export default function Header() {
   
           {/* Título pequeno */}
           <div className="flex items-center gap-2">
-            <h1 className="text-xs font-medium text-foreground hidden sm:block truncate">
+            <h1 className="text-xs font-normal text-foreground hidden sm:block truncate">
               Contas a Pagar
             </h1>
           </div>
@@ -90,7 +90,6 @@ export default function Header() {
           </Breadcrumb>
         </div>
 
-        {/* Resto do código permanece igual... */}
         {/* Center - Search Bar - Hide on mobile, show in sheet */}
         <div className="hidden sm:flex justify-center flex-1">
           <div className="relative w-full max-w-56 min-w-0">
@@ -161,6 +160,7 @@ export default function Header() {
           </div>
 
           {/* Notifications */}
+          
           <Button
             variant="ghost"
             size="icon"
@@ -168,23 +168,16 @@ export default function Header() {
           >
             <Bell className="h-4 w-4" />
           </Button>
+          
 
           {/* Pass Apps Menu */}
-          <div className="hidden sm:block">
-            <PassAppsMenu />
-          </div>
-
-          {/* Mobile Menu */}
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-8 w-8 sm:hidden flex"
-              >
-                <Menu className="h-4 w-4" />
-              </Button>
-            </SheetTrigger>
+          <Button asChild variant="ghost" size="icon" className="h-8 w-8">
+            <span>
+              <PassAppsMenu />
+            </span>
+          </Button>
+      
+            <Sheet>
             <SheetContent side="right" className="w-64">
               <div className="flex flex-col gap-6 pt-6">
                 {/* User Info */}

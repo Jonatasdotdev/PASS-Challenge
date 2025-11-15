@@ -91,7 +91,7 @@ export default function Home() {
               <div className="flex flex-1 flex-col gap-3">
                 {/* Cards métricos */}
                 <SectionCards data={cardData} />
-                {/* Gráficos - Ocultar em mobile ou ajustar altura */}
+                {/* Gráficos - Ocultar em mobile */}
                 <div className="hidden sm:block">
                   <ChartsSection data={filteredData} />
                 </div>
