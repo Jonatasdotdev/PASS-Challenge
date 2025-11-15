@@ -34,7 +34,19 @@ const data = {
       logo: Building2,
       plan: "Enterprise",
     },
+
+    {
+      name: "Allynsis",
+      logo: Building2,
+      plan: "Professional",
+    },
+    {
+      name: "Google",
+      logo: Building2,
+      plan: "Professional",
+    }
   ],
+  
 }
 
 function SimpleNav() {

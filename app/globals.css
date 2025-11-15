@@ -114,6 +114,8 @@
     transition: background-color 0.3s ease-in-out, 
                 color 0.3s ease-in-out, 
                 border-color 0.3s ease-in-out;
+
+                
   }
 
   /* Estilos para a tabela no modo claro */
@@ -176,10 +178,13 @@
   input[type="checkbox"]:disabled {
     @apply opacity-50 cursor-not-allowed;
   }
+
+  
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+
 }

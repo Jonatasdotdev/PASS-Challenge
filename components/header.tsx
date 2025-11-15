@@ -39,6 +39,7 @@ import { SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
 import Link from "next/link";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Label } from "@radix-ui/react-select";
+import {Globe} from "lucide-react";
 
 export default function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
@@ -54,7 +55,7 @@ export default function Header() {
   const isCollapsed = state === "collapsed";
 
   return (
-   <header className="sticky top-0 py-0 z-10 w-full border-b rounded-t-xl bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:bg-[#0a0a0a]">
+   <header className="sticky top-0 py-0 z-10 w-full border-b rounded-t-xl bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:bg-[#0a0a0a]/95 dark:backdrop-blur dark:supports-[backdrop-filter]:bg-[#0a0a0a]/60">
       <div className="flex h-12 items-center px-4 sm:px-6">
         {/* Left side - Sidebar Trigger, Title and Breadcrumb */}
         <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
@@ -147,17 +148,22 @@ export default function Header() {
           </Button>
 
           {/* Language Selector */}
-          <div className="hidden sm:block">
-            <Select defaultValue="pt">
-              <SelectTrigger className="w-[120px] h-8">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="pt">Português</SelectItem>
-                <SelectItem value="en">English</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+              <div className="hidden sm:block">
+                <Select defaultValue="pt">
+                  <SelectTrigger
+                    className="h-8 px-3 rounded-md inline-flex items-center gap-2 bg-background/95 dark:bg-[#0a0a0a]/95 border-none
+                              hover:bg-background/20 dark:hover:bg-white/5 transition-colors w-auto min-w-max whitespace-nowrap"
+                  >
+                    <Globe className="icon h-4 w-4" strokeWidth={1.5} />
+                    <SelectValue />
+                  </SelectTrigger>
+
+                  <SelectContent>
+                    <SelectItem value="pt">Português</SelectItem>
+                    <SelectItem value="en">English</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
 
           {/* Notifications */}
           
