@@ -30,13 +30,15 @@ export function StatusFilter({ value, onChange, options }: StatusFilterProps) {
     onChange(newValue);
   };
 
-  const selectedLabels =
-    value.length > 0
-      ? options
-          .filter((opt) => value.includes(opt.value))
-          .map((opt) => opt.label)
-          .join(", ")
-      : "Status";
+ 
+  const selectedLabels = React.useMemo(() => {
+    if (value.length === 0) return "Status";
+    if (value.length === 1) {
+      const option = options.find(opt => opt.value === value[0]);
+      return option?.label || "Status";
+    }
+    return `${value.length} selecionados`;
+  }, [value, options]);
 
   // filtra opções localmente pelo input
   const visibleOptions = React.useMemo(() => {
@@ -52,53 +54,67 @@ export function StatusFilter({ value, onChange, options }: StatusFilterProps) {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="h-8 w-[120px] justify-between border-dashed bg-white dark:bg-[#1a1a1a] border-gray-200 dark:border-[#2a2a2a] text-black dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-[#2a2a2a] hover:text-gray-900 dark:hover:text-white"
+          className="h-8 min-w-[120px] max-w-[160px] justify-between bg-white dark:bg-[#1a1a1a] border-gray-200 dark:border-[#2a2a2a] text-black dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-[#2a2a2a] hover:text-gray-900 dark:hover:text-white"
         >
-          <div className="flex items-center gap-2">
-            <Filter className="h-4 w-4" />
-            <span className="truncate">{selectedLabels}</span>
+          <div className="flex items-center gap-2 truncate">
+            <Filter className="h-4 w-4 flex-shrink-0" />
+            <span className="truncate text-xs">{selectedLabels}</span>
           </div>
         </Button>
       </PopoverTrigger>
 
       <PopoverContent
-        className="z-[9999] w-[240px] p-2 bg-white dark:bg-[#2a2a2a] border-gray-200 dark:border-[#3a3a3a]"
+        className="z-[9999] w-[240px] p-0 bg-white dark:bg-[#171717] border-gray-200 dark:border-[#2a2a2a]"
+        align="start"
       >
-        {/* Input de filtro simples */}
-        <div className="px-1 pb-2">
+       
+        <div className="p-2">
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Filtrar status..."
-            className="w-full rounded-md border px-2 py-1 text-sm bg-white dark:bg-[#2a2a2a] border-gray-200 dark:border-[#3a3a3a] text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-ring"
+            className="w-full px-2 py-1 text-sm bg-transparent text-gray-900 dark:text-white outline-none placeholder:text-gray-500 dark:placeholder:text-gray-400"
           />
         </div>
+        
+        {/* Separator horizontal */}
+        <div className="h-px bg-gray-200 dark:bg-[#2a2a2a] w-full" />
 
         {/* Lista de opções*/}
-        <div className="max-h-56 overflow-auto">
+        <div className="max-h-56 overflow-auto p-1">
           {visibleOptions.length === 0 ? (
-            <div className="px-2 py-2 text-sm text-gray-500 dark:text-gray-400">Nenhum status encontrado.</div>
+            <div className="px-3 py-2 text-sm text-gray-500 dark:text-gray-400">
+              Nenhum status encontrado.
+            </div>
           ) : (
             visibleOptions.map((option) => {
               const isSelected = value.includes(option.value);
               return (
                 <div
                   key={option.value}
-                  className="flex items-center space-x-2 p-2 hover:bg-gray-50 dark:hover:bg-[#2a2a2a] rounded-md"
+                  className={cn(
+                    "flex items-center space-x-2 p-2 rounded-md transition-colors cursor-pointer",
+                    "hover:bg-gray-100 dark:hover:bg-[#1a1a1a]",
+                    isSelected && "bg-blue-50 dark:bg-blue-900/20"
+                  )}
+                  onClick={() => handleSelect(option.value)}
                 >
                   <Checkbox
                     id={`checkbox-${option.value}`}
                     checked={isSelected}
                     onCheckedChange={() => handleSelect(option.value)}
+                    className="h-3 w-3"
                   />
                   <label
                     htmlFor={`checkbox-${option.value}`}
-                    className="flex-1 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-900 dark:text-white cursor-pointer"
+                    className="flex-1 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-900 dark:text-white cursor-pointer select-none"
                   >
                     {option.label}
                   </label>
                   {option.count !== undefined && (
-                    <span className="text-gray-500 dark:text-gray-400 text-sm">{option.count}</span>
+                    <span className="text-gray-500 dark:text-gray-400 text-xs bg-gray-100 dark:bg-[#1a1a1a] px-1.5 py-0.5 rounded">
+                      {option.count}
+                    </span>
                   )}
                 </div>
               );
