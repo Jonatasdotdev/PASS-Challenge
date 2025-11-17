@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Dialog,
   DialogContent,
@@ -11,6 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
 import {
   Select,
   SelectContent,
@@ -30,7 +31,10 @@ import {
   DollarSign,
   Upload,
   Edit,
+  Search,
+  Check,
 } from "lucide-react";
+import { KeywordPicker } from "./keyword-picker";
 
 interface AccountDetailsModalProps {
   open: boolean;
@@ -38,6 +42,9 @@ interface AccountDetailsModalProps {
   accountId?: string | null;
   onOpenPaymentModal?: () => void;
 }
+
+
+
 
 export default function AccountDetailsModal({
   open,
@@ -323,43 +330,15 @@ export default function AccountDetailsModal({
                           </div>
 
                           {/* Palavras-chave */}
-                          <div className="mt-4 space-y-2">
-                            <Label className="text-xs text-gray-600 dark:text-gray-200">Palavra-chave</Label>
+                          <KeywordPicker
+                                keywords={keywords}
+                                setKeywords={setKeywords}
+                                isEditing={isEditing}
+                                textLabel={textLabel}
+                                inputSmall={inputSmall}
+                                baseBoxSmall={baseBoxSmall}
+                              />
 
-                            <div className="flex flex-wrap gap-2 mt-1">
-                              {keywords.map((keyword) => (
-                                <div
-                                  key={keyword}
-                                  className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-gray-100 dark:bg-[#1c1c1c] text-gray-700 dark:text-gray-200 text-xs border border-gray-300 dark:border-[#2a2a2a]"
-                                >
-                                  <span>{keyword}</span>
-                                  {isEditing && (
-                                    <Button
-                                      variant="ghost"
-                                      size="icon"
-                                      className="h-4 w-4 p-0 ml-1"
-                                      onClick={() => removeKeyword(keyword)}
-                                    >
-                                      <X className="h-3 w-3" />
-                                    </Button>
-                                  )}
-                                </div>
-                              ))}
-                            </div>
-
-                            {isEditing && (
-                              <div className="flex gap-2 mt-2">
-                                <Input
-                                  value={newKeyword}
-                                  onChange={(e) => setNewKeyword(e.target.value)}
-                                  onKeyDown={handleKeyDown}
-                                  placeholder="Digite uma palavra-chave"
-                                  className={inputSmall}
-                                />
-                               
-                              </div>
-                            )}
-                          </div>
                         </CardContent>
                       </Card>
                     </TabsContent>
