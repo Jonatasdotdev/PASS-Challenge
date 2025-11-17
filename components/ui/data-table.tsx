@@ -51,7 +51,7 @@ export function DataTable<TData, TValue>({
     <div className="w-full">
       <div className="overflow-hidden rounded-md border border-border bg-card">
         <Table className="text-sm">
-          <TableHeader className="bg-muted/50">
+          <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id} className="border-border">
                 {headerGroup.headers.map((header) => (

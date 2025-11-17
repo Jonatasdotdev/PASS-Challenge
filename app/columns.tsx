@@ -4,29 +4,57 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ArrowUpDown, Edit, Trash2 } from "lucide-react";
+import { ChevronsUpDown, ArrowUp, ArrowDown, Edit, Trash2 } from "lucide-react";
 import type { AccountPayable } from "@/lib/data/accounts";
+
+// Componente reutilizável para headers com sorting
+const SortableHeader = ({ column, title }: { column: any; title: string }) => {
+  const isSorted = column.getIsSorted();
+  
+  return (
+    <Button 
+      variant="ghost" 
+      className="w-full justify-start px-0 whitespace-nowrap h-6 text-xs gap-1 hover:bg-transparent" 
+      onClick={() => column.toggleSorting(isSorted === "asc")}
+    >
+      <span>{title}</span>
+      {isSorted ? (
+        isSorted === "asc" ? (
+          <ArrowUp className="h-3 w-3 ml-auto" />
+        ) : (
+          <ArrowDown className="h-3 w-3 ml-auto" />
+        )
+      ) : (
+        <ChevronsUpDown className="h-3 w-3 ml-auto text-muted-foreground" />
+      )}
+    </Button>
+  );
+};
 
 export const columns: ColumnDef<AccountPayable>[] = [
   {
     id: "select",
     header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-        className="h-3 w-3"
-      />
+      <div onClick={(e) => e.stopPropagation()}>
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && "indeterminate")
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+          className="h-3 w-3"
+        />
+      </div>
     ),
     cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-        className="h-3 w-3" 
-      />
+      <div onClick={(e) => e.stopPropagation()}>
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+          className="h-3 w-3" 
+        />
+      </div>
     ),
     enableSorting: false,
     enableHiding: false,
@@ -34,32 +62,31 @@ export const columns: ColumnDef<AccountPayable>[] = [
   },
   {
     accessorKey: "id",
-    header: ({ column }) => (
-      <Button variant="ghost" className="px-0 whitespace-nowrap h-6 text-xs" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-        Cod.
-        <ArrowUpDown className="ml-1 h-3 w-3" /> 
-      </Button>
-    ),
+    header: ({ column }) => <SortableHeader column={column} title="Cod." />,
     cell: ({ row }) => <div className="font-medium text-xs whitespace-nowrap">{row.getValue("id")}</div>,
+    enableSorting: true,
   },
   { 
     accessorKey: "competencia", 
-    header: "Competência",
+    header: ({ column }) => <SortableHeader column={column} title="Competência" />,
     cell: ({ row }) => <div className="whitespace-nowrap text-xs">{row.getValue("competencia")}</div>,
+    enableSorting: true,
   },
   { 
     accessorKey: "vencimento", 
-    header: "Vencimento",
+    header: ({ column }) => <SortableHeader column={column} title="Vencimento" />,
     cell: ({ row }) => <div className="whitespace-nowrap text-xs">{row.getValue("vencimento")}</div>,
+    enableSorting: true,
   },
   { 
     accessorKey: "quitacao", 
-    header: "Quitação",
+    header: ({ column }) => <SortableHeader column={column} title="Quitação" />,
     cell: ({ row }) => <div className="whitespace-nowrap text-xs">{row.getValue("quitacao")}</div>,
+    enableSorting: true,
   },
   {
     accessorKey: "status",
-    header: "Status",
+    header: ({ column }) => <SortableHeader column={column} title="Status" />,
     cell: ({ row }) => {
       const status = row.getValue<string>("status");
       const map: Record<string, string> = {
@@ -75,15 +102,17 @@ export const columns: ColumnDef<AccountPayable>[] = [
         </Badge>
       );
     },
+    enableSorting: true,
   },
   { 
     accessorKey: "classificacao", 
-    header: "Classificação",
+    header: ({ column }) => <SortableHeader column={column} title="Classificação" />,
     cell: ({ row }) => <div className="whitespace-nowrap text-xs">{row.getValue("classificacao")}</div>,
+    enableSorting: true,
   },
   {
     accessorKey: "participantes",
-    header: "Participantes",
+    header: ({ column }) => <SortableHeader column={column} title="Participantes" />,
     cell: ({ row }) => {
       const participantes = row.getValue("participantes") as string;
       return (
@@ -95,23 +124,48 @@ export const columns: ColumnDef<AccountPayable>[] = [
         </div>
       );
     },
+    enableSorting: true,
   },
   { 
     accessorKey: "parcela", 
-    header: "Parcela",
+    header: ({ column }) => <SortableHeader column={column} title="Parcela" />,
     cell: ({ row }) => <div className="whitespace-nowrap text-xs">{row.getValue("parcela")}</div>,
+    enableSorting: true,
   },
   {
     accessorKey: "total",
-    header: () => <div className="text-right whitespace-nowrap text-xs">Total</div>,
+    header: ({ column }) => (
+      <Button 
+        variant="ghost" 
+        className="w-full justify-end px-0 whitespace-nowrap h-6 text-xs gap-1 hover:bg-transparent" 
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        <span>Total</span>
+        {column.getIsSorted() ? (
+          column.getIsSorted() === "asc" ? (
+            <ArrowUp className="h-3 w-3 ml-1" />
+          ) : (
+            <ArrowDown className="h-3 w-3 ml-1" />
+          )
+        ) : (
+          <ChevronsUpDown className="h-3 w-3 ml-1 text-muted-foreground" />
+        )}
+      </Button>
+    ),
     cell: ({ row }) => <div className="text-right font-medium whitespace-nowrap text-xs">{row.getValue("total") as string}</div>,
+    enableSorting: true,
   },
   {
     id: "actions",
-    header: "Ações",
+    header: () => (
+      <div className="flex items-center gap-1 whitespace-nowrap text-xs text-muted-foreground">
+        <span>Ações</span>
+      </div>
+    ),
     enableHiding: false,
-    cell: () => (
-      <div className="flex items-center gap-1 whitespace-nowrap"> 
+    enableSorting: false,
+    cell: ({ row }) => (
+      <div className="flex items-center gap-1 whitespace-nowrap" onClick={(e) => e.stopPropagation()}> 
         <Button variant="ghost" size="icon" className="h-6 w-6"> 
           <Edit className="h-3 w-3" /> 
         </Button>

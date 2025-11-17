@@ -52,7 +52,7 @@ export function StatusFilter({ value, onChange, options }: StatusFilterProps) {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="h-8 w-[100px] justify-between border-dashed bg-white dark:bg-[#1a1a1a] border-gray-200 dark:border-[#2a2a2a] text-black dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-[#2a2a2a] hover:text-gray-900 dark:hover:text-white"
+          className="h-8 w-[120px] justify-between border-dashed bg-white dark:bg-[#1a1a1a] border-gray-200 dark:border-[#2a2a2a] text-black dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-[#2a2a2a] hover:text-gray-900 dark:hover:text-white"
         >
           <div className="flex items-center gap-2">
             <Filter className="h-4 w-4" />

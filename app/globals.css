@@ -162,7 +162,7 @@
   /* Dark mode */
   .dark input[type="checkbox"] {
     border-color: hsl(0, 0%, 25%);
-    background-color: hsl(0, 0%, 15%);
+    background-color: black;
   }
 
   .dark input[type="checkbox"]:checked {
