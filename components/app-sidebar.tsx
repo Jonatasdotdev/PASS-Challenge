@@ -3,39 +3,12 @@ import * as React from "react"
 import {
   LayoutDashboard,
   Activity,
-  BusFront,
-  Package,
-  BedDouble,
-  Ticket,
-  Camera,
-  Star,
-  Map,
   DollarSign,
-  CalendarDays,
-  Puzzle,
-  MapPin,
-  FileText,
+  ChevronDown,
+  ChevronRight,
   Settings,
   Building2,
 } from "lucide-react"
-
-export const navItems = [
-  { id: "painel", label: "Panel", href: "/", icon: LayoutDashboard },
-  { id: "atividade", label: "Activity", href: "/atividade", icon: Activity },
-  { id: "transfer", label: "Transfer", href: "/transfer", icon: BusFront },
-  { id: "combo", label: "Combo", href: "/combo", icon: Package },
-  { id: "hospedagem", label: "Accommodation", href: "/hospedagem", icon: BedDouble },
-  { id: "ingresso", label: "Ticket", href: "/ingresso", icon: Ticket },
-  { id: "tour", label: "Tour", href: "/tour", icon: Camera },
-  { id: "experience", label: "Experience", href: "/experience", icon: Star },
-  { id: "circuit", label: "Circuit", href: "/circuit", icon: Map },
-  { id: "tariff", label: "Tariff", href: "/tariff", icon: DollarSign },
-  { id: "availability", label: "Availability", href: "/availability", icon: CalendarDays },
-  { id: "slots", label: "Slots", href: "/slots", icon: Puzzle },
-  { id: "perimeters", label: "Perimeters", href: "/perimeters", icon: MapPin },
-  { id: "guidelines", label: "Guidelines", href: "/guidelines", icon: FileText },
-  { id: "settings", label: "Settings", href: "/settings", icon: Settings },
-];
 import { TeamSwitcher } from "@/components/team-switcher"
 import {
   Sidebar,
@@ -52,7 +25,6 @@ const data = {
       logo: Building2,
       plan: "Enterprise",
     },
-
     {
       name: "Allynsis",
       logo: Building2,
@@ -64,12 +36,19 @@ const data = {
       plan: "Professional",
     }
   ],
-  
 }
+
+export const navItems = [
+  { id: "painel", label: "Panel", href: "/", icon: LayoutDashboard },
+  { id: "atividade", label: "Activity", href: "/atividade", icon: Activity },
+  { id: "contas-a-pagar", label: "À Pagar", href: "/contas-a-pagar", icon: DollarSign },
+  { id: "settings", label: "Settings", href: "/settings", icon: Settings },
+];
 
 function SimpleNav() {
   const { state } = useSidebar()
   const isCollapsed = state === "collapsed"
+  const [isContasOpen, setIsContasOpen] = React.useState(true)
   
   return (
     <div className={`flex flex-col ${isCollapsed ? "items-center py-2" : "px-2 py-2"} text-sm`}>
@@ -98,122 +77,62 @@ function SimpleNav() {
         </div>
       </div>
 
-      {/* Services */}
+      {/* Financeiro - NOVA SEÇÃO */}
       {!isCollapsed && (
         <div className="text-xs capitalize text-muted-foreground px-2 py-2 font-semibold mt-4">
-          Services
+          Financeiro
         </div>
       )}
       {isCollapsed && <div className="my-3" />}
       
       <div className={`flex flex-col ${isCollapsed ? "gap-1" : "gap-1"}`}>
-        <div
-          className={`flex items-center gap-2 rounded-md ${
-            isCollapsed ? "justify-center px-2 py-2 bg-accent" : "bg-accent px-2 py-1.5"
-          } cursor-pointer`}
-        >
-          <BusFront className="h-4 w-4" />
-          {!isCollapsed && <span>Transfer</span>}
-        </div>
-        <div
-          className={`flex items-center gap-2 rounded-md ${
-            isCollapsed ? "justify-center px-2 py-2 hover:bg-accent" : "px-2 py-1.5 hover:bg-accent"
-          } cursor-pointer`}
-        >
-          <Package className="h-4 w-4" />
-          {!isCollapsed && <span>Combo</span>}
-        </div>
-        <div
-          className={`flex items-center gap-2 rounded-md ${
-            isCollapsed ? "justify-center px-2 py-2 hover:bg-accent" : "px-2 py-1.5 hover:bg-accent"
-          } cursor-pointer`}
-        >
-          <BedDouble className="h-4 w-4" />
-          {!isCollapsed && <span>Accommodation</span>}
-        </div>
-        <div
-          className={`flex items-center gap-2 rounded-md ${
-            isCollapsed ? "justify-center px-2 py-2 hover:bg-accent" : "px-2 py-1.5 hover:bg-accent"
-          } cursor-pointer`}
-        >
-          <Ticket className="h-4 w-4" />
-          {!isCollapsed && <span>Ticket</span>}
-        </div>
-        <div
-          className={`flex items-center gap-2 rounded-md ${
-            isCollapsed ? "justify-center px-2 py-2 hover:bg-accent" : "px-2 py-1.5 hover:bg-accent"
-          } cursor-pointer`}
-        >
-          <Camera className="h-4 w-4" />
-          {!isCollapsed && <span>Tour</span>}
-        </div>
-        <div
-          className={`flex items-center gap-2 rounded-md ${
-            isCollapsed ? "justify-center px-2 py-2 hover:bg-accent" : "px-2 py-1.5 hover:bg-accent"
-          } cursor-pointer`}
-        >
-          <Star className="h-4 w-4" />
-          {!isCollapsed && <span>Experience</span>}
-        </div>
-        <div
-          className={`flex items-center gap-2 rounded-md ${
-            isCollapsed ? "justify-center px-2 py-2 hover:bg-accent" : "px-2 py-1.5 hover:bg-accent"
-          } cursor-pointer`}
-        >
-          <Map className="h-4 w-4" />
-          {!isCollapsed && <span>Circuit</span>}
-        </div>
+        {/* Contas com Dropdown */}
+        {!isCollapsed ? (
+          <>
+            <div
+              className="flex items-center justify-between rounded-md px-2 py-1.5 hover:bg-accent cursor-pointer"
+              onClick={() => setIsContasOpen(!isContasOpen)}
+            >
+              <div className="flex items-center gap-2">
+                <DollarSign className="h-4 w-4" />
+                <span>Contas</span>
+              </div>
+              {isContasOpen ? (
+                <ChevronDown className="h-3 w-3" />
+              ) : (
+                <ChevronRight className="h-3 w-3" />
+              )}
+            </div>
+            
+            {/* Dropdown de Contas */}
+            {isContasOpen && (
+              <div className="ml-4 flex flex-col gap-1 border-l border-border pl-2">
+                <div
+                  className="flex items-center gap-2 rounded-md px-2 py-1.5 bg-accent cursor-pointer"
+                >
+                  <DollarSign className="h-3 w-3" />
+                  <span className="text-xs">À Pagar</span>
+                </div>
+                {/*À Receber*/}
+                <div
+                  className="flex items-center gap-2 rounded-md px-2 py-1.5 hover:bg-accent cursor-pointer"
+                >
+                  <DollarSign className="h-3 w-3" />
+                  <span className="text-xs">À Receber</span>
+                </div> 
+              </div>
+            )}
+          </>
+        ) : (
+          // Modo colapsado - mostra apenas o ícone de Contas
+          <div
+            className="flex items-center justify-center px-2 py-2 bg-accent rounded-md cursor-pointer"
+            title="Contas"
+          >
+            <DollarSign className="h-4 w-4" />
+          </div>
+        )}
       </div>
-
-      {/* Commercial */}
-      {!isCollapsed && (
-        <div className="text-xs capitalize text-muted-foreground px-2 py-2 font-semibold mt-4">
-          Commercial
-        </div>
-      )}
-      {isCollapsed && <div className="my-3" />}
-      
-      <div className={`flex flex-col ${isCollapsed ? "gap-1" : "gap-1"}`}>
-        <div
-          className={`flex items-center gap-2 rounded-md ${
-            isCollapsed ? "justify-center px-2 py-2 hover:bg-accent" : "px-2 py-1.5 hover:bg-accent"
-          } cursor-pointer`}
-        >
-          <DollarSign className="h-4 w-4" />
-          {!isCollapsed && <span>Tariff</span>}
-        </div>
-        <div
-          className={`flex items-center gap-2 rounded-md ${
-            isCollapsed ? "justify-center px-2 py-2 hover:bg-accent" : "px-2 py-1.5 hover:bg-accent"
-          } cursor-pointer`}
-        >
-          <CalendarDays className="h-4 w-4" />
-          {!isCollapsed && <span>Availability</span>}
-        </div>
-      </div>
-
-      {/* Complements - sem Puzzle no modo colapsado */}
-      {!isCollapsed && (
-        <div className="text-xs capitalize text-muted-foreground px-2 py-2 font-semibold mt-4">
-          Complements
-        </div>
-      )}
-      {!isCollapsed && (
-        <div className="flex flex-col gap-1">
-          <div className="flex items-center gap-2 rounded-md px-2 py-1.5 hover:bg-accent cursor-pointer">
-            <Puzzle className="h-4 w-4" />
-            <span>Slots</span>
-          </div>
-          <div className="flex items-center gap-2 rounded-md px-2 py-1.5 hover:bg-accent cursor-pointer">
-            <MapPin className="h-4 w-4" />
-            <span>Perimeters</span>
-          </div>
-          <div className="flex items-center gap-2 rounded-md px-2 py-1.5 hover:bg-accent cursor-pointer">
-            <FileText className="h-4 w-4" />
-            <span>Guidelines</span>
-          </div>
-        </div>
-      )}
 
       {/* Organization */}
       {!isCollapsed && (
@@ -251,9 +170,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarFooter>
         {isCollapsed ? (
           <div className="flex flex-col items-center py-2 gap-3">
-            <div className="flex items-center justify-center gap-2 rounded-md px-2 py-2 hover:bg-accent cursor-pointer">
-              <Puzzle className="h-4 w-4" />
-            </div>
             <div className="flex items-center justify-center gap-2 rounded-md px-2 py-2 hover:bg-accent cursor-pointer">
               <Settings className="h-4 w-4" />
             </div>
