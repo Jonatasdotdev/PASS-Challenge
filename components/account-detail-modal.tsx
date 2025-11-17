@@ -139,7 +139,7 @@ export default function AccountDetailsModal({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-4xl w-full max-h-[90vh] overflow-y-auto bg-white dark:bg-[#0a0a0a] border border-gray-200 dark:border-[#1f1f1f] rounded-lg p-0 shadow-2xl">
+      <DialogContent className="max-w-3xl w-full max-h-[90vh] overflow-y-auto bg-white dark:bg-[#0a0a0a] border border-gray-200 dark:border-[#1f1f1f] rounded-lg p-0 shadow-2xl">
         {/* Header */}
         <DialogHeader className="px-6 py-3 border-b border-gray-200 dark:border-[#1f1f1f]">
           <div className="flex items-center justify-between">
@@ -170,7 +170,7 @@ export default function AccountDetailsModal({
               
               <TabsTrigger
                 value="dados-gerais"
-                className="flex items-center gap-2 text-sm font-medium py-2 px-3 text-gray-600 dark:text-gray-200 relative transition-all duration-300
+                className="flex items-center gap-2 text-xs font-medium py-2 px-3 text-gray-600 dark:text-gray-200 relative transition-all duration-300
                   data-[state=active]:text-gray-900 dark:data-[state=active]:text-gray-100
                   data-[state=active]:after:content-[''] data-[state=active]:after:absolute
                   data-[state=active]:after:-bottom-1 data-[state=active]:after:left-1/2 
@@ -184,7 +184,7 @@ export default function AccountDetailsModal({
 
               <TabsTrigger
                 value="contabil"
-                className="flex items-center gap-2 text-sm font-medium py-2 px-3 text-gray-600 dark:text-gray-200 relative transition-all duration-300
+                className="flex items-center gap-2 text-xs font-medium py-2 px-3 text-gray-600 dark:text-gray-200 relative transition-all duration-300
                   data-[state=active]:text-gray-900 dark:data-[state=active]:text-gray-100
                   data-[state=active]:after:content-[''] data-[state=active]:after:absolute
                   data-[state=active]:after:-bottom-1 data-[state=active]:after:left-1/2 
@@ -198,7 +198,7 @@ export default function AccountDetailsModal({
 
               <TabsTrigger
                 value="dados-financeiros"
-                className="flex items-center gap-2 text-sm font-medium py-2 px-3 text-gray-600 dark:text-gray-200 relative transition-all duration-300
+                className="flex items-center gap-2 text-xs font-medium py-2 px-3 text-gray-600 dark:text-gray-200 relative transition-all duration-300
                   data-[state=active]:text-gray-900 dark:data-[state=active]:text-gray-100
                   data-[state=active]:after:content-[''] data-[state=active]:after:absolute
                   data-[state=active]:after:-bottom-1 data-[state=active]:after:left-1/2 
@@ -212,7 +212,7 @@ export default function AccountDetailsModal({
 
               <TabsTrigger
                 value="pagamento"
-                className="flex items-center gap-2 text-sm font-medium py-2 px-3 text-gray-600 dark:text-gray-200 relative transition-all duration-300
+                className="flex items-center gap-2 text-xs font-medium py-2 px-3 text-gray-600 dark:text-gray-200 relative transition-all duration-300
                   data-[state=active]:text-gray-900 dark:data-[state=active]:text-gray-100
                   data-[state=active]:after:content-[''] data-[state=active]:after:absolute
                   data-[state=active]:after:-bottom-1 data-[state=active]:after:left-1/2 
@@ -226,7 +226,7 @@ export default function AccountDetailsModal({
 
               <TabsTrigger
                 value="notas"
-                className="flex items-center gap-2 text-sm font-medium py-2 px-3 text-gray-600 dark:text-gray-200 relative transition-all duration-300
+                className="flex items-center gap-2 text-xs font-medium py-2 px-3 text-gray-600 dark:text-gray-200 relative transition-all duration-300
                   data-[state=active]:text-gray-900 dark:data-[state=active]:text-gray-100
                   data-[state=active]:after:content-[''] data-[state=active]:after:absolute
                   data-[state=active]:after:-bottom-1 data-[state=active]:after:left-1/2 
@@ -240,7 +240,7 @@ export default function AccountDetailsModal({
             </TabsList>
 
             {/* Animated content window */}
-            <div className="relative min-h-[420px]">
+            <div className="relative min-h-[450px]">
               <AnimatePresence mode="wait" custom={direction}>
                 <motion.div
                   key={activeTab}
@@ -460,7 +460,7 @@ export default function AccountDetailsModal({
                             </div>
                           </div>
 
-                          <div className="space-y-4 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-4">
+                          <div className="space-y-4 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-4 ">
                             <div className="space-y-2">
                               <Label className={textLabel}>Valor Pago</Label>
                               {renderField("R$ 0,00")}
