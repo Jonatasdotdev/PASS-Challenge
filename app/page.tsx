@@ -188,7 +188,7 @@ export default function Home() {
                           placeholder="Buscar..."
                           value={searchTerm}
                           onChange={(e) => setSearchTerm(e.target.value)}
-                          className="pl-8 h-8 text-sm placeholder:text-muted-foreground bg-[#1a1a1a] border border-input"
+                          className="pl-8 h-8 text-sm placeholder:text-muted-foreground bg-white dark:bg-[#1a1a1a] border border-input"
                         />
                       </div>
                       
