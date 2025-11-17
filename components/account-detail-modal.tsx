@@ -356,15 +356,7 @@ export default function AccountDetailsModal({
                                   placeholder="Digite uma palavra-chave"
                                   className={inputSmall}
                                 />
-                                <Button
-                                  onClick={addKeyword}
-                                  size="sm"
-                                  className="h-8 text-xs"
-                                  disabled={!newKeyword.trim()}
-                                >
-                                  <Plus className="h-3 w-3 mr-1" />
-                                  Adicionar
-                                </Button>
+                               
                               </div>
                             )}
                           </div>
