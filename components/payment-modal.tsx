@@ -23,11 +23,14 @@ import {
   CreditCard,
   AlertCircle,
   FileText,
+  CalendarIcon,
 } from "lucide-react";
 
 // calendar + popover
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
+import { ptBR } from "date-fns/locale";
+import { format } from "date-fns";
 
 interface PaymentModalProps {
   open: boolean;
@@ -39,7 +42,7 @@ export default function PaymentModal({ open, onOpenChange }: PaymentModalProps) 
   const [dataMovimento, setDataMovimento] = useState<Date | undefined>(new Date());
 
   const formatDate = (d?: Date) =>
-    d ? d.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit", year: "numeric" }) : "Selecione";
+    d ? format(d, "dd/MM/yyyy") : "Selecione a data";
 
   // Utilitários de classe com suporte a tema claro/escuro 
   const textLabel = "text-xs text-gray-600 dark:text-gray-300";
@@ -85,22 +88,18 @@ export default function PaymentModal({ open, onOpenChange }: PaymentModalProps) 
                         id="dataMovimento"
                         aria-label="Selecionar data do movimento"
                       >
+                        <CalendarIcon className="mr-2 h-3 w-3" />
                         {formatDate(dataMovimento)}
                       </Button>
                     </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0 bg-white dark:bg-[#161616] border border-gray-200 dark:border-[#1f1f1f]">
+                    <PopoverContent className="w-auto p-0" align="start">
                       <Calendar
                         mode="single"
                         selected={dataMovimento}
-                        onSelect={(date: Date | undefined) => setDataMovimento(date)}
-                        required={false}
-                        className="bg-white dark:bg-[#161616] text-gray-900 dark:text-gray-100 
-                                  [&_.rdp-day]:text-gray-900 dark:[&_.rdp-day]:text-gray-100
-                                  [&_.rdp-day_selected]:bg-blue-100 [&_.rdp-day_selected]:text-blue-800
-                                  [&_.rdp-day_selected]:font-medium
-                                  dark:[&_.rdp-day_selected]:bg-blue-900/30 dark:[&_.rdp-day_selected]:text-blue-200
-                                  [&_.rdp-day_selected:hover]:bg-blue-200 dark:[&_.rdp-day_selected:hover]:bg-blue-800/40
-                                  [&_.rdp-day:hover]:bg-gray-100 dark:[&_.rdp-day:hover]:bg-neutral-800"
+                        onSelect={setDataMovimento}
+                       
+                        locale={ptBR}
+                        className="bg-white dark:bg-[#0a0a0a] border-0"
                       />
                     </PopoverContent>
                   </Popover>

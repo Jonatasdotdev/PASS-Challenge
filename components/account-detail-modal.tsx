@@ -11,7 +11,11 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from "@/components/ui/popover";
 import {
   Select,
   SelectContent,
@@ -35,6 +39,10 @@ import {
   Check,
 } from "lucide-react";
 import { KeywordPicker } from "./keyword-picker";
+import { CalendarIcon } from "lucide-react";
+import { Calendar } from "@/components/ui/calendar";
+import { ptBR } from "date-fns/locale";
+import { format } from "date-fns";
 
 interface AccountDetailsModalProps {
   open: boolean;
@@ -43,9 +51,6 @@ interface AccountDetailsModalProps {
   onOpenPaymentModal?: () => void;
 }
 
-
-
-
 export default function AccountDetailsModal({
   open,
   onOpenChange,
@@ -53,11 +58,31 @@ export default function AccountDetailsModal({
   onOpenPaymentModal,
 }: AccountDetailsModalProps) {
   const [activeTab, setActiveTab] = useState("dados-gerais");
-  const [keywords, setKeywords] = useState(["fornecedor", "cortinas", "prioridade"]);
+  const [keywords, setKeywords] = useState([
+    "fornecedor",
+    "cortinas",
+    "prioridade",
+  ]);
   const [newKeyword, setNewKeyword] = useState("");
-  const [isEditing, setIsEditing] = useState(!accountId); 
-  const tabsOrder = ["dados-gerais", "contabil", "dados-financeiros", "pagamento", "notas"];
+  const [isEditing, setIsEditing] = useState(!accountId);
+  const tabsOrder = [
+    "dados-gerais",
+    "contabil",
+    "dados-financeiros",
+    "pagamento",
+    "notas",
+  ];
   const [direction, setDirection] = useState(0);
+  const [competencia, setCompetencia] = useState<Date | undefined>(
+    new Date(2025, 11, 31)
+  );
+  const [vencimento, setVencimento] = useState<Date | undefined>(
+    new Date(2025, 10, 5)
+  );
+  const formatDate = (date?: Date) => {
+    if (!date) return "Selecione a data";
+    return format(date, "dd/MM/yyyy");
+  };
 
   // Determina se é uma nova conta ou visualização/edição de conta existente
   const isNewAccount = !accountId;
@@ -77,7 +102,7 @@ export default function AccountDetailsModal({
   };
 
   const removeKeyword = (keywordToRemove: string) => {
-    setKeywords(keywords.filter(keyword => keyword !== keywordToRemove));
+    setKeywords(keywords.filter((keyword) => keyword !== keywordToRemove));
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -124,7 +149,11 @@ export default function AccountDetailsModal({
     return <div className={baseBoxSmall}>{value}</div>;
   };
 
-  const renderSelect = (value: string, options: { value: string; label: string }[], isEditable: boolean = true) => {
+  const renderSelect = (
+    value: string,
+    options: { value: string; label: string }[],
+    isEditable: boolean = true
+  ) => {
     if (isEditing && isEditable) {
       return (
         <Select defaultValue={value}>
@@ -132,7 +161,7 @@ export default function AccountDetailsModal({
             <SelectValue />
           </SelectTrigger>
           <SelectContent className="bg-white dark:bg-[#161616] border border-gray-200 dark:border-[#1f1f1f] text-gray-900 dark:text-gray-200">
-            {options.map(option => (
+            {options.map((option) => (
               <SelectItem key={option.value} value={option.value}>
                 {option.label}
               </SelectItem>
@@ -141,7 +170,11 @@ export default function AccountDetailsModal({
         </Select>
       );
     }
-    return <div className={baseBoxSmall}>{options.find(opt => opt.value === value)?.label || value}</div>;
+    return (
+      <div className={baseBoxSmall}>
+        {options.find((opt) => opt.value === value)?.label || value}
+      </div>
+    );
   };
 
   return (
@@ -153,7 +186,9 @@ export default function AccountDetailsModal({
             <div className="flex items-center gap-3">
               <CreditCard className="h-4 w-4 text-gray-600 dark:text-gray-300" />
               <DialogTitle className="text-base font-semibold text-gray-900 dark:text-gray-100">
-                {isNewAccount ? "Nova Conta a Pagar" : `Conta a Pagar - ${accountId}`}
+                {isNewAccount
+                  ? "Nova Conta a Pagar"
+                  : `Conta a Pagar - ${accountId}`}
               </DialogTitle>
               {!isNewAccount && !isEditing && (
                 <Button
@@ -172,9 +207,12 @@ export default function AccountDetailsModal({
 
         {/* Tabs */}
         <div className="px-6 pt-4">
-          <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
+          <Tabs
+            value={activeTab}
+            onValueChange={handleTabChange}
+            className="w-full"
+          >
             <TabsList className="flex sm:grid sm:grid-cols-5 w-full mb-4 h-12 overflow-x-auto scrollbar-hide gap-1 sm:gap-0 border-b border-gray-200 dark:border-[#1f1f1f] bg-transparent">
-              
               <TabsTrigger
                 value="dados-gerais"
                 className="flex items-center gap-2 text-xs font-medium py-2 px-3 text-gray-600 dark:text-gray-200 relative transition-all duration-300
@@ -281,23 +319,27 @@ export default function AccountDetailsModal({
                               {renderSelect("Indefinido", [
                                 { value: "Indefinido", label: "Indefinido" },
                                 { value: "Quitado", label: "Quitado" },
-                                { value: "Parcial", label: "Parcial" }
+                                { value: "Parcial", label: "Parcial" },
                               ])}
                             </div>
 
                             <div className="space-y-2">
-                              <Label className={textLabel}>Status (#180516)</Label>
+                              <Label className={textLabel}>
+                                Status (#180516)
+                              </Label>
                               {renderSelect("Pendente", [
                                 { value: "Pendente", label: "Pendente" },
                                 { value: "Pago", label: "Pago" },
                                 { value: "Vencido", label: "Vencido" },
-                                { value: "Cancelado", label: "Cancelado" }
+                                { value: "Cancelado", label: "Cancelado" },
                               ])}
                             </div>
 
                             {/* Linha 2 */}
                             <div className="space-y-2">
-                              <Label className={textLabel}>Documento/Contrato</Label>
+                              <Label className={textLabel}>
+                                Documento/Contrato
+                              </Label>
                               {renderField("Indefinido")}
                             </div>
 
@@ -320,25 +362,28 @@ export default function AccountDetailsModal({
                           {/* Credor e Devedor */}
                           <div className="space-y-4 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-4 mb-4">
                             <div className="space-y-2">
-                              <Label className={textLabel}>Credor (#180515)</Label>
+                              <Label className={textLabel}>
+                                Credor (#180515)
+                              </Label>
                               {renderField("Injetec")}
                             </div>
                             <div className="space-y-2">
-                              <Label className={textLabel}>Devedor (#1204)</Label>
+                              <Label className={textLabel}>
+                                Devedor (#1204)
+                              </Label>
                               {renderField("Amorim Cortinas")}
                             </div>
                           </div>
 
                           {/* Palavras-chave */}
                           <KeywordPicker
-                                keywords={keywords}
-                                setKeywords={setKeywords}
-                                isEditing={isEditing}
-                                textLabel={textLabel}
-                                inputSmall={inputSmall}
-                                baseBoxSmall={baseBoxSmall}
-                              />
-
+                            keywords={keywords}
+                            setKeywords={setKeywords}
+                            isEditing={isEditing}
+                            textLabel={textLabel}
+                            inputSmall={inputSmall}
+                            baseBoxSmall={baseBoxSmall}
+                          />
                         </CardContent>
                       </Card>
                     </TabsContent>
@@ -351,17 +396,23 @@ export default function AccountDetailsModal({
                         <CardContent className="p-0 text-gray-900 dark:text-gray-200">
                           <div className="space-y-4 sm:space-y-0 sm:grid sm:grid-cols-3 sm:gap-4">
                             <div className="space-y-2">
-                              <Label className={textLabel}>Classificação Contábil (#180525)</Label>
+                              <Label className={textLabel}>
+                                Classificação Contábil (#180525)
+                              </Label>
                               {renderField("111.01.001 - Caixa Fundo Fixo")}
                             </div>
 
                             <div className="space-y-2">
-                              <Label className={textLabel}>Classificação Gerencial (#180518)</Label>
+                              <Label className={textLabel}>
+                                Classificação Gerencial (#180518)
+                              </Label>
                               {renderField("Administrativo")}
                             </div>
 
                             <div className="space-y-2">
-                              <Label className={textLabel}>Centro de Custo (#1341)</Label>
+                              <Label className={textLabel}>
+                                Centro de Custo (#1341)
+                              </Label>
                               {renderField("Administrativo")}
                             </div>
                           </div>
@@ -374,21 +425,83 @@ export default function AccountDetailsModal({
                   {activeTab === "dados-financeiros" && (
                     <TabsContent value="dados-financeiros" forceMount>
                       <Card className="border-transparent shadow-none bg-transparent">
-                        <CardContent className="p-0 text-gray-900 dark:text-gray-200">
+                        <CardContent className="p-0 text-gray-900 dark:text-gray-200 pb-6">
                           {/* Primeira seção */}
                           <div className="space-y-4 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-4 mb-4">
+                            {/* Competência - AGORA COM DATE PICKER */}
                             <div className="space-y-2">
                               <Label className={textLabel}>Competência</Label>
-                              {renderField("31/12/2025")}
+                              {isEditing ? (
+                                <Popover>
+                                  <PopoverTrigger asChild>
+                                    <Button
+                                      variant="outline"
+                                      className="h-7 w-full justify-start px-2 text-xs text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-white/20"
+                                      aria-label="Selecionar data de competência"
+                                    >
+                                      <CalendarIcon className="mr-2 h-3 w-3" />
+                                      {formatDate(competencia)}
+                                    </Button>
+                                  </PopoverTrigger>
+                                  <PopoverContent
+                                    className="w-auto p-0"
+                                    align="start"
+                                  >
+                                    <Calendar
+                                      mode="single"
+                                      selected={competencia}
+                                      onSelect={setCompetencia}
+                                      locale={ptBR}
+                                      className="bg-white dark:bg-[#0a0a0a] border-0"
+                                    />
+                                  </PopoverContent>
+                                </Popover>
+                              ) : (
+                                <div className="h-7 px-2 flex items-center rounded-md border border-gray-300 dark:border-white/20 text-gray-700 dark:text-gray-200 text-sm">
+                                  {formatDate(competencia)}
+                                </div>
+                              )}
                             </div>
 
+                            {/* Vencimento - AGORA COM DATE PICKER */}
                             <div className="space-y-2">
                               <Label className={textLabel}>Vencimento</Label>
-                              {renderField("05/11/2025")}
+                              {isEditing ? (
+                                <Popover>
+                                  <PopoverTrigger asChild>
+                                    <Button
+                                      variant="outline"
+                                      className="h-7 w-full justify-start px-2 text-xs text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-white/20"
+                                      aria-label="Selecionar data de vencimento"
+                                    >
+                                      <CalendarIcon className="mr-2 h-3 w-3" />
+                                      {formatDate(vencimento)}
+                                    </Button>
+                                  </PopoverTrigger>
+                                  <PopoverContent
+                                    className="w-auto p-0"
+                                    align="start"
+                                  >
+                                    <Calendar
+                                      mode="single"
+                                      selected={vencimento}
+                                      onSelect={setVencimento}
+                                      locale={ptBR}
+                                      className="bg-white dark:bg-[#0a0a0a] border-0"
+                                    />
+                                  </PopoverContent>
+                                </Popover>
+                              ) : (
+                                <div className="h-7 px-2 flex items-center rounded-md border border-gray-300 dark:border-white/20 text-gray-700 dark:text-gray-200 text-sm">
+                                  {formatDate(vencimento)}
+                                </div>
+                              )}
                             </div>
 
                             <div className="space-y-2">
-                              <Label className={textLabel}>Vencimento Alterado</Label>
+                              <Label className={textLabel}>
+                                Vencimento Alterado
+                              </Label>
                               {renderField("Indefinido")}
                             </div>
 
@@ -398,7 +511,9 @@ export default function AccountDetailsModal({
                             </div>
 
                             <div className="space-y-2">
-                              <Label className={textLabel}>Qtd. Total de Parcelas</Label>
+                              <Label className={textLabel}>
+                                Qtd. Total de Parcelas
+                              </Label>
                               {renderField("12")}
                             </div>
 
@@ -406,7 +521,7 @@ export default function AccountDetailsModal({
                               <Label className={textLabel}>Previsão</Label>
                               {renderSelect("Não", [
                                 { value: "Sim", label: "Sim" },
-                                { value: "Não", label: "Não" }
+                                { value: "Não", label: "Não" },
                               ])}
                             </div>
 
@@ -439,7 +554,8 @@ export default function AccountDetailsModal({
                             </div>
                           </div>
 
-                          <div className="space-y-4 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-4 ">
+                          {/* ADICIONE mb-8 AQUI - Esta é a seção dos campos Valor Pago e Saldo */}
+                          <div className="space-y-4 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-4 mb-8">
                             <div className="space-y-2">
                               <Label className={textLabel}>Valor Pago</Label>
                               {renderField("R$ 0,00")}
@@ -489,24 +605,38 @@ export default function AccountDetailsModal({
                               <table className="w-full text-xs">
                                 <thead>
                                   <tr className="border-b border-gray-200 dark:border-[#1f1f1f] bg-gray-50 dark:bg-[#161616]">
-                                    <th className="text-left py-1.5 px-2 font-medium text-gray-700 dark:text-gray-200">ID</th>
-                                    <th className="text-left py-1.5 px-2 font-medium text-gray-700 dark:text-gray-200">Cheque N°</th>
-                                    <th className="text-left py-1.5 px-2 font-medium text-gray-700 dark:text-gray-200">Caixa</th>
-                                    <th className="text-left py-1.5 px-2 font-medium text-gray-700 dark:text-gray-200">Classificação</th>
-                                    <th className="text-left py-1.5 px-2 font-medium text-gray-700 dark:text-gray-200">Tipo</th>
-                                    <th className="text-right py-1.5 px-2 font-medium text-gray-700 dark:text-gray-200">Total</th>
+                                    <th className="text-left py-1.5 px-2 font-medium text-gray-700 dark:text-gray-200">
+                                      ID
+                                    </th>
+                                    <th className="text-left py-1.5 px-2 font-medium text-gray-700 dark:text-gray-200">
+                                      Cheque N°
+                                    </th>
+                                    <th className="text-left py-1.5 px-2 font-medium text-gray-700 dark:text-gray-200">
+                                      Caixa
+                                    </th>
+                                    <th className="text-left py-1.5 px-2 font-medium text-gray-700 dark:text-gray-200">
+                                      Classificação
+                                    </th>
+                                    <th className="text-left py-1.5 px-2 font-medium text-gray-700 dark:text-gray-200">
+                                      Tipo
+                                    </th>
+                                    <th className="text-right py-1.5 px-2 font-medium text-gray-700 dark:text-gray-200">
+                                      Total
+                                    </th>
                                   </tr>
                                 </thead>
                                 <tbody>
                                   <tr>
-                                    <td colSpan={6} className="py-4 text-center text-gray-600 dark:text-gray-200">
+                                    <td
+                                      colSpan={6}
+                                      className="py-4 text-center text-gray-600 dark:text-gray-200"
+                                    >
                                       <div className="flex flex-col items-center gap-1">
                                         <AlertCircle className="h-4 w-4 text-gray-600 dark:text-gray-200" />
                                         <div className="text-xs text-gray-600 dark:text-gray-200">
                                           {isNewAccount && !isEditing
                                             ? "Salve a conta primeiro para adicionar pagamentos"
-                                            : "Nenhum registro"
-                                          }
+                                            : "Nenhum registro"}
                                         </div>
                                       </div>
                                     </td>
@@ -538,7 +668,9 @@ export default function AccountDetailsModal({
                             </div>
 
                             <div className="space-y-1">
-                              <Label className="text-xs text-gray-600 dark:text-gray-200">Notas</Label>
+                              <Label className="text-xs text-gray-600 dark:text-gray-200">
+                                Notas
+                              </Label>
                               <textarea
                                 className="w-full min-h-[120px] p-3 border rounded-md resize-none text-sm
                                            border-gray-300 dark:border-[#1f1f1f]
