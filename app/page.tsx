@@ -164,52 +164,76 @@ export default function Home() {
                         <Plus className="h-4 w-4" /> Adicionar Conta
                       </Button>
                     </div>
+
                     {/* Layout desktop */}
-                    <div className="hidden sm:flex items-center justify-between gap-3">
-                      {/* Esquerda */}
-                      <div className="flex items-center gap-2 flex-1">
-                        <Button
-                          variant="default"
-                          size="icon"
-                          className="h-9 w-9"
-                          title="Ask AI"
-                        >
-                          <Bot className="h-4 w-4" />
-                        </Button>
-                        {/* Search */}
-                        <div className="relative w-56">
-                          <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
-                          <Input
-                            placeholder="Buscar..."
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                            className="pl-8 h-8 text-sm placeholder:text-muted-foreground"
-                          />
-                        </div>
-                        {/* Filter */}
+                   <div className="hidden sm:flex items-center justify-between gap-3">
+                    {/* Esquerda */}
+                    <div className="flex items-center gap-2 flex-1">
+                      <Button
+                        variant="default"
+                        size="icon"
+                        className="h-9 w-9"
+                        title="Ask AI"
+                      >
+                        <Bot className="h-4 w-4" />
+                      </Button>
+                      
+                      {/* Separator */}
+                      <div className="h-4 w-px bg-border mx-1" />
+                      
+                      {/* Search */}
+                      <div className="relative w-56">
+                        <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
+                        <Input
+                          placeholder="Buscar..."
+                          value={searchTerm}
+                          onChange={(e) => setSearchTerm(e.target.value)}
+                          className="pl-8 h-8 text-sm placeholder:text-muted-foreground bg-[#1a1a1a] border border-input"
+                        />
+                      </div>
+                      
+                      {/* Filter */}
+                      <div className="min-w-[120px]">
                         <StatusFilter value={statusFilter} onChange={setStatusFilter} options={statusOptions} />
                       </div>
-                      {/* Centro vazio */}
-                      <div className="flex-1" />
-                      {/* Botões direita */}
-                      <div className="flex items-center gap-1">
-                        <Button variant="ghost" size="icon" className="h-8 w-8" title="Atualizar">
-                          <RefreshCw className="h-3.5 w-3.5" />
-                        </Button>
-                        <Button variant="ghost" size="icon" className="h-8 w-8" title="Exportar">
-                          <Download className="h-3.5 w-3.5" />
-                        </Button>
-                        <Button
-                          className="gap-1.5 h-8 text-sm px-3"
-                          onClick={() => {
-                            setSelectedAccount(null); // Modo criação
-                            setDetailsModalOpen(true);
-                          }}
-                        >
-                          <Plus className="h-3.5 w-3.5" /> Adicionar Conta
-                        </Button>
-                      </div>
                     </div>
+                    
+                    {/* Centro vazio */}
+                    <div className="flex-1" />
+                    
+                    {/* Botões direita */}
+                    <div className="flex items-center gap-1">
+                      <Button 
+                        variant="outline"
+                        size="sm" 
+                        className="h-8 px-3 gap-1.5 text-sm bg-white dark:bg-[#1a1a1a] border-gray-200 dark:border-[#2a2a2a] text-black dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-[#2a2a2a] hover:text-gray-900 dark:hover:text-white"
+                      >
+                        <RefreshCw className="h-3.5 w-3.5" />
+                        Update
+                      </Button>
+                      <Button 
+                        variant="outline"
+                        size="sm" 
+                        className="h-8 px-3 gap-1.5 text-sm border bg-white dark:bg-[#1a1a1a] border-gray-200 dark:border-[#2a2a2a] text-black dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-[#2a2a2a] hover:text-gray-900 dark:hover:text-white"
+                      >
+                        <Download className="h-3.5 w-3.5" />
+                        Export
+                      </Button>
+
+                      {/* Separator entre Export e Adicionar Conta */}
+                      <div className="h-4 w-px bg-border mx-1" />
+
+                      <Button
+                        className="gap-1.5 h-8 text-sm px-3"
+                        onClick={() => {
+                          setSelectedAccount(null);
+                          setDetailsModalOpen(true);
+                        }}
+                      >
+                        <Plus className="h-3.5 w-3.5" /> Adicionar Conta
+                      </Button>
+                    </div>
+                  </div>
                   </div>
                   {/* DataTable */}
                   <div className="p-3">
