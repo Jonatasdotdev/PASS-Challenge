@@ -296,7 +296,7 @@ export default function AccountDetailsModal({
 
                             <div className="space-y-2">
                               <Label className={textLabel}>
-                                Status #180516
+                                Status 
                               </Label>
                               {renderSelect("Pendente", [
                                 { value: "Pendente", label: "Pendente" },
@@ -334,13 +334,13 @@ export default function AccountDetailsModal({
                           <div className="space-y-4 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-4 mb-4">
                             <div className="space-y-2">
                               <Label className={textLabel}>
-                                Credor (#180515)
+                                Credor 
                               </Label>
                               {renderField("Injetec")}
                             </div>
                             <div className="space-y-2">
                               <Label className={textLabel}>
-                                Devedor (#1204)
+                                Devedor
                               </Label>
                               {renderField("Amorim Cortinas")}
                             </div>
@@ -368,21 +368,21 @@ export default function AccountDetailsModal({
                           <div className="space-y-4 sm:space-y-0 sm:grid sm:grid-cols-3 sm:gap-4">
                             <div className="space-y-2">
                               <Label className={textLabel}>
-                                Classificação Contábil #180525
+                                Classificação Contábil
                               </Label>
                               {renderField("111.01.001 - Caixa Fundo Fixo")}
                             </div>
 
                             <div className="space-y-2">
                               <Label className={textLabel}>
-                                Classificação Gerencial (#180518)
+                                Classificação Gerencial
                               </Label>
                               {renderField("Administrativo")}
                             </div>
 
                             <div className="space-y-2">
                               <Label className={textLabel}>
-                                Centro de Custo (#1341)
+                                Centro de Custo
                               </Label>
                               {renderField("Administrativo")}
                             </div>

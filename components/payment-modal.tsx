@@ -107,7 +107,7 @@ export default function PaymentModal({ open, onOpenChange }: PaymentModalProps) 
 
                 {/* Caixa/Conta */}
                 <div className="space-y-2">
-                  <Label className={textLabel}>Caixa/Conta (#180511)</Label>
+                  <Label className={textLabel}>Caixa/Conta #180511</Label>
                   <Select>
                     <SelectTrigger className={inputSmall}>
                       <SelectValue placeholder="Selecione" />
@@ -151,7 +151,7 @@ export default function PaymentModal({ open, onOpenChange }: PaymentModalProps) 
 
                 {/* Classificação gerencial (visual) */}
                 <div className="space-y-2">
-                  <Label className={textLabel}>Classificação Gerencial (#180518)</Label>
+                  <Label className={textLabel}>Classificação Gerencial</Label>
                   <div className={baseBoxSmall}>
                     1.1.1.01.001 - Caixa Fundo Fixo
                   </div>

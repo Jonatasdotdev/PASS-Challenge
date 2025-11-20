@@ -162,7 +162,7 @@ export default function AccountDetailPage({ params }: PageProps) {
                 <CardContent className="pt-0">
                   <div className="grid grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <Label>Credor (#180515)</Label>
+                      <Label>Credor</Label>
                       <Select defaultValue="injetec">
                         <SelectTrigger>
                           <SelectValue />
@@ -173,7 +173,7 @@ export default function AccountDetailPage({ params }: PageProps) {
                       </Select>
                     </div>
                     <div className="space-y-2">
-                      <Label>Devedor (#1204)</Label>
+                      <Label>Devedor</Label>
                       <Select defaultValue="amorim">
                         <SelectTrigger>
                           <SelectValue />
@@ -209,7 +209,7 @@ export default function AccountDetailPage({ params }: PageProps) {
                 <CardContent className="pt-0">
                   <div className="grid grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <Label>Classificação Contábil #180525</Label>
+                      <Label>Classificação Contábil</Label>
                       <Select>
                         <SelectTrigger>
                           <SelectValue placeholder="Selecione" />
@@ -220,7 +220,7 @@ export default function AccountDetailPage({ params }: PageProps) {
                       </Select>
                     </div>
                     <div className="space-y-2">
-                      <Label>Classificação Gerencial (#180518)</Label>
+                      <Label>Classificação Gerencial</Label>
                       <Select defaultValue="caixa">
                         <SelectTrigger>
                           <SelectValue />
@@ -231,7 +231,7 @@ export default function AccountDetailPage({ params }: PageProps) {
                       </Select>
                     </div>
                     <div className="space-y-2">
-                      <Label>Centro de Custo (#1341)</Label>
+                      <Label>Centro de Custo</Label>
                       <Select defaultValue="admin">
                         <SelectTrigger>
                           <SelectValue />
