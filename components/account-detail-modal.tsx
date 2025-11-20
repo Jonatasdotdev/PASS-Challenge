@@ -296,7 +296,7 @@ export default function AccountDetailsModal({
 
                             <div className="space-y-2">
                               <Label className={textLabel}>
-                                Status (#180516)
+                                Status #180516
                               </Label>
                               {renderSelect("Pendente", [
                                 { value: "Pendente", label: "Pendente" },
