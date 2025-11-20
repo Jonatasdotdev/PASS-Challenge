@@ -15,6 +15,7 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import Header from "@/components/header";
 import PaymentModal from "@/components/payment-modal";
 import AccountDetailsModal from "@/components/account-detail-modal";
+import AddAccountModal from "@/components/add-account-modal"; 
 import { StatusFilter } from "@/components/status-filter";
 import { filterAccounts } from "@/lib/data/accounts";
 import { DataTable } from "@/components/ui/data-table";
@@ -23,24 +24,32 @@ import { SectionCards } from "@/components/section-cards";
 import { ChartsSection } from "@/components/charts-section";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
-
 export default function Home() {
   const [paymentModalOpen, setPaymentModalOpen] = useState(false);
   const [detailsModalOpen, setDetailsModalOpen] = useState(false);
+  const [addModalOpen, setAddModalOpen] = useState(false); 
   const [selectedAccount, setSelectedAccount] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState<string[]>([]);
+  
   // Quando cadastrar um pagamento → abrir detalhes
   const handlePaymentSuccess = () => {
     setPaymentModalOpen(false);
     setDetailsModalOpen(true);
     setSelectedAccount("000070");
   };
-  // Quando clicar em linha da tabela → abrir detalhes
+  
+  // Quando clicar em linha da tabela → abrir detalhes (edição)
   const handleRowClick = (account: any) => {
     setSelectedAccount(account.id);
     setDetailsModalOpen(true);
   };
+  
+  // Abrir modal de adicionar conta
+  const handleAddAccount = () => {
+    setAddModalOpen(true);
+  };
+
   // Status filter options com contagens
   const statusOptions = useMemo(() => {
     const all = filterAccounts("");
@@ -54,6 +63,7 @@ export default function Home() {
       { value: "Vencido", label: "Vencido", count: counts["Vencido"] || 0 },
     ];
   }, []);
+  
   // Totais para os cards
   const cardData = useMemo(() => {
     const all = filterAccounts("");
@@ -69,11 +79,13 @@ export default function Home() {
       { total: 0, paid: 0, pending: 0, overdue: 0 }
     );
   }, []);
+  
   // Filtrados
   const filteredData = useMemo(() => {
     const statusValue = statusFilter.length > 0 ? statusFilter.join(",") : "all";
     return filterAccounts(searchTerm, statusValue);
   }, [searchTerm, statusFilter]);
+  
   return (
     <SidebarProvider>
       <AppSidebar collapsible="icon" />
@@ -156,10 +168,7 @@ export default function Home() {
                       {/* Linha 3: Botão Adicionar CONTA */}
                       <Button
                         className="gap-1.5 h-9 text-sm w-full"
-                        onClick={() => {
-                          setSelectedAccount(null);
-                          setDetailsModalOpen(true);
-                        }}
+                        onClick={handleAddAccount}
                       >
                         <Plus className="h-4 w-4" /> Adicionar Conta
                       </Button>
@@ -225,10 +234,7 @@ export default function Home() {
 
                       <Button
                         className="gap-1.5 h-8 text-sm px-3"
-                        onClick={() => {
-                          setSelectedAccount(null);
-                          setDetailsModalOpen(true);
-                        }}
+                        onClick={handleAddAccount}
                       >
                         <Plus className="h-3.5 w-3.5" /> Adicionar Conta
                       </Button>
@@ -253,11 +259,19 @@ export default function Home() {
         onOpenChange={setPaymentModalOpen}
         onSuccess={handlePaymentSuccess}
       />
+      
+      {/* Modal de detalhes/edição (com tabs) - apenas para edição */}
       <AccountDetailsModal
         open={detailsModalOpen}
         onOpenChange={setDetailsModalOpen}
         accountId={selectedAccount}
         onOpenPaymentModal={() => setPaymentModalOpen(true)}
+      />
+      
+      {/* modal de adicionar (sem tabs) */}
+      <AddAccountModal
+        open={addModalOpen}
+        onOpenChange={setAddModalOpen}
       />
     </SidebarProvider>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -30,13 +30,10 @@ import {
   CreditCard,
   AlertCircle,
   FileText,
-  X,
-  Plus,
   DollarSign,
   Upload,
   Edit,
-  Search,
-  Check,
+  Plus,
 } from "lucide-react";
 import { KeywordPicker } from "./keyword-picker";
 import { CalendarIcon } from "lucide-react";
@@ -63,8 +60,7 @@ export default function AccountDetailsModal({
     "cortinas",
     "prioridade",
   ]);
-  const [newKeyword, setNewKeyword] = useState("");
-  const [isEditing, setIsEditing] = useState(!accountId);
+  const [isEditing, setIsEditing] = useState(false);
   const tabsOrder = [
     "dados-gerais",
     "contabil",
@@ -84,42 +80,16 @@ export default function AccountDetailsModal({
     return format(date, "dd/MM/yyyy");
   };
 
-  // Determina se é uma nova conta ou visualização/edição de conta existente
-  const isNewAccount = !accountId;
-
   // Resetar estado quando modal abrir
   useEffect(() => {
     if (open) {
-      setIsEditing(isNewAccount);
-    }
-  }, [open, isNewAccount]);
-
-  const addKeyword = () => {
-    if (newKeyword.trim() && !keywords.includes(newKeyword.trim())) {
-      setKeywords([...keywords, newKeyword.trim()]);
-      setNewKeyword("");
-    }
-  };
-
-  const removeKeyword = (keywordToRemove: string) => {
-    setKeywords(keywords.filter((keyword) => keyword !== keywordToRemove));
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      addKeyword();
-    }
-  };
-
-  const handleSave = () => {
-    if (isNewAccount) {
-      console.log("Cadastrando nova conta...");
-      onOpenChange(false);
-    } else {
-      console.log("Atualizando conta existente...");
       setIsEditing(false);
     }
+  }, [open]);
+
+  const handleSave = () => {
+    console.log("Atualizando conta existente...");
+    setIsEditing(false);
   };
 
   const handleTabChange = (next: string) => {
@@ -130,15 +100,11 @@ export default function AccountDetailsModal({
   };
 
   // Utilitários de classe com suporte a tema claro/escuro
-  const baseBox =
-    "h-8 px-3 flex items-center rounded-md border border-gray-300 dark:border-white/20 text-gray-700 dark:text-gray-200 text-sm focus-within:border-gray-400 dark:focus-within:border-white/40 transition bg-transparent";
   const baseBoxSmall =
     "h-7 px-2 flex items-center rounded-md border border-gray-300 dark:border-white/20 text-gray-700 dark:text-gray-200 text-sm focus-within:border-gray-400 dark:focus-within:border-white/40 transition bg-transparent";
 
   const textLabel = "text-xs text-gray-600 dark:text-gray-300";
 
-  const inputBase =
-    "h-8 bg-transparent border border-gray-300 dark:border-white/20 text-sm text-gray-900 dark:text-gray-100 rounded-md px-2 focus-visible:ring-0 focus-visible:border-gray-400 dark:focus-visible:border-white/40 placeholder:text-gray-500";
   const inputSmall =
     "h-7 bg-transparent border border-gray-300 dark:border-white/20 text-xs text-gray-900 dark:text-gray-100 rounded-md px-2 focus-visible:ring-0 focus-visible:border-gray-400 dark:focus-visible:border-white/40 placeholder:text-gray-500";
 
@@ -180,27 +146,34 @@ export default function AccountDetailsModal({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-3xl w-full max-h-[90vh] overflow-y-auto bg-white dark:bg-[#0a0a0a] border border-gray-200 dark:border-[#1f1f1f] rounded-lg p-0 shadow-2xl">
-        {/* Header */}
-        <DialogHeader className="px-6 py-3 border-b border-gray-200 dark:border-[#1f1f1f]">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
+        {/* Header  */}
+        <DialogHeader className="px-6 py-4">
+          <div className="flex items-start gap-3">
+            <div className="h-8 w-8 rounded-full border border-gray-300 dark:border-white/20 flex items-center justify-center bg-gray-50 dark:bg-[#161616]">
               <CreditCard className="h-4 w-4 text-gray-600 dark:text-gray-300" />
-              <DialogTitle className="text-base font-semibold text-gray-900 dark:text-gray-100">
-                {isNewAccount
-                  ? "Nova Conta a Pagar"
-                  : `Conta a Pagar - ${accountId}`}
-              </DialogTitle>
-              {!isNewAccount && !isEditing && (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="h-7 text-xs gap-1"
-                  onClick={() => setIsEditing(true)}
-                >
-                  <Edit className="h-3 w-3" />
-                  Editar
-                </Button>
-              )}
+            </div>
+            <div className="flex-1">
+              <div className="flex items-center justify-between">
+                <div>
+                  <DialogTitle className="text-base font-semibold text-gray-900 dark:text-gray-100">
+                    {`Conta a Pagar - ${accountId}`}
+                  </DialogTitle>
+                  <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
+                    Visualize ou edite as informações nos campos
+                  </p>
+                </div>
+                {!isEditing && (
+                   
+                  <Button
+                    className="h-7 text-xs gap-2 bg-black text-white hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 mr-10"
+                    onClick={() => setIsEditing(true)}
+                  >
+                    <Edit className="h-3 w-3" />
+                    Editar
+                  </Button>
+              
+                )}
+              </div>
             </div>
           </div>
         </DialogHeader>
@@ -428,7 +401,7 @@ export default function AccountDetailsModal({
                         <CardContent className="p-0 text-gray-900 dark:text-gray-200 pb-6">
                           {/* Primeira seção */}
                           <div className="space-y-4 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-4 mb-4">
-                            {/* Competência - AGORA COM DATE PICKER */}
+                            {/* Competência */}
                             <div className="space-y-2">
                               <Label className={textLabel}>Competência</Label>
                               {isEditing ? (
@@ -463,7 +436,7 @@ export default function AccountDetailsModal({
                               )}
                             </div>
 
-                            {/* Vencimento - AGORA COM DATE PICKER */}
+                            {/* Vencimento */}
                             <div className="space-y-2">
                               <Label className={textLabel}>Vencimento</Label>
                               {isEditing ? (
@@ -554,7 +527,7 @@ export default function AccountDetailsModal({
                             </div>
                           </div>
 
-                          {/* ADICIONE mb-8 AQUI - Esta é a seção dos campos Valor Pago e Saldo */}
+                          {/* Valor Pago e Saldo */}
                           <div className="space-y-4 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-4 mb-8">
                             <div className="space-y-2">
                               <Label className={textLabel}>Valor Pago</Label>
@@ -593,7 +566,7 @@ export default function AccountDetailsModal({
                                   size="sm"
                                   onClick={onOpenPaymentModal}
                                   className="h-8 text-xs"
-                                  disabled={isNewAccount && !isEditing}
+                                  disabled={!isEditing}
                                 >
                                   <Plus className="h-3 w-3" />
                                   Adicionar Pagamento
@@ -634,8 +607,8 @@ export default function AccountDetailsModal({
                                       <div className="flex flex-col items-center gap-1">
                                         <AlertCircle className="h-4 w-4 text-gray-600 dark:text-gray-200" />
                                         <div className="text-xs text-gray-600 dark:text-gray-200">
-                                          {isNewAccount && !isEditing
-                                            ? "Salve a conta primeiro para adicionar pagamentos"
+                                          {!isEditing
+                                            ? "Edite a conta para adicionar pagamentos"
                                             : "Nenhum registro"}
                                         </div>
                                       </div>
@@ -699,12 +672,12 @@ export default function AccountDetailsModal({
             </Button>
           </DialogClose>
           {isEditing && (
-            <Button className="h-8 text-xs" onClick={handleSave}>
-              {isNewAccount ? "Cadastrar" : "Salvar"}
+            <Button className="h-8 text-xs bg-black text-white hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200" onClick={handleSave}>
+              Salvar
             </Button>
           )}
-          {!isEditing && !isNewAccount && (
-            <Button variant="outline" className="h-8 text-xs">
+          {!isEditing && (
+            <Button className="h-8 text-xs bg-black text-white hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200">
               Atualizar
             </Button>
           )}
