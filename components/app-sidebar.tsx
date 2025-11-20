@@ -77,7 +77,7 @@ function SimpleNav() {
         </div>
       </div>
 
-      {/* Financeiro - NOVA SEÇÃO */}
+      {/* Financeiro  */}
       {!isCollapsed && (
         <div className="text-xs capitalize text-muted-foreground px-2 py-2 font-semibold mt-4">
           Financeiro

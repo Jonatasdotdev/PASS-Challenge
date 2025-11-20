@@ -148,13 +148,13 @@ export default function AccountDetailsModal({
       <DialogContent className="max-w-3xl w-full max-h-[90vh] overflow-y-auto bg-white dark:bg-[#0a0a0a] border border-gray-200 dark:border-[#1f1f1f] rounded-lg p-0 shadow-2xl">
         {/* Header  */}
         <DialogHeader className="px-6 py-4">
-          <div className="flex items-start gap-3">
-            <div className="h-8 w-8 rounded-full border border-gray-300 dark:border-white/20 flex items-center justify-center bg-gray-50 dark:bg-[#161616]">
-              <CreditCard className="h-4 w-4 text-gray-600 dark:text-gray-300" />
+          <div className="flex items-center gap-3">
+            <div className="h-10 w-10 rounded-full border border-gray-300 dark:border-white/20 flex items-center justify-center bg-gray-50 dark:bg-[#161616]">
+              <CreditCard className="h-5 w-5 text-gray-600 dark:text-gray-300" />
             </div>
             <div className="flex-1">
               <div className="flex items-center justify-between">
-                <div>
+                <div className="flex flex-col justify-center">
                   <DialogTitle className="text-base font-semibold text-gray-900 dark:text-gray-100">
                     {`Conta a Pagar - ${accountId}`}
                   </DialogTitle>
@@ -163,7 +163,6 @@ export default function AccountDetailsModal({
                   </p>
                 </div>
                 {!isEditing && (
-                   
                   <Button
                     className="h-7 text-xs gap-2 bg-black text-white hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 mr-10"
                     onClick={() => setIsEditing(true)}
@@ -171,7 +170,6 @@ export default function AccountDetailsModal({
                     <Edit className="h-3 w-3" />
                     Editar
                   </Button>
-              
                 )}
               </div>
             </div>

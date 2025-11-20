@@ -89,10 +89,11 @@ export default function AddAccountModal({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl w-full max-h-[98vh] overflow-y-auto bg-white dark:bg-[#0a0a0a] border border-gray-200 dark:border-[#1f1f1f] rounded-lg p-0 shadow-2xl">
         {/* Header*/}
+       
         <DialogHeader className="px-6 py-4">
-          <div className="flex items-start gap-3">
-            <div className="h-8 w-8 rounded-full border border-gray-300 dark:border-white/20 flex items-center justify-center bg-gray-50 dark:bg-[#161616]">
-              <CreditCard className="h-4 w-4 text-gray-600 dark:text-gray-300" />
+          <div className="flex items-center gap-3">
+            <div className="h-10 w-10 rounded-full border border-gray-300 dark:border-white/20 flex items-center justify-center bg-gray-50 dark:bg-[#161616]">
+              <CreditCard className="h-5 w-5 text-gray-600 dark:text-gray-300" />
             </div>
             <div className="flex-1">
               <DialogTitle className="text-base font-semibold text-gray-900 dark:text-gray-100">

@@ -90,13 +90,11 @@ export default function Home() {
     <SidebarProvider>
       <AppSidebar collapsible="icon" />
       <SidebarInset>
-       
-        <div className = "w-full flex justify-center px-2 py-3 bg-[hsl(var(--sidebar-background))]">
-         
+      
+        <div className="w-full flex justify-center py-1 bg-[hsl(var(--sidebar-background))]">
           <div
-            className="w-full max-w-[1400px] my-[-7px] rounded-2xl border-0 dark:border-[#1f1f1f] bg-card dark:bg-[#0b0b0b] shadow-2xl overflow-visible"
+            className="w-full max-w-[1400px] rounded-2xl border-0 dark:border-[#1f1f1f] bg-card dark:bg-[#0b0b0b] shadow-2xl overflow-visible"
           >
-           
             <Header />
        
             <div className="p-4 py-7">
