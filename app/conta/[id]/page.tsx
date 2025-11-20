@@ -209,7 +209,7 @@ export default function AccountDetailPage({ params }: PageProps) {
                 <CardContent className="pt-0">
                   <div className="grid grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <Label>Classificação Contábil (#180525)</Label>
+                      <Label>Classificação Contábil #180525</Label>
                       <Select>
                         <SelectTrigger>
                           <SelectValue placeholder="Selecione" />
