@@ -27,6 +27,8 @@ npm run dev
 
 3. Abra [http://localhost:3000](http://localhost:3000) no seu navegador.
 
-# Para mais detalhes acesse a aba wiki
+## Para mais detalhes acesse a aba wiki
+https://github.com/Jonatasdotdev/PASS-Challenge/wiki
+
 
 
