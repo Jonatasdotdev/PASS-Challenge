@@ -368,7 +368,7 @@ export default function AccountDetailsModal({
                           <div className="space-y-4 sm:space-y-0 sm:grid sm:grid-cols-3 sm:gap-4">
                             <div className="space-y-2">
                               <Label className={textLabel}>
-                                Classificação Contábil (#180525)
+                                Classificação Contábil #180525
                               </Label>
                               {renderField("111.01.001 - Caixa Fundo Fixo")}
                             </div>
